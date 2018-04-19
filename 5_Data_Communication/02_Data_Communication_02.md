@@ -58,7 +58,8 @@ Model을 이용해서 디지털 데이터를 아날로그 신호로 변조하는
 ![digital_2_digital_example_01](/5_Data_Communication/img/digital_2_digital_example_01.png "digital_2_digital_example_01")
 
 ![digital_2_digital_example_02](/5_Data_Communication/img/digital_2_digital_example_02.png "digital_2_digital_example_02")
-> Digital 2 Digital의 사례
+
+Digital 2 Digital의 사례
 
 > ### NRZ-L(Not Return Zero - Level)
 > - 신호 0은 양(+), 1은 음(-)
