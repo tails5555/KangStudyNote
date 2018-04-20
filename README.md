@@ -8,6 +8,8 @@
 ## 2. 전자계산기(컴퓨터구조론)
 ## 3. [운영체제론](https://github.com/tails5555/my_eip_study/tree/master/3_OperationSystem)
 > 3-1. [시스템 소프트웨어 ~ 프로세스 스케쥴링](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/01_Operation_System_01.md)
+>
+> 3-2. [임계구역 ~ Thrashing](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/01_Operation_System_02.md)
 
 ## 4. 소프트웨어 공학론
 ## 5. [데이터통신(네트워크 개념 포함)](https://github.com/tails5555/my_eip_study/tree/master/5_Data_Communication)
