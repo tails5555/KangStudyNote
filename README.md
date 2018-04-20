@@ -9,7 +9,11 @@
 ## 3. [운영체제론](https://github.com/tails5555/my_eip_study/tree/master/3_OperationSystem)
 > 3-1. [시스템 소프트웨어 ~ 프로세스 스케쥴링](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/01_Operation_System_01.md)
 >
-> 3-2. [임계구역 ~ Thrashing](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/01_Operation_System_02.md)
+> 3-2. [임계구역 ~ Thrashing](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/02_Operation_System_02.md)
+>
+> 3-3. 디스크 스케쥴링 ~ 보안
+> 3-4. 프로세서 연결방식 ~ 분산 관리 시스템
+> 3-5. UNIX
 
 ## 4. 소프트웨어 공학론
 ## 5. [데이터통신(네트워크 개념 포함)](https://github.com/tails5555/my_eip_study/tree/master/5_Data_Communication)
@@ -17,7 +21,7 @@
 >
 > 5-2. [통신 신호 변환](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/02_Data_Communication_02.md)
 >
-> 5-3. [다중화기, 전송 제어, HDLC](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/02_Data_Communication_03.md)
+> 5-3. [다중화기, 전송 제어, HDLC](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/03_Data_Communication_03.md)
 >
 > 5-4. [오류제어, 검사, 회선 교환, 축적 교환](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/04_Data_Communication_04.md)
 >
