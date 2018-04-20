@@ -12,7 +12,11 @@
 ## 4. 소프트웨어 공학론
 ## 5. [데이터통신(네트워크 개념 포함)](https://github.com/tails5555/my_eip_study/tree/master/5_Data_Communication)
 > 5-1. [통신 기본 개념](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/01_Data_Communication_01.md)
+>
 > 5-2. [통신 신호 변환](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/02_Data_Communication_02.md)
+>
 > 5-3. [다중화기, 전송 제어, HDLC](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/02_Data_Communication_03.md)
+>
 > 5-4. [오류제어, 검사, 회선 교환, 축적 교환](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/04_Data_Communication_04.md)
+>
 > 5-5. [LAN, CDMS/CD, VAN, B-ISDN, 인터넷과 TCP/IP](https://github.com/tails5555/my_eip_study/blob/master/5_Data_Communication/05_Data_Communication_05.md)
