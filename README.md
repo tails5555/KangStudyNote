@@ -13,9 +13,7 @@
 >
 > 3-3. [디스크 스케쥴링 ~ 보안](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/03_Operation_System_03.md)
 >
-> 3-4. 프로세서 연결방식 ~ 분산 관리 시스템
->
-> 3-5. UNIX
+> 3-4. [프로세서 연결방식 ~ UNIX](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/03_Operation_System_04.md)
 
 ## 4. 소프트웨어 공학론
 ## 5. [데이터통신(네트워크 개념 포함)](https://github.com/tails5555/my_eip_study/tree/master/5_Data_Communication)
