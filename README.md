@@ -12,7 +12,9 @@
 > 3-2. [임계구역 ~ Thrashing](https://github.com/tails5555/my_eip_study/blob/master/3_OperationSystem/02_Operation_System_02.md)
 >
 > 3-3. 디스크 스케쥴링 ~ 보안
+>
 > 3-4. 프로세서 연결방식 ~ 분산 관리 시스템
+>
 > 3-5. UNIX
 
 ## 4. 소프트웨어 공학론
