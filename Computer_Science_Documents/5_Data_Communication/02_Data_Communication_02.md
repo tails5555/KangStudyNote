@@ -55,9 +55,9 @@ Model을 이용해서 디지털 데이터를 아날로그 신호로 변조하는
 - **직류**만 이용할 수 있어서 장거리 전송에서는 이용하지 않는 편.
 - 주변장치 간의 통신이나 LAN 등의 비교적 가까운 거리에서 사용을 하는 추세이다.
 
-![digital_2_digital_example_01](/5_Data_Communication/img/digital_2_digital_example_01.png "digital_2_digital_example_01")
+![digital_2_digital_example_01](/Computer_Science_Documents/5_Data_Communication/img/digital_2_digital_example_01.png "digital_2_digital_example_01")
 
-![digital_2_digital_example_02](/5_Data_Communication/img/digital_2_digital_example_02.png "digital_2_digital_example_02")
+![digital_2_digital_example_02](/Computer_Science_Documents/5_Data_Communication/img/digital_2_digital_example_02.png "digital_2_digital_example_02")
 
 Digital 2 Digital의 사례
 

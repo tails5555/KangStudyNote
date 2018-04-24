@@ -124,7 +124,7 @@
 > - 주기억장치 관리 정보, IO 상태 정보, 계정 정보 etc.
 
 ## 프로세스의 주요 상태
-![processor_state_pict](/3_OperationSystem/img/processor_state_pict.png "processor_state_pict")
+![processor_state_pict](/Computer_Science_Documents/3_OperationSystem/img/processor_state_pict.png "processor_state_pict")
 ### 상태에 대한 용어
 - Ready(준비) : 프로세스가 프로세서(CPU)에게 자원 할당을 받기 위해 기다리는 상태.
 - Run(실행) : 준비 상태 Queue에 있는 프로세스가 프로세서를 할당 받아 실행되는 상태로 수행이 완료 전에 할당 시간이 종료(Time Run Out). 실행 중인 프로세스에 IO 처리가 필요하면 실행 중인 프로세스는 대기 상태로 전환이 된다. 
@@ -184,13 +184,13 @@
 > |p4|3|1|
 >
 > ### FIFO(FCFS) 기법
-> ![processor_fifo](/3_OperationSystem/img/processor_fifo.png "processor_fifo")
+> ![processor_fifo](/Computer_Science_Documents/3_OperationSystem/img/processor_fifo.png "processor_fifo")
 > - 위를 기반으로 평균 반환 시간은 10.5가 된다.
 > - 준비 상태 큐에 도착한 순서에 따라서 차례로 CPU를 할당하는 방법
 > - 먼저 도착한 것이 먼저 처리되지만, 우선 순위에 위반이 되는 단점도 존재하기는 함.
 
 > ### SJF(Shortest Job 1st) 기법
-> ![processor_sjf](/3_OperationSystem/img/processor_sjf.png "processor_sjf")
+> ![processor_sjf](/Computer_Science_Documents/3_OperationSystem/img/processor_sjf.png "processor_sjf")
 > - 위를 기반으로 평균 반환 시간은 7.5가 된다.
 > - 실행 시간이 들어온 순서대로 가장 짧은 프로세스가 먼저 CPU를 할당하는 기법.
 > - 가장 적은 평균 대기 시간을 제공하는 최적의 알고리즘.
@@ -215,7 +215,7 @@
 > 비선점 기법인 SJF 알고리즘을 선점 형태로 변환하는 방법으로 현재 프로세스의 남은 시간과 준비상태 큐에 새로 도착한 프로세스의 실행 시간을 비교하여 가장 짧은 실행 시간을 구하는 프로세스에게 CPU를 할당하는 기법.
 > - SRT 알고리즘은 워낙 복잡해서 일단 넘어가도록 하고, 정처기 시험 끝나는데로 재작성을 하겠다. 정처기 기준에서는 SRT와 SJF의 차이만 알아두는 시점에서 끝내면 된다.
 > ### RR(Round Robin)
-> ![processor_rr](/3_OperationSystem/img/processor_rr.png "processor_rr")
+> ![processor_rr](/Computer_Science_Documents/3_OperationSystem/img/processor_rr.png "processor_rr")
 > 각 Time Slice를 2로 두고 계산을 하면 위처럼 작성이 된다. 평균 반환 시간은 10.5이다.
 > 
 > **의외로 Round Robin도 선점 스케쥴링에 속하니 기억을 해두고 넘어가야 한다.**
