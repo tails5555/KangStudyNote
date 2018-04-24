@@ -4,26 +4,26 @@
 - 디스크 스케쥴링의 목적은 **처리량 최대화, 평균 응답 시간 최소화, 응답 시간 편차의 최소화**로 볼 수 있다.
 
 > ### FCFS
-> ![disk_schedule_fcfs](/3_OperationSystem/img/disk_schedule_fcfs.png "disk_schedule_fcfs")
+> ![disk_schedule_fcfs](/Computer_Science_Documents/3_OperationSystem/img/disk_schedule_fcfs.png "disk_schedule_fcfs")
 > - 간단한 스케쥴링으로 디스크 큐에 먼저 들어온 트랙에 대한 요청을 먼저 서비스하는 기법.
 > - 디스크 대기 큐에 들어온 순서대로 서비스 하기 때문에 우선순위 따위는 씹어 먹어서 공평성을 보장한다.
 > ### SSTF
-> ![disk_schedule_sstf](/3_OperationSystem/img/disk_schedule_sstf.png "disk_schedule_sstf")
+> ![disk_schedule_sstf](/Computer_Science_Documents/3_OperationSystem/img/disk_schedule_sstf.png "disk_schedule_sstf")
 > - 탐색 거리가 가장 짧은 트랙에 대한 요청을 먼저 서비스하는 기법.
 > - 현재 헤드에서 가까운 거리에 있는 트랙을 헤드로 이동을 시키는 기법.
 > - FCFS보다 평균 시간은 짧아지지만, 탐색 패턴이 **가운데 트랙이 서비스를 많이 받는 경향**이 있어서 안쪽, 바깥 쪽은 기아 상태가 발생할 수 있다.
 > - 처리량이 많은 일괄 처리 시스템에서 주로 쓴다. 
 > ### SCAN
-> ![disk_schedule_scan](/3_OperationSystem/img/disk_schedule_scan.png "disk_schedule_scan")
+> ![disk_schedule_scan](/Computer_Science_Documents/3_OperationSystem/img/disk_schedule_scan.png "disk_schedule_scan")
 > - SSTF가 가지는 탐색 시간의 편차를 줄이기 위한 기법.
 > - 현재 헤드의 위치에서 방향이 결정되면 탐색 거리가 짧은 순서에 따라서 안쪽, 바깥쪽 둘 중 하나를 찍고 다시 역방향으로 진행하는 기법.
 > ### C-SCAN
-> ![disk_schedule_cscan](/3_OperationSystem/img/disk_schedule_cscan.png "disk_schedule_cscan")
+> ![disk_schedule_cscan](/Computer_Science_Documents/3_OperationSystem/img/disk_schedule_cscan.png "disk_schedule_cscan")
 > - 항상 **바깥 쪽에서 안쪽**으로 움직이면서 짧은 탐색 거리를 갖는 요청을 서비스하는 방법.
 > - 트랙은 바깥 쪽에서 안 쪽으로 한 방향으로만 움직이며 끝 방향으로 이동하고 난 후에 안 쪽에 요청이 없다면 바깥 쪽의 끝으로 이동하고 난 후에 다시 안 쪽으로 이동하면서 서비스를 하는 개념이다.
 > - 마치 과거의 Mario Bros 게임을 연상하면 더욱 도움이 될 듯 하다.
 > ### LOOK
-> ![disk_schedule_look](/3_OperationSystem/img/disk_schedule_look.png "disk_schedule_look")
+> ![disk_schedule_look](/Computer_Science_Documents/3_OperationSystem/img/disk_schedule_look.png "disk_schedule_look")
 > - SCAN 기법을 기초로 사용되어 진행 방향의 마지막 요청을 서비스하고 그 방향의 끝으로 이동하는 것이 아닌 바로 역방향으로 진행하는 기법.
 > ### 에센바흐(Eschenbach)
 > 부하가 매우 큰 항공 예약 시스템을 위해 개발 되었고 C-SCAN 처럼 움직이며 전체 트랙이 한 바퀴 회전할 동안에 서비스를 받는다.
