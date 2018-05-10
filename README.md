@@ -1,11 +1,7 @@
-# KangDB's 137 Cs Note
-
-## CS Signify
-CS는 본래 Computer Science의 줄임말로 Computer Science와 관련된 모든 공부 자료 정보들에 대해서 다루기 위해 공부 자료들에 대하여 스터디 노트를 작성하는데 137의 뜻은 Cs(세슘) 원자 번호의 의미를 가지고 알칼리 금속 계에 속하는 원자 이름으로 **두 번째로 희귀한** 원자로 분류를 하게 되어 두 번째로 희귀한 Computer Science 노트를 최종적으로 완성을 하고 싶어서 코드 네임을 137로 결정하였습니다. 
+# KangBakSa Note[강박사 노트] 
 
 ## Author
 - [강인성](https://github.com/tails5555)
-
 
 ## Information
 - 데이터베이스, 전자계산기, 운영체제론, 소프트웨어 공학론, 데이터통신 공부 내용들은 **시나공 정보처리기사 SUMMARY** 교재를 참고해서 작성하였습니다.
@@ -38,10 +34,13 @@ CS는 본래 Computer Science의 줄임말로 Computer Science와 관련된 모�
 ## 6. 네트워크 프로그래밍
 
 # Application Computer Science
-## 1. Java + JSP
-## 2. Spring Boot
-## 3. Python + Django
-## 4. Kotlin
-## 5. ReactJS & Redux 
-## 6. Vue.js
-## 7. Node.js & NPM
+## 0. Java Programing
+## 1. JSP & Tomcat
+## 2. Spring Web MVC & Flux
+## 3. Spring Security & JWT
+## 4. Relational Database[MySQL]
+## 5. NoSQL[MongoDB, Redis]
+## 6. ReactJS & Redux 
+## 7. Vue.js[여유 있으면 작성하겠습니다.]
+## 8. Python + Django[여유 있으면 작성하겠습니다.]
+## 9. Node.js & NPM[여유 있으면 작성하겠습니다.]
