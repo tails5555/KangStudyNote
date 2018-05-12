@@ -9,8 +9,11 @@
 
 # Basic Computer Science
 ## 0. 자료구조 + 알고리즘
+
 ## 1. 데이터베이스
+
 ## 2. 전자계산기(컴퓨터구조론)
+
 ## 3. [운영체제론](https://github.com/tails5555/my_eip_study/tree/master/Computer_Science_Documents/3_OperationSystem)
 > 3-1. [시스템 소프트웨어 ~ 프로세스 스케쥴링](https://github.com/tails5555/my_eip_study/blob/master/Computer_Science_Documents/3_OperationSystem/01_Operation_System_01.md)
 >
@@ -21,6 +24,7 @@
 > 3-4. [프로세서 연결방식 ~ UNIX](https://github.com/tails5555/my_eip_study/blob/master/Computer_Science_Documents/3_OperationSystem/04_Operation_System_04.md)
 
 ## 4. 소프트웨어 공학론
+
 ## 5. [데이터통신(네트워크 개념 포함)](https://github.com/tails5555/my_eip_study/tree/master/Computer_Science_Documents/5_Data_Communication)
 > 5-1. [통신 기본 개념](https://github.com/tails5555/my_eip_study/blob/master/Computer_Science_Documents/5_Data_Communication/01_Data_Communication_01.md)
 >
@@ -33,14 +37,67 @@
 > 5-5. [LAN, CDMS/CD, VAN, B-ISDN, 인터넷과 TCP/IP](https://github.com/tails5555/my_eip_study/blob/master/Computer_Science_Documents/5_Data_Communication/05_Data_Communication_05.md)
 ## 6. 네트워크 프로그래밍
 
+## 7. 알고리즘[심화]
+> 7-0. [알고리즘 요약 정리](https://github.com/tails5555/algorithm_point_tutorial)
+>
+
 # Application Computer Science
 ## 0. Java Programing
+> 0-1. Java 7 추가 사항
+>
+> 0-2. Java 8 추가 사항
+>
+> 0-3. Java 9 추가 사항
+>
+> 0-4. Garbage Collection의 정체
+>
+> 0-5. Thread
+> 
+> 0-6. File Input / Output
+
 ## 1. JSP & Tomcat
+> 1-1. HTTP Request, Response
+
 ## 2. Spring Web MVC & Flux
+> 2-1. MVC Pattern
+
 ## 3. Spring Security & JWT
-## 4. Relational Database[MySQL]
+> 3-1. Spring Security
+> 
+> 3-2. JSON Web Token
+>
+
+## 4. Relational Database[Oracle, MySQL]
+> 4-0. [Oracle Database 요약 정리](https://github.com/tails5555/oracle_database_study_note)
+>
+> 4-1. MySQL 제대로 활용하자
+>
+
 ## 5. NoSQL[MongoDB, Redis]
-## 6. ReactJS & Redux 
-## 7. Vue.js[여유 있으면 작성하겠습니다.]
-## 8. Python + Django[여유 있으면 작성하겠습니다.]
-## 9. Node.js & NPM[여유 있으면 작성하겠습니다.]
+> 5-0. NoSQL의 기본 개념
+>
+> 5-1. [MongoDB 간략 Tutorial](https://github.com/tails5555/mongoDB_tutorial)
+>
+> 5-2. Redis 제대로 사용하자
+>
+
+## 6. ReactJS & Redux
+> 6-1. ReactJS 16.3 Life Cycle
+>
+> 6-2. ReactJS Component Types
+>
+> 6-3. React Router v4
+>
+> 6-4. Redux Action & Dispatch
+>
+> 6-5. RxJS With ReactJS
+>
+
+## 7. Object-Oriented Pattern
+>
+>
+
+## 8. Vue.js[여유 있으면 작성하겠습니다.]
+## 9. Python + Django[여유 있으면 작성하겠습니다.]
+## 10. Node.js & NPM[여유 있으면 작성하겠습니다.]
+## 11. Kotlin + Spring Framework[여유 있으면 작성하겠습니다.]
