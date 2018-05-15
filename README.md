@@ -43,11 +43,11 @@
 
 # Application Computer Science
 ## 0. Java Programing
-> 0-1. Java 7 추가 사항
+> 0-1. [Java 7 추가 사항](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/01_Java7_Plus.md)
 >
-> 0-2. Java 8 추가 사항
+> 0-2. [Java 8 추가 사항](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/02_Java8_Plus.md)
 >
-> 0-3. Java 9 추가 사항
+> 0-3. [Java 9, 10 추가 사항](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/03_Java9_10_Plus.md)
 >
 > 0-4. Garbage Collection의 정체
 >
@@ -70,7 +70,7 @@
 ## 4. Relational Database[Oracle, MySQL]
 > 4-0. [Oracle Database 요약 정리](https://github.com/tails5555/oracle_database_study_note)
 >
-> 4-1. MySQL 제대로 활용하자
+> 4-1. MySQL 제원
 >
 
 ## 5. NoSQL[MongoDB, Redis]
@@ -78,7 +78,9 @@
 >
 > 5-1. [MongoDB 간략 Tutorial](https://github.com/tails5555/mongoDB_tutorial)
 >
-> 5-2. Redis 제대로 사용하자
+> 5-1. MongoDB 간략 교본
+>
+> 5-2. Redis 간략 교본
 >
 
 ## 6. ReactJS & Redux
@@ -94,7 +96,7 @@
 >
 
 ## 7. Object-Oriented Pattern
->
+> 
 >
 
 ## 8. Vue.js[여유 있으면 작성하겠습니다.]
