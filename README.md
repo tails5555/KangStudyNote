@@ -49,31 +49,42 @@
 >
 > 0-3. [Java 9, 10 추가 사항](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/03_Java9_10_Plus.md)
 >
-> 0-4. Garbage Collection의 정체
+> 0-4. Java Thread Issues
 >
-> 0-5. Thread
+> 0-5. JVM Garbage Collection Issues
 > 
 > 0-6. File Input / Output
 
 ## 1. JSP & Tomcat
 > 1-1. HTTP Request, Response
 
-## 2. Spring Web MVC & Flux
-> 2-1. MVC Pattern
+## 2. Spring Framework
+> 2-0. Spring Basic Issues
+>
+> 2-1. Spring Web MVC
+>
+> 2-2. Spring Data JPA
+>
+> 2-3. Spring WebSocket
+>
+> 2-4. Spring Asynchronous
+>
+> 2-5. Spring Web Flux
 
 ## 3. Spring Security & JWT
+
 > 3-1. Spring Security
 > 
 > 3-2. JSON Web Token
->
 
-## 4. Relational Database[Oracle, MySQL]
+## 4. Relational Database
 > 4-0. [Oracle Database 요약 정리](https://github.com/tails5555/oracle_database_study_note)
 >
-> 4-1. MySQL 제원
+> 4-1. MySQL 간략 교본
 >
-
-## 5. NoSQL[MongoDB, Redis]
+> 4-2. PL/SQL 간략 교본
+>
+## 5. NoSQL
 > 5-0. NoSQL의 기본 개념
 >
 > 5-1. [MongoDB 간략 Tutorial](https://github.com/tails5555/mongoDB_tutorial)

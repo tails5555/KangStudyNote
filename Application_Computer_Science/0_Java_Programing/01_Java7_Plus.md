@@ -181,4 +181,12 @@ int binary = 0b1100 // 2진수로 10
 
 ## G1 Garbage Collector
 
-G1 Garbage Collection 중 G1은 Garbage First(1st)의 뜻으로 Garbage가 가장 많은 영역의 청소를 수행하는데 Java Heap 메모리 영역을 여러 개로 분할된 영역으로 나뉜다. JDK 7 이전은 new, old, permgen 영역으로 나뉘었지만, 새로운 영역을 통해 메모리에 집중적으로 접근하는 어플리케이션(Memory-Oriented Application)에 더 큰 Throughput을 제공한다. 이 외에 큰 이슈는 없다.
+G1 Garbage Collection 중 G1은 Garbage First(1st)의 뜻으로 Garbage가 가장 많은 영역의 청소를 수행하는데 Java Heap 메모리 영역을 여러 개로 분할된 영역으로 나뉜다. JDK 7 이전은 new, old, permgen 영역으로 나뉘었지만, 새로운 영역을 통해 메모리에 집중적으로 접근하는 어플리케이션(Memory-Oriented Application)에 더 큰 Throughput을 제공한다. 이 외에 큰 이슈는 없다. 추가적으로 JVM Garbage Collection에 대한 내용도 같은 폴더에서 다룰 예정이니 이를 더욱 참고하면 좋겠다.
+
+## Fork/Join Framework
+
+멀티 프로세서의 성능을 이용할 수 있는 ExecutorService 인터페이스의 구현체로 볼 수 있는데 다음과 같이 정리할 수 있다.
+- 어플리케이션의 성능을 향상 시키기 위해 가능한 모든 프로세스를 이용하도록 반복적으로 작은 조각으로 작업을 나뉘어 수행할 수 있게 설계를 한다.
+- ExecutorService를 구현함으로 Fork/Join Framework는 Thread Pool 안의 Worker Thread에 분배를 한다.
+- Thread 패턴 중에서 Produce-Consumer 알고리즘과 다른 Work-Stealing 알고리즘을 이용하는데 작업이 없는 Worker Thread는 아직 바쁜 다른 Thread의 작업을 가져 올 수 있는 개념으로 인식할 수 있다.
+- Fork/Join Framework의 핵심은 AbstractExecutorService 클래스를 구현한 ForkJoinPool 클래스로 Work-Stealing 알고리즘을 이용하고, ForkJoinTask 프로세스들을 실행할 수 있다.
