@@ -45,7 +45,23 @@ public class Main{
 ```
 ## Optional Interface
 
-Spring Data JPA, Spring Data Redis, MongoDB 등을 공부한 사람들이 많이 접했는데 객체를 불러올 때 쓴다.
+`Spring Data JPA`, `Spring Data MongoDB` 등을 자주 다뤘으면 이 개념에 대해서 짚고 넘어가야 한다.
+
+Java 언어에서 제일 발생하기 쉬운 예외는 null인 객체에 대한 멤버 변수를 접근할 때 발생하는 `NullPointerException`이다.
+
+객체의 존재(객체의 null 여부)에 따른 NullPointerException을 최소화를 하기 위한 방법 중에서 객체에 대한 보호막을 씌우는 역할이 필요하다. 이를 `Optional` 개념이라고 볼 수 있다.
+
+![sonic_monitors](/Application_Computer_Science/0_Java_Programing/img/sonic_monitors.jpg)
+
+**Optional**의 개념은 쉽게 이야기한다면 Sonic 게임 시리즈에서 항상 나오는 아이템 모니터와 같은 원리로 생각하면 된다.
+
+> - Sonic이 링이 그려진 모니터를 깨트린다. 그럼 Sonic이 현재 얻은 링의 수가 10개 더 누적된다.
+> [Optional 속에 객체가 존재한다. 이제 이 객체를 메소드 내에서 쓸 수 있다.]
+> - Sonic이 아무 것도 없는 모니터를 깨트린다. 그러나 아무 일도 안 일어난다.
+> [Optional 속에 객체가 없다. 이 객체는 null로 반환되는 것이 아니라 아무 일도 안 일어나게 된다.]
+
+아래 소스 코드는 Optional&lt;T&gt;를 이용하는 방법 중에서 최근에 Optional&lt;T&gt;를 기반으로 Database에 접근할 수 있는 JPA(Java Persistence API)의 Repository를 Service 함수 내에서 쓰는 사례로 작성하였다.
+
 ```
 // 방법 1. get() 함수를 이용해서 Person 객체를 반환하기
 public Person findOne(long id){

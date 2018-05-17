@@ -177,7 +177,7 @@ int binary = 0b1100 // 2진수로 10
 
 ## Java NIO 2.0
 
-`java.nio.file` 패키지에서 현재 운영체제에서 쓰고 있는 기본 파일 시스템에 접근도 가능하고, 다양한 파일 I/O 기능들도 제공한다. 기본 파일 시스템 중 예를 들어 복사하기, 붙어넣기, 자르기, 휴지통, 파일 속성이 숨김으로 되어 있는가 확인 등을 제공하고, 심볼릭 링크, 하드 링크 생성 가능, 와일드카드를 이용한 파일 검색 등등 윈도우 탐색기에서 할 수 있는 기능을 Java에서도 할 수 있도록 제공한다고 생각하면 된다.
+`java.nio.file` 패키지에서 현재 운영체제에서 쓰고 있는 기본 파일 시스템에 접근도 가능하고, 다양한 파일 I/O 기능들도 제공한다. 기본 파일 시스템 중 예를 들어 복사하기, 붙어넣기, 자르기, 휴지통, 파일 속성이 숨김으로 되어 있는가 확인 등을 제공하고, 심볼릭 링크, 하드 링크 생성 가능, 와일드카드를 이용한 파일 검색 등등 윈도우 탐색기에서 할 수 있는 기능을 Java에서도 할 수 있도록 제공한다.
 
 ## G1 Garbage Collector
 
@@ -190,3 +190,6 @@ G1 Garbage Collection 중 G1은 Garbage First(1st)의 뜻으로 Garbage가 가�
 - ExecutorService를 구현함으로 Fork/Join Framework는 Thread Pool 안의 Worker Thread에 분배를 한다.
 - Thread 패턴 중에서 Produce-Consumer 알고리즘과 다른 Work-Stealing 알고리즘을 이용하는데 작업이 없는 Worker Thread는 아직 바쁜 다른 Thread의 작업을 가져 올 수 있는 개념으로 인식할 수 있다.
 - Fork/Join Framework의 핵심은 AbstractExecutorService 클래스를 구현한 ForkJoinPool 클래스로 Work-Stealing 알고리즘을 이용하고, ForkJoinTask 프로세스들을 실행할 수 있다.
+
+## References
+- http://www.jpstory.net/2014/06/28/java-7-features/ - Java 7 특징 10가지
