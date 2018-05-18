@@ -214,9 +214,9 @@ public class DefaultMethod {
 
 또한 Interface에서 Static Method를 이용할 수 있는데 Interface에서 간단한 연산 작업을 처리할 수 있는 유용성 메소드를 구현할 때 이용하면 적합하다. 여기서 AbstractNarration 인터페이스에 쓰인 start() 메소드로 볼 수 있다. Class에서 Static Method를 이용하는 방법과 유사하다.
 
-<h3>Applicative of Lambda Expression</h3>
+<h3>Applicative of Default Method</h3>
 
-Default Method를 응용할 수 있는 곳은 바로 `JPA`에서 Pagination을 구현할 때 기본으로 제공하는 findAll() 함수에 대해 변경할 경우 사용하는 사례를 들 수 있다. 또한 Interface에서도 변수를 볼 수 있는데 이는 Interface에 작성된 static final 변수로 볼 수 있다.
+Default Method를 응용할 수 있는 곳은 바로 `JPA`에서 Pagination을 구현할 때 기본으로 제공하는 findAll() 함수에 대해 변경할 경우 사용하는 사례를 들 수 있다. 또한 Interface에서도 변수를 볼 수 있는데 이는 Interface에 작성된 static final 변수로 볼 수 있다. 추가로 Default Method와 Static Method는 Interface에서 여러 개를 써도 무방하다.
 
 ```
 @Repository
@@ -236,8 +236,33 @@ public interface FoodRepository extends JpaRepository<Food, Long>{
 ## IO/NIO Expansion
 [계속 작성하겠습니다.]
 
+## Meta Data Reflection About Parameters
+`Spring Framework`에서 `@RequestParam`, `@RequestBody` 어노테이션을 이용할 때 매개변수에 대해 이름을 정해서 이용하는 방법을 밥 먹듯이 했을 것이다. 예를 들어 어느 View에서 학생에 대한 정보를 id라는 변수를 이용해 가져와서 보여주는 사례다.
+
+```
+@RequestMapping("student/info")
+public String showAboutStudent(Model model, @RequestParam("id") int id){
+    model.addAttribute("student", studentService.findOne(id));
+    return "student/info";
+}
+```
+
+이처럼 작성을 꼭 해야만 했던 이유는 Java 7까지만 해도 많은 메타 데이터(Query String에 있는 데이터도 포함 된다.) 정보를 Byte Code에 남기긴 하지만, Method의 매개 변수의 이름 따윈 신경을 쓰지 않아서 타입만 확인이 가능했기 때문이다. (물론 Java Compiler에 -debug 옵션을 줘서 Byte Code에 디버깅용 소스를 남기면 자동으로 매개변수 이름을 인식하는 기능이 Spring Framework에서는 제공을 하였다.)
+
+이처럼 메타 데이터에 대해서 매개 변수의 이름을 동일하게 받아 적용하는 과정을 Reflection으로 부르는데 Java 8에서 이 기능을 제공하게 되면서 오로지 어노테이션으로 구분을 하고, 변수 이름을 제대로 선언한다면 위와 같은 작업에 대해 작동할 수 있도록 도와준다.
+
+```
+@RequestMapping("student/info")
+public String showAboutStudent(Model model, @RequestParam int id){ // 방금 전까지 RequestParam에 변수 이름을 넣었지만, Reflection 기능을 제공하여 같은 변수 이름이라면 굳이 안 써도 된다.
+    model.addAttribute("student", studentService.findOne(id));
+    return "student/info";
+}
+```
+
 ## References
 - https://namu.wiki/w/%EB%9E%8C%EB%8B%A4%EC%8B%9D - Lambda Expression 정의 참고
 - https://skyoo2003.github.io/post/2016/11/09/java8-lambda-expression - Lambda Expresion 개념과 예제 소스 코드 참고
 - http://palpit.tistory.com/671 - Lambda 식 기본 이용 방법
+- https://wraithkim.wordpress.com/2017/04/13/java-8-%EC%8A%A4%ED%8A%B8%EB%A6%BC-%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC/ - Java 8 Stream 튜토리얼
 - http://blog.eomdev.com/java/2016/03/30/default-method.html - Default Method In Interface
+- http://blog.fupfin.com/?p=27 - Java 8 변경 사항
