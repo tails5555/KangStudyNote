@@ -20,6 +20,7 @@ Lambda 식을 또 다른 말로 **익명 함수(Anonymous Functions)** 로 부�
 우선 `Java`에서는 당연한 이야기지만 Function(함수)의 개념이 없다. 대신에 Object 내부에 method를 이용해서 행위를 전달을 하는 것이 끝이었다. 하지만 순수한 함수(Pure Function. 함수의 실행이 외부의 상태를 변경하지 않는 함수. Multi-Thread 환경에서 권장하는 함수.)의 필요성을 `Java`에서 느끼게 되어 Interface, Labmda Expression을 추가로 지원하게 되었다. Java 8에서 적용할 수 있는 Lambda Expression의 기본 문법과 예제는 다음과 같다.
 
 <h3>Basic Lambda Expression</h3>
+
 ```
 // int 형의 변수 x를 출력하기 위한 문장은 아래와 같이 이용한다.
 (int x) -> { System.out.println(x); }
@@ -43,6 +44,7 @@ b -> System.out.println(b);
 ```
 
 <h3>Simple Example of Lambda Expression</h3>
+
 ```
 @FunctionalInterface
 interface Order0{
@@ -86,6 +88,7 @@ public class Main{
 <h3>Applicative of Lambda Expression</h3>
 Android 어플리케이션 제작에서 Lambda Expression은 필수 요소가 되었다.
 간단한 사례로 Button의 onClickListener를 제작할 때 Anonymous Class를 이용할 때 축약된 소스 코드로 작성할 수 있는 점에서 큰 이득을 볼 수 있다.
+
 ```
 // 이 두 버튼의 역할은 버튼을 클릭하면 간단하게 버튼을 클릭한 안내문을 출력하는 것이다.
 // 소스 코드를 읽어 보면 Anonymous Class를 이용한 방법보다 더욱 짧아진 모습을 볼 수 있다.
