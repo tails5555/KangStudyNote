@@ -147,14 +147,89 @@ public Person findOne(long id){
 [계속 작성하겠습니다.]
 
 ## Default Method in Interface
+
+Java에서 Interface에는 추상 메소드(Abstract Method)를 작성하고 이를 또 다른 Class에서 구현하는 방법으로 객체와 행위(Method)에 대한 활용도를 향상시키는데 큰 역할을 하고 있다. Java 7까지만 해도 Abstract Method만 작성해서 이용하는 것이 전부였는데 Interface만의 행위를 만들어서 다양한 Class 내부에서 Abstract Method에 대해 구현하는 것을 최소화하기 위한 목적으로 Default Method와 Static Method를 Inferface에서 처리할 수 있게 된 점이 Java 8에서 새로 추가되었다. 이를 적용하는 간단한 예제를 아래 소스 코드를 읽어 보도록 하자.
+
+```
+interface AbstractPerson{ // 가상 등장인물 인터페이스
+    void say();
+    void hello();
+}
+interface AbstractNarration extends AbstractPerson{ // 가상 나레이션 인터페이스
+    public default void bye(){
+        System.out.println("[나레이션] 1972년 11월 21일. 김두한은 쓰러졌다.");
+    }
+    public static void start(){
+        System.out.println("[나레이션] 나레이션이 시작됩니다.");
+    }
+}
+class Person implements AbstractPerson{ // 실제 등장인물
+    private String name;
+    private String message;
+    public Person(String name, String message){
+        this.name=name;
+        this.message=message;
+    }
+    @Override
+    public void say(){
+        System.out.println(String.format("[%s] %s", this.name, this.message));
+    }
+    @Override
+    public void hello(){
+        System.out.println(String.format("[%s] 안녕하세요?", this.name));
+    }
+}
+class Narration implements AbstractNarration{ // 실제 나레이션
+    private String message;
+    public Narration(String message){
+        this.message=message;
+    }
+    @Override
+    public void say(){
+        System.out.println(String.format("[나레이션] %s", this.message));
+    }
+    @Override
+    public void hello(){
+        System.out.println("[나레이션] 테스트 중입니다...");
+    }
+}
+public class DefaultMethod {
+    public static void main(String[] args){
+        Person p1 = new Person("김두한", "4달러~"); // 등장인물 생성
+        p1.hello(); // [김두한] 안녕하세요?
+        p1.say(); // [김두한] 4달러~
+
+        Narration n1 = new Narration("그랬다. 김두한은 4달러를 좋아했다."); // 나레이션 생성
+        AbstractNarration.start(); // [나레이션] 나레이션이 시작됩니다.
+        n1.hello(); // [나레이션] 테스트 중입니다...
+        n1.say(); // [나레이션] 그랬다. 김두한은 4달러를 좋아했다.
+        n1.bye(); // [나레이션] 1972년 11월 21일. 김두한은 쓰러졌다.
+    }
+}
+```
+
+위의 소스 코드의 내용을 토대로 AbstractNarration 인터페이스에 있는 default 메소드인 bye() 함수와 static 메소드인 start() 메소드를 주목해야 하는데 AbstractNarration 인터페이스를 클래스에서 상속을 받기 위해서 hello(), say() 메소드를 구현해야 한다. 
+
+그렇지만 AbstractNarration 인터페이스에서 쓰인 bye() 메소드는 AbstractPerson을 상속하였기 때문에 hello(), say() 등의 추상 메소드를 구현하는 요소와 나중에 추가 될 AbstractNarration 인터페이스의 추상 메소드 등을 상속 받은 클래스에서 구현하는 번거로움을 줄이도록 하기 위해 작성하였다. Inteface에서 Default Method의 역할은 다중 상속(참고로 Interface는 다중 상속이 가능하다.)에서 늘어나는 추상 메소드의 구현량을 줄임으로서 Interface의 효율성을 증대 시킬 수 있다.
+
+또한 Interface에서 Static Method를 이용할 수 있는데 Interface에서 간단한 연산 작업을 처리할 수 있는 유용성 메소드를 구현할 때 이용하면 적합하다. 여기서 AbstractNarration 인터페이스에 쓰인 start() 메소드로 볼 수 있다. Class에서 Static Method를 이용하는 방법과 유사하다.
+
+<h3>Applicative of Lambda Expression</h3>
+
+Default Method를 응용할 수 있는 곳은 바로 `JPA`에서 Pagination을 구현할 때 기본으로 제공하는 findAll() 함수에 대해 변경할 경우 사용하는 사례를 들 수 있다. 또한 Interface에서도 변수를 볼 수 있는데 이는 Interface에 작성된 static final 변수로 볼 수 있다.
+
 ```
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long>{
+    public static final int PAGE_SIZE = 10;
+    // 앞에 static final이 생략되어 그렇지 실제로 이는 외부 클래스의 method에서 변경이 불가능하다.
+    Option[] searchBy = { new Option(0, "검색 없음"), new Option(1, "음식 이름"), new Option(2, "주문 가능 시간"), new Option(3, "가격") }; 
     public default List<Food> findAll(Pagination pagination){
         // Pagination에 대한 내용 구현
     }
 }
 ```
+
 ## Date API Update
 [계속 작성하겠습니다.]
 
@@ -165,3 +240,4 @@ public interface FoodRepository extends JpaRepository<Food, Long>{
 - https://namu.wiki/w/%EB%9E%8C%EB%8B%A4%EC%8B%9D - Lambda Expression 정의 참고
 - https://skyoo2003.github.io/post/2016/11/09/java8-lambda-expression - Lambda Expresion 개념과 예제 소스 코드 참고
 - http://palpit.tistory.com/671 - Lambda 식 기본 이용 방법
+- http://blog.eomdev.com/java/2016/03/30/default-method.html - Default Method In Interface
