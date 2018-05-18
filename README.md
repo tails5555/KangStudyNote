@@ -60,7 +60,7 @@
 > 1-1. HTTP Request, Response
 
 ## 2. Spring Framework
-> 2-0. Spring Basic Issues
+> 2-0. [Spring Basic Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/2_Spring_Framework/00_Spring_Basic_Issues.md)
 >
 > 2-1. Spring Web MVC
 >
