@@ -53,9 +53,10 @@ Inversion of control, 흔히 쓰이는 DI(Dependency Injection) Pattern을 사�
     - 기존 Library를 Spring Framework에 통합할 때 어느 정도 감싸는 정도로 사용이 가능하기 때문에 수많은 Library가 이미 Spring Framework에서 지원하는 추세이고, 이를 별도로 분리하는 점도 용이함.
 
 ## Three Leader Of POJO
-![Spring_Triangle](/Application_Computer_Science/2_Spring_Framework/img/Spring_Triangle.png)
 
-POJO를 기반으로 구성된 `Spring Framework`의 삼대장은 위와 같은 삼각형으로 그려진다.
+![Spring_Triangle2](/Application_Computer_Science/2_Spring_Framework/img/Spring_Triangle2.png)
+
+POJO를 기반으로 구성된 `Spring Framework`의 삼대장은 위와 같은 요소를 지닌다.
 
 이 삼대장의 개념들이 어떤 의미를 가지는지 IoC(With DI), AOP, PSA 순으로 살펴보도록 하자. 
 
@@ -152,6 +153,7 @@ class CarImpl implements Car{
 
 ### Aspect Of Programing
 [계속 작성하겠습니다.]
+
 
 ### PSA(Portable Service Abstractions)
 [계속 작성하겠습니다.]
