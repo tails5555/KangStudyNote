@@ -169,10 +169,49 @@ AOP(Aspect Oriented Programming)의 핵심은 Aspect이다. Aspect는 직역하�
 
 하지만 Annotation을 이용해서 각 과정 별 그 때마다 필요한 부가 업무를 과정에서 알아서 추출해서 사용한다면 주 업무와 부가 업무에서 쓰이는 객체에 대한 결합도를 낮춤으로서 더욱 가독성이 좋은 소스 코드로 축약이 가능하다. 
 
-### PSA(Portable Service Abstractions)
+**간략하게 짚어 보는 AOP 용어**
+- Aspect
+    - 여러 클래스에 걸친 관심사의 모듈화이다.
+    - Spring AOP에서는 @AspectJ 어노테이션이 붙은 정규 클래스 이용 방법과 Schema 기반의 접근이 가능한 정규 클래스를 이용한 방법이 있다.
+- Join Point
+    - Method의 실행, 예외 처리 등 프로그램이 실행되는 시점이다.
+    - Spring AOP에서는 Method의 실행 지점이다.
+- Point Cut
+    - Join Point의 부분 집합이다.
+    - Advice는 Point Cut에 응집된 Join Point에서 표현식이 부가되어 연결할 수 있고 매칭된 Join Point에서 실행되는 개념이다.
+- Advice
+    - 특정 Join Point에 삽입 되어 Aspect가 동작하는 코드다.
+    - around, before, after 등의 여러 타입의 Advice가 존재한다.
+- Weaving
+    - 다른 Application 타입이나 Advice Object를 생성하는 객체와의 관점을 연결하는 과정이다.
+    - 컴파일 시점, 로딩 시점, 런타임 시점에서 수행이 가능하다.
+- AOP Proxy
+    - Aspect Contract(관점 계약. Advice Method etc.)가 생성한 객체.
+    - AOP Proxy는 JDK Dynamic Proxy이나 CGLIB Proxy로 된다.
+
+
+### AOP Proxy
 [계속 작성하겠습니다.]
+
+### PSA(Portable Service Abstractions)
+
+환경과 세부 기술의 변화에 관계 없이 일관된 방식으로 기술에 접근할 수 있게 하는 개념이다. 
+
+여기서 POJO에서 강조한 내용 중에 이를 이용한 코드는 특정 환경이나 구현 방식에 종속적이지 않아야 하는 것을 전제하는 점이다. 
+
+기존 Enterprise 개발이 주는 복잡함을 최소화하는데 있어서 필수 요소로 볼 수 있다.
+
+PSA와 연관된 객체 지향 패턴은 Adapter Pattern이 있다.
+
+**PSA를 접목 시킨 Library or Framework**
+- JUnit
+- MyBatis
+- JDBC 계열
+- Spring Data 계열
+- Social(Facebook, Linkedin, Twitter)
 
 ## References
 - http://ooz.co.kr/170 - Spring Basic 개념을 설명한 페이지.
 - http://sosohantalk.tistory.com/1 - Spring Framework Basic Structure
 - http://jinpyo900.tistory.com/55 - Spring Basic 개념을 간단하게 정리한 페이지 
+- https://blog.outsider.ne.kr/843 - AOP 개념에 대해 자세히 쓰인 페이지
