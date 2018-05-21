@@ -25,7 +25,7 @@ Inversion of control, 흔히 쓰이는 DI(Dependency Injection) Pattern을 사�
     - Object Relation Mapping(ORM) Framework와의 결합을 할 수 있도록 도와준다.
     - 대표적으로 `Hibernate`, `mybatis` Framework 등을 쉽게 통합한다.
 - Spring AOP
-    - Aspect Oriented Programing(AOP)를 지원한다.
+    - Aspect Oriented Programming(AOP)를 지원한다.
 - Spring Web
     - Web Application 개발에 필요한 context와 multipart request 등의 기능을 지원한다.
 - Spring Web MVC
@@ -45,7 +45,7 @@ Inversion of control, 흔히 쓰이는 DI(Dependency Injection) Pattern을 사�
     - 각종 지휘(Controller)를 관리를 사용자가 아니라 Framework가 관리하여 필요에 따라 스프링에서 사용자의 코드를 호출함.
 - Dependency Injection(의존성 주입)을 제공
     - 각 계층이나 서비스 간의 의존성이 존재할 경우 Framework가 오작교와 같은 역할을 함.
-- Aspect Oriented Programing 지원
+- Aspect Oriented Programming 지원
     - Transaction, Logging, Security 등 여러 모듈에서 공통적으로 사용할 때 해당 기능을 Configuration 클래스를 이용해서 관리 가능.
 - Persistence(영속성)과 관련된 다양한 서비스 지원
     - `mybatis`, `Hibernate` 등 완성도가 높은 데이터베이스 처리 라이브러리와 연결할 수 있는 인터페이스 제공.
@@ -53,7 +53,6 @@ Inversion of control, 흔히 쓰이는 DI(Dependency Injection) Pattern을 사�
     - 기존 Library를 Spring Framework에 통합할 때 어느 정도 감싸는 정도로 사용이 가능하기 때문에 수많은 Library가 이미 Spring Framework에서 지원하는 추세이고, 이를 별도로 분리하는 점도 용이함.
 
 ## Three Leader Of POJO
-
 ![Spring_Triangle2](/Application_Computer_Science/2_Spring_Framework/img/Spring_Triangle2.png)
 
 POJO를 기반으로 구성된 `Spring Framework`의 삼대장은 위와 같은 요소를 지닌다.
@@ -151,9 +150,24 @@ class CarImpl implements Car{
 }
 ```
 
-### Aspect Of Programing
-[계속 작성하겠습니다.]
+### Aspect Oriented Programming
+![korea_map](/Application_Computer_Science/2_Spring_Framework/img/korea_map.jpg)
 
+> 지도의 기호들처럼 업무 프로세스에서는 부가적인 기능들이 퍼져 이용되고 있다.
+
+AOP(Aspect Oriented Programming)의 핵심은 Aspect이다. Aspect는 직역하면 관점이라는 뜻이 있는데 Spring에서는 **부가적인 업무**에 대한 대응을 제공해야 하는 의미로 생각하는 것이 옳다. 더욱 쉽게 설명하자면 생활비를 계산하는데 날마다 통장 정리를 하러 은행가는 일이 귀찮기 때문에 최근에 모바일 어플리케이션을 이용한 현금 관리를 하는 사례와 같은 맥락으로 받을 수 있다.
+
+왜 AOP를 사용하는 것일까? 생활비 관리는 인생에 있어서 귀찮은 작업으로 볼 수 있는데 꼭 해야 하는 작업이다. Spring에서 부가적인 프로세스 중에 대표적으로 Log, Transaction, Security, Caching 등의 작업이 있는데 이를 **내부 처리 작업** 이라고 한다.
+
+업무 프로세서에서 **주 업무**와 **부가 업무**로 나뉠 때, 부가 업무에 대한 강한 응집력을 가지면, 주 업무에 대한 서비스 추상화가 어려워져서 소스 관리와 개발 업무 진행이 복잡해진다.
+
+![AOP_Example01](/Application_Computer_Science/2_Spring_Framework/img/AOP_Example01.png)
+
+이는 AOP를 적용하지 않고 각 과정에서 요구하는 부가 업무에 대해서 일일이 직접 설정해서 하는 과정이다. 이처럼 적용을 하게 되면 생각보다 오바이트가 나올 것이다.
+
+![AOP_Example02](/Application_Computer_Science/2_Spring_Framework/img/AOP_Example02.png)
+
+하지만 Annotation을 이용해서 각 과정 별 그 때마다 필요한 부가 업무를 과정에서 알아서 추출해서 사용한다면 주 업무와 부가 업무에서 쓰이는 객체에 대한 결합도를 낮춤으로서 더욱 가독성이 좋은 소스 코드로 축약이 가능하다. 
 
 ### PSA(Portable Service Abstractions)
 [계속 작성하겠습니다.]
