@@ -37,18 +37,50 @@ View에는 여러 개의 Controller를 함유하고 있다. 사용자가 View에
 
 ![web_mvc_pattern](/Application_Computer_Science/2_Spring_Framework/img/web_mvc_structure.png)
 
-Spring Web MVC의 구조는 위와 같이 나뉘게 된다.
+Spring Web MVC의 구조는 위와 같이 나뉘게 된다. 위와 같은 Pattern을 Front-Controller Pattern이라고 한다. 적용하는 과정에 대해서 구체적으로 읽어볼 필요가 있다.
 
+**Spring Web MVC의 작동 순서**
+> 1. Client(Web Browser)에서 URL를 요청한다.
+> - 요청 URL를 DispatcherServlet에서 읽어들인다.
+> 2. 요청 URL과 매핑되는 Controller를 검색한다.
+> - @RequestMapping, @GetMapping, @PostMapping 등에 기재된 요청 URL를 검색한다.
+> 3. Controller에 처리 요청한다.
+> 4. ModelAndView 아니면 View의 실존 주소를 반환한다.
+> 5. Controller의 실행 결과를 보여줄 View를 검색한다.
+> 6. 최종적으로 Model를 정리해서 View에 보여준다.
+
+
+![domain_class](/Application_Computer_Science/2_Spring_Framework/img/domain_class.png)
 
 ## Front-Controller Pattern
 
-![front_controller](/Application_Computer_Science/2_Spring_Framework/img/front_controller.png)
+![front_controller](/Application_Computer_Science/2_Spring_Framework/img/front_controller.PNG)
 
 이는 Web Application과 관련된 패턴이다. Page-Controller는 Presenter가 Model과 여러 View에게 요청을 하기 때문에 복잡한 패턴이다. 하지만 Front-Controller Pattern을 이용하는 점에서는 모든 Resource 요청을 처리해주는 역할을 하되 하나의 Controller에서 모두 처리하는 Pattern으로 볼 수 있다.
 
 Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Controller에서 작업할 때 Tracking(추적), Security(보안)를 적용할 때 AOP(Aspect Oriented Programing)의 원리를 이용하게 되어 편의성을 제공한다. 또한 파일 구조가 바뀌어도 URL를 유지하는 점에서도 큰 이득을 볼 수 있다.
 
-## Useful Annotations
+## Useful Annotations In Controller
+- `@RequestMapping`
+
+- `@GetMapping`
+
+- `@PostMapping`
+
+- `@PutMapping`
+
+- `@DeleteMapping`
+
+- `@PatchMapping`
+
+- `@ResponseBody`
+
+- `@RequestBody`
+
+- `@RequestParam`
+
+- `@PathVariable`
+
 
 
 ## References
@@ -56,3 +88,4 @@ Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Co
 - http://addio3305.tistory.com/41 - Spring Web MVC Structure
 - http://qwefgh90.github.io/sphinx/spring/spring_web_mvc.html - Spring Web MVC 작동 원리를 자세하게 작성한 글
 - https://nesoy.github.io/articles/2017-02/Front-Controller - Front-Controller에 대한 설명 참고
+- https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html - Spring Web MVC Tutorial 영문 참고
