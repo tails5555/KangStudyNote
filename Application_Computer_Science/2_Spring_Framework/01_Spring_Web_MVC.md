@@ -37,6 +37,16 @@ View에는 여러 개의 Controller를 함유하고 있다. 사용자가 View에
 
 ![web_mvc_pattern](/Application_Computer_Science/2_Spring_Framework/img/web_mvc_structure.png)
 
+Spring Web MVC의 구조는 위와 같이 나뉘게 된다.
+
+
+## Front-Controller Pattern
+
+![front_controller](/Application_Computer_Science/2_Spring_Framework/img/front_controller.png)
+
+이는 Web Application과 관련된 패턴이다. Page-Controller는 Presenter가 Model과 여러 View에게 요청을 하기 때문에 복잡한 패턴이다. 하지만 Front-Controller Pattern을 이용하는 점에서는 모든 Resource 요청을 처리해주는 역할을 하되 하나의 Controller에서 모두 처리하는 Pattern으로 볼 수 있다.
+
+Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Controller에서 작업할 때 Tracking(추적), Security(보안)를 적용할 때 AOP(Aspect Oriented Programing)의 원리를 이용하게 되어 편의성을 제공한다. 또한 파일 구조가 바뀌어도 URL를 유지하는 점에서도 큰 이득을 볼 수 있다.
 
 ## Useful Annotations
 
@@ -44,4 +54,5 @@ View에는 여러 개의 Controller를 함유하고 있다. 사용자가 View에
 ## References
 - https://ko.wikipedia.org/wiki/%EB%AA%A8%EB%8D%B8-%EB%B7%B0-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC - MVC Pattern Basic Issues
 - http://addio3305.tistory.com/41 - Spring Web MVC Structure
-
+- http://qwefgh90.github.io/sphinx/spring/spring_web_mvc.html - Spring Web MVC 작동 원리를 자세하게 작성한 글
+- https://nesoy.github.io/articles/2017-02/Front-Controller - Front-Controller에 대한 설명 참고
