@@ -62,7 +62,7 @@
 ## 2. Spring Framework
 > 2-0. [Spring Basic Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/2_Spring_Framework/00_Spring_Basic_Issues.md)
 >
-> 2-1. Spring Web MVC
+> 2-1. [Spring Web MVC](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/2_Spring_Framework/01_Spring_Web_MVC.md)
 >
 > 2-2. Spring Data JPA
 >
@@ -73,8 +73,7 @@
 > 2-5. Spring Web Flux
 
 ## 3. Securities Framework
-
-> 3-1. Spring Security
+> 3-1. [Spring Security](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/3_Securities_Framework/01_Spring_Security.md)
 > 
 > 3-2. JSON Web Token
 
