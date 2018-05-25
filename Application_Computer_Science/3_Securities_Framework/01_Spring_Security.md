@@ -10,6 +10,7 @@ Spring Security은 적정 수준의 튜닝과 짧은 소스 코드만으로 대�
 여기서 Spring Security에 대해 다루는 것에서 끝나지 않고 보안에 대한 기초 상식을 함유하는 기회를 가질 필요가 있다.
 
 ## Basic Fundaments
+
 Spring Security를 접목할 때 다양한 용어들이 등장하는데 어떤 개념인지 살펴보고 인지할 필요가 있다. 여기서 보안과 관련된 개념들을 잠깐 공부할 수 있는 기회가 있으니 꼭 읽어두도록 하자.
 
 ### Authentication
@@ -77,6 +78,16 @@ Spring Security를 통해 인증이 완료된 현재 사용자를 불러올 때 
 
 ### Intercept
 
+![crossing](/Application_Computer_Science/3_Securities_Framework/img/crossing.jpg)
+
+> 사용자가 지닌 권한 별로 Resource를 관리할 수 있게 도와주는 기찻길 건널목과 같은 개념
+
+Intercept는 Spring Security에서 매우 중요한 역할을 한다.
+
+요청 URL 별로 다른 기능을 제공할 때 access 별로 권한 확인을 진행하거나 Session 별로 사용자 정보에 대한 저장 여부나 현재 사용자 정보를 가져오거나 등의 기능을 담당하는 역할이 바로 Intercept이다.
+
+기찻길 별로 건널목을 만드는 과정을 생각한다면 각각 요청 받은 URL 별로 설정하는 과정을 바로 Customizing(커스터마이징) 과정이라고 한다. 프로젝트에서 Security에서 Intercept의 Customizing의 구성을 초반에 확실히 잡아두고 난 후에 진행을 하길 권장한다.
+
 ### CSRF
 
 ![csrf_explanation](/Application_Computer_Science/3_Securities_Framework/img/csrf_explanation.png)
@@ -89,7 +100,33 @@ Web Explore 측에서 설명한다면 해커가 Web Site에 특정 코드를 넣
 
 Spring Security에서는 CSRF를 방지하기 위해 Configuration 클래스에서 필수로 설정해야 한다.
 
-## 3 Ways of Authentication
+## Kinds of Spring Security Modules
+
+Module은 Maven에서 제공하는 .jar 파일을 기반으로 정리하였으며, 전부 다루진 않고 알아두면 도움이 되는 Module에 대해 작성하였음을 밝힌다.
+
+- `spring-boot-security-starter`
+    - `Spring Boot`에서 Security를 적용하는 Maven Module.
+    - `spring-security-core`, `spring-security-web`, `spring-boot-starter` Module이 포함되어 있다. 
+- `spring-security-core`
+    - Authentication, Authorization에서 필요한 핵심 요소를 함유하는 Module.
+    - `JDBC`, `MyBatis`, `JPA` 등을 이용하여 데이터베이스 내부에 있는 사용자 정보와 접근할 수 있는 `Authentication Provider`의 뼈대를 쉽게 구축하게 도와주는 Module. 
+- `spring-security-web`
+    - Web 보안 인프라 구조에서 효율적인 보안을 설정할 수 있게 도와주는 모듈.
+    - Request URL 별로 Web 보안을 강화시킬 수 있는 `Filter`의 뼈대를 쉽게 구축하게 도와주는 Module. 
+- `spring-security-config`
+    - Spring Security 설정을 구현할 수 있게 도와주는 Module.
+    - Spring Security Configuration을 할 수 있는 방법은 Java Configuration Class 작성, Configuration XML 파일 작성, `AOP`를 적용한 Annotation을 추가해서 설정하는 방법 등이 있다.
+- `spring-security-taglibs`
+    - `JSP`에서 Tag(&lt;sec:[context]&gt; &lt;/sec:[context]&gt;)를 이용해서 Authority 별로 View 내용을 보여줄 때 사용한다.
+    - View에 대한 보안성이 강화되기 때문에 Server-Side의 보안 기능에 대해서 따로 적용해야 하는 단점도 있다.
+- `spring-security-oauth2-core`
+    - `Facebook`, `Google`, `GitHub` 등 저장된 본인의 Basic Authentication 정보를 이용해서 각 사이트에서 제공하는 API에서 인가 과정을 거치고 토큰을 받아 현재 서버에서도 이 계정을 통해 접근할 수 있게 제공하는 Security Framework가 바로 `OAuth 2.0`이다.
+    - 위에서 언급한 개념이 통합 로그인 서비스인데 이를 Spring Security에서 적용할 수 있게 도와주는 Module로 생각하면 된다.
+- `spring-security-oauth2-jose`
+    - `JOSE`(JavaScript Object Signing & Encryption) Framework에서 제공하는 기능을 Spring Security에서 적용할 수 있게 도와주는 Module이다.
+    - `JOSE` Framework 중에 다음 장에서 살펴볼 `JWT`(JSON Web Token) 기능도 포함된다.
+- `spring-security-test`
+    - `JUnit`, `Mockito Mock MVC`를 이용해서 Spring Security를 테스팅할 수 있게 도와주는 Module이다.
 
 ## Basic Configuration Class
 
@@ -123,11 +160,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     - antMatchers("URL")
     - antMatchers(HttpMethods, "URL")
 
-
 **HttpSecurity**
 - authorizeRequests()
     - antMatchers("URL")
-    - hasRole("ROLE_주체")
+    - access("ROLE_주체")
+    - hasRole("주체")
     - permitAll()
 - csrf().disable()
 
