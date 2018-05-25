@@ -109,6 +109,13 @@ Spring Web MVC의 구조는 위와 같이 나뉘게 된다. 위와 같은 Patter
 > 6. 최종적으로 Model를 정리해서 View에 보여준다.
 > - View에서 Model의 데이터를 정리할 때에 EL(Expression Language), JSTL(JSP Standard Tag Library)를 대부분 이용한다.
 
+## DispatcherServlet
+DispatcherServlet은 모든 HTTP Request, Response에 대하여 참조하는 역할을 한다. 이는 Servlet 버전에 따라 생성될 수 있다.
+
+Servlet만 이용해서 Web Application을 작성할 수 있다는 사실을 이미 짐작할 수 있는데 그러나 web.xml의 역할이 점차 줄어들면서 Servlet 매핑은 결국 DispatcherServlet으로 넘겨주는 추세로 업데이트 되고 있다.
+
+[이후 이야기는 계속 작성하겠습니다.]
+
 ## Domain Model Structure
 우리가 객체 지향 프로그래밍을 이용해서 일상에 필요한 시스템을 소프트웨어에 반영하기 위해서 기초적으로 다뤄야 하는 것이 Domain Model을 제대로 설계하는 것이다. 
 
@@ -179,7 +186,9 @@ Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Co
 
 - `@PathVariable`
 
-
+## Useful Objects In Controller
+- `Model`
+- `ModelAndView`
 
 ## References
 - https://ko.wikipedia.org/wiki/%EB%AA%A8%EB%8D%B8-%EB%B7%B0-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC - MVC Pattern 기본 개념
@@ -190,3 +199,5 @@ Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Co
 - http://ande226.tistory.com/101 - ModelAndView 객체 사용 방법
 - http://yellowh.tistory.com/109 - Domain Model에 대한 Annotation 참조
 - http://cyberx.tistory.com/57 - Domain Model 기본 개념을 참고하기 좋은 페이지
+- https://www.tutorialspoint.com/spring/spring_web_mvc_framework.htm - Spring WEB MVC를 따라하기 좋은 예제 수준으로 작성한 영문 페이지
+- http://egloos.zum.com/springmvc/v/504151 - DispatcherServlet에 대해 구체적으로 설명한 페이지

@@ -54,7 +54,8 @@
 >
 > 0-5. JVM Garbage Collection Issues
 > 
-> 0-6. File Input / Output
+> 0-6. Java Collection Issues
+>
 
 ## 1. JSP & Tomcat
 > 1-1. HTTP Request, Response
@@ -64,7 +65,7 @@
 >
 > 2-1. [Spring Web MVC](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/2_Spring_Framework/01_Spring_Web_MVC.md)
 >
-> 2-2. Spring Data JPA
+> 2-2. [Spring Data JPA](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/2_Spring_Framework/02_Spring_Data_JPA.md)
 >
 > 2-3. Spring WebSocket
 >
