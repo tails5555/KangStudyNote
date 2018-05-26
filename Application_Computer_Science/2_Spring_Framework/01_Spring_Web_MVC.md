@@ -31,7 +31,7 @@ View에서 데이터를 이용해 사용자에게 화면을 보여줄 때 요구
 
 > 소프트웨어의 카운터를 담당하는 개념
 
-View는 여러 개의 Controller를 통해 호출할 수 있다. 사용자가 View에서 보여진 데이터를 변경하기 위해서는 Controller의 요청 URL를 꼭 거쳐야 된다. Controller에게 전달 받은 요구 사항을 통해 Model의 상태가 바뀌게 된다면 등록된 View에 자기 자신이 바뀌었다는 사실을 알리고 View는 Model에서 최근에 변경된 데이터를 반영해서 보여준다.
+View는 여러 개의 Controller를 통해 호출할 수 있다. 사용자가 View에서 보여진 데이터를 변경하기 위해서는 Controller의 요청 URI를 꼭 거쳐야 된다. Controller에게 전달 받은 요구 사항을 통해 Model의 상태가 바뀌게 된다면 등록된 View에 자기 자신이 바뀌었다는 사실을 알리고 View는 Model에서 최근에 변경된 데이터를 반영해서 보여준다.
 
 ## Structure of Spring Web MVC
 
@@ -110,11 +110,16 @@ Spring Web MVC의 구조는 위와 같이 나뉘게 된다. 위와 같은 Patter
 > - View에서 Model의 데이터를 정리할 때에 EL(Expression Language), JSTL(JSP Standard Tag Library)를 대부분 이용한다.
 
 ## DispatcherServlet
-DispatcherServlet은 모든 HTTP Request, Response에 대하여 참조하는 역할을 한다. 이는 Servlet 버전에 따라 생성될 수 있다.
 
-Servlet만 이용해서 Web Application을 작성할 수 있다는 사실을 이미 짐작할 수 있는데 그러나 web.xml의 역할이 점차 줄어들면서 Servlet 매핑은 결국 DispatcherServlet으로 넘겨주는 추세로 업데이트 되고 있다.
+> Java Enterprise Application의 축소판인 Spring Framework의 시발점
 
-[이후 이야기는 계속 작성하겠습니다.]
+![dispatcherServlet](/Application_Computer_Science/2_Spring_Framework/img/dispatcherServlet.png)
+
+`DispatcherServlet` 내부에는 `WebApplicationContext` 들이 존재하는데 `Servlet` 영역과 `Root` 영역으로 나뉘게 된다. `DispatcherServlet`는 각 Web Application 별로 여러 개 등록하는 것은 실제로는 행하지 않고 이론적인 이야기이다. 실제 사례로는 각 Web Application 별 독자적인 `Servlet WebApplicationContext`를 가지고 있으며, `Root WebApplicationContext`에 대하여 공유하여 이용하고 있다.
+
+`DispatcherServlet`은 모든 HTTP Request, Response에 대하여 참조하는 역할을 한다. 이는 Servlet 버전에 따라 생성될 수 있다.
+
+Servlet만 이용해서 Web Application을 작성할 수 있다는 사실을 이미 짐작할 수 있는데 그러나 web.xml의 역할이 점차 줄어들면서 Servlet 매핑은 결국 `DispatcherServlet`으로 넘겨주는 추세로 바뀌어 가는 건 사실이다.
 
 ## Domain Model Structure
 우리가 객체 지향 프로그래밍을 이용해서 일상에 필요한 시스템을 소프트웨어에 반영하기 위해서 기초적으로 다뤄야 하는 것이 Domain Model을 제대로 설계하는 것이다. 
@@ -165,30 +170,96 @@ Spring Web MVC에서 쓰이는 Domain Model의 구조는 위처럼 유지하는 
 
 Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Controller에서 작업할 때 Tracking(추적), Security(보안)를 적용할 때 AOP(Aspect Oriented Programing)의 원리를 이용하게 되어 편의성을 제공한다. 또한 파일 구조가 바뀌어도 URL를 유지하는 점에서도 큰 이득을 볼 수 있다.
 
-## Useful Annotations In Controller
+## Useful Annotations & Interfaces
+
+**Main Controller Annotations**
+
+- `@Controller`
+    - 클래스 상단부에 이를 붙으면 Controller Bean을 자동적으로 구성하게 된다.
+    - 이 어노테이션을 붙일 때 View와의 연동이 요구된다.
+
+- `@RestController`
+    - 클래스 상단부에 이를 붙으면 REST API를 만들 수 있는 Controller Bean을 자동적으로 구성하게 된다.
+    - 주로 JavaScript을 기반으로 한 `SPA`에서 데이터를 받을 때 사용된다.
+    - Web에서는 데이터를 JSON으로 반환하게 되는데 `ResponseEntity<T>`를 이용해서 Status와 함께 반환하여 확인할 수 있는 방식을 더욱 지향하고 있다.
+
+- `@ComponentScan`
+    - Web Configuration 클래스에서 Controller가 존재하는 패키지를 정의하여 설정할 수 있도록 도와주는 역할을 한다.
+
+**HTTP Head or Options 관련 Annotation**
+
 - `@RequestMapping`
+    - 각 Controller에서 요청한 URL에 대해 분석을 진행하고 그 요청에 대해 처리할 수 있는 책갈피 역할을 한다.
+    - `name`은 요청 URI, `method`는 HTTP Method를 작성하는 방식, `produces`는 반환하는 데이터에 대한 형식과 인코딩을 설정하는 곳으로 이용된다.
+    - 요청 URI에 정규식(Regex Expression)을 넣을 수 있다.
 
-- `@GetMapping`
+- `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`, `@PatchMapping`
+    - 여기서부터는 Spring Web MVC 4.3 버전부터 추가된 어노테이션으로 각각 GET(조회), POST(등록), PUT(수정), DELETE(삭제), PATCH 요청에 대한 URI를 작성할 때 적용하면 된다.
+    - URI 속의 파라미터를 가져올 때 `@RequestParam`보다 `@PathVariable`을 더욱 이용한다.
 
-- `@PostMapping`
-
-- `@PutMapping`
-
-- `@DeleteMapping`
-
-- `@PatchMapping`
-
-- `@ResponseBody`
-
+**Handler Method 관련 Annotation or Interface**
 - `@RequestBody`
+    - 데이터를 객체로 정리해서 보낼 때 주로 이용된다.
+    - HTTP Request에 Body 구문에 요청할 데이터 객체를 정리하고 이용해야 한다.
+    - 이를 위해서 Value Object(혹은 Model Object)의 규격을 맞춰줘야 한다.
 
 - `@RequestParam`
+    - 요청 URL 속에 있는 Query String을 분석해서 이에 해당되는 데이터를 가져올 때 사용된다.
+    - 쿼리 스트링 뿐만 아니라 MultipartFile(첨부파일)을 보낼 때도 이를 적용하는 것이 관례이다.
+    - Java 8 버전 이후로 Meta-Data Reflection 기능을 제공하게 되어 파라미터 이름을 정확하게 작성하면 이 어노테이션에 속성을 작성하지 않아도 된다.
 
 - `@PathVariable`
+    - URI에 현존하는 Template 변수를 가져올 때 쓴다.
+    - Template는 Query String과 달리 주소에 포함된 데이터 내용을 뜻한다.
 
-## Useful Objects In Controller
+- `@CookieValue`
+    - 사용자 별로 등록된 쿠키의 값을 가져올 때 쓰는 어노테이션이다.
+
+- `@ModelAttribute`
+    - Controller Method에 일반적으로 객체를 작성하더라도 이 어노테이션을 이용할 필요가 없었지만, Form의 name을 정확하게 일치할 때 이용하는 것을 권장한다.
+
+- `@MatrixVariable`
+    - URI에 단일 파라미터가 아닌 배열 데이터를 받아올 때 활용된다.
+    - 예를 들어 /student/20;a=10;b=20/department/21;a=12;c=20 URI에서 a의 값은 [10, 12], b의 값은 [20], c의 값은 [20]인데 이를 가져오기 위해서 MultiValueMap을 이용한다.
+
+- `ServletRequest`, `ServletResponse`
+    - 현재 Servlet에서 요청, 응답하는 상황을 알고 싶을 때 가져올 수 있는 인터페이스이다.
+    - 이 내부에는 요청하는 Header, Body, Parameter, Session Attribute 등의 내용이 포함되어 있다.
+
+- `InputStream`
+    - 우리가 알고 있는 `java.io.InputStream` 맞다.
+    - Request Body에 대해 이용할 때 쓴다.
+
+- `OutputStream`
+    - 마찬가지로 `java.io.OutputStream` 맞다.
+    - Response Body에 대해 이용할 때 쓴다.
+
+- `Principal`
+    - `Spring Security`를 적용할 때 현재 요청 중인 사용자의 정보를 가져올 때 이용한다.
+    - `Spring Security`에 대한 사례는 강박사 노트 Application Computer Science의 3번 보안 Framework의 1번째를 읽어보면 된다.
+
+**Return Values 관련 Annotation or Interface**
+- `@ResponseBody`
+    - 요청에 대한 응답으로 데이터를 보낼 때 필요한 어노테이션에 해당된다.
+    - 그렇지만 REST API를 구축할 때는 그렇게 큰 효과를 보지 못 한다.
+
+- `ResponseEntity<T>`
+    - 보내지는 데이터와 이 상황에 맞는 Status를 함께 반환해준다.
+    - Spring Web MVC에 본래 존재한 개념인데 REST API를 구축할 때 이는 선택이 아닌 필수로 생각해야 한다.
+
+- `String`
+    - `webapp`에서 `View`가 실존하는 주소를 반환하거나 `Redirect` 요청에 대해(`redirect:URL`) 처리할 때 이용된다.
+
 - `Model`
+    - 요청된 데이터를 주고 받을 때의 연결 고리의 역할을 하는 `Model`을 이용할 때 쓴다.
+    - 물론 Java에 있는 Map을 이용해서 작성할 수 있다. 
+
 - `ModelAndView`
+    - Model과 View 주소, 심지어 Status까지 묶어서 보낼 때 이용하는 인터페이스이다.
+
+- `Callable<T>`
+    - Asynchronous 요청에 대해 처리한 데이터를 반환할 때 이용한다.
+    - 이를 이용하기 위해서는 Spring Asynchronous 개념을 인지하고 있어야 한다.
 
 ## References
 - https://ko.wikipedia.org/wiki/%EB%AA%A8%EB%8D%B8-%EB%B7%B0-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC - MVC Pattern 기본 개념
@@ -201,3 +272,4 @@ Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Co
 - http://cyberx.tistory.com/57 - Domain Model 기본 개념을 참고하기 좋은 페이지
 - https://www.tutorialspoint.com/spring/spring_web_mvc_framework.htm - Spring WEB MVC를 따라하기 좋은 예제 수준으로 작성한 영문 페이지
 - http://egloos.zum.com/springmvc/v/504151 - DispatcherServlet에 대해 구체적으로 설명한 페이지
+- http://toby.epril.com/?p=934 - `DispatcherServlet` 원문 보면서 함께 참고한 자료

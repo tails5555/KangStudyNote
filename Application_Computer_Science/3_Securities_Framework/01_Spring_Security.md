@@ -179,6 +179,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 - http://atin.tistory.com/585 - Spring Security 블로그 글 모음
 - http://springmvc.egloos.com/category/Spring%20Security - Spring Security 개념에 대한 정의를 참고하기 좋은 블로그
 - https://namu.wiki/w/CSRF - CSRF 개념에 대해 읽어보기 좋은 사이트
+- http://hhjeong.tistory.com/105 - URL 커스터마이징에서 필요한 메소드 목록.
 
 ## Thanks To
 - [서종현](https://github.com/shouwn) - CSRF 개념에 대해 인용할 수 있도록 도움을 줌.
