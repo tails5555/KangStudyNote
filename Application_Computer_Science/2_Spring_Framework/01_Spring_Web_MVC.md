@@ -273,3 +273,7 @@ Front-Controller Pattern의 장점으로는 모든 요청에 대해 하나의 Co
 - https://www.tutorialspoint.com/spring/spring_web_mvc_framework.htm - Spring WEB MVC를 따라하기 좋은 예제 수준으로 작성한 영문 페이지
 - http://egloos.zum.com/springmvc/v/504151 - DispatcherServlet에 대해 구체적으로 설명한 페이지
 - http://toby.epril.com/?p=934 - `DispatcherServlet` 원문 보면서 함께 참고한 자료
+
+## Post Script
+- 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
+- Spring Web MVC에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.

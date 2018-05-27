@@ -23,6 +23,22 @@ Authentication(인증)은 본인 증명이 필요할 때 신원 확인을 위해
 
 대표적으로 Web에서는 Log-in(Sign-in), 민증 까기, 지문 인식, 얼굴 인식 방법 등이 있다.
 
+`Spring Security`에서 쓰이는 Authentication는 다음과 같다.
+- 실제 사용자 정보가 담긴 데이터베이스와 접근할 수 있는 `AuthenticationProvider`에서 활용된다.
+- Controller에서 현재 인증 완료한 사용자의 정보를 가져올 때 사용할 수 있다.
+
+```
+@DeleteMapping("logout")
+public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response, Principal principal){
+    String logoutMessage = String.format("User Logout is Successed -> %s", principal.getName());
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null){
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+    }
+    return new ResponseEntity<String>(logoutMessage, HttpStatus.OK);
+}
+```
+
 ### Authority, Authorization 
 
 ![cigar_table](/Application_Computer_Science/3_Securities_Framework/img/cigar_table.jpg)
@@ -68,6 +84,8 @@ Spring Security를 통해 인증이 완료된 현재 사용자를 불러올 때 
 
 참고로 ID(username)와 비밀번호(password)로 본인 인증하는 개념을 Basic Authentication(기본 인증)이라고 한다.
 
+Web Proxy Tool을 사용하면 언제든 보안 문제가 발생할 수 있기 때문에 이를 방지하고 싶다면 username(ID)와 password를 암호화해서 데이터베이스에 저장하는 방법도 있는데 이 때 Java RSA를 이용한 암호화를 진행해주면 된다.
+
 ### UserDetails
 
 > 사용자의 ID, 비밀번호, GrantedAuthority Collection, 세부 정보 등을 모아 둔 Value Object / Domain Object
@@ -99,6 +117,65 @@ CSRF(Cross-Site Request Forgery)는 사이트 간 요청을 위조하는 개념�
 Web Explore 측에서 설명한다면 해커가 Web Site에 특정 코드를 넣는 과정을 진행하고, 해커가 아닌 사용자가 Web Server로 요청할 때 해커가 그 요청을 따와서 특정 코드를 추가하거나 마음대로 변조하여 Web Server에서 처리하는 과정이다. 특정 코드는 스크립트 코드나 Database Injection Query 문이 해당된다.
 
 Spring Security에서는 CSRF를 방지하기 위해 Configuration 클래스에서 필수로 설정해야 한다.
+
+### AuthenticationProvider
+```
+@Component
+public class CustomAuthenticationProvider implements AuthenticationProvider{
+    @Autowired UserService userService;
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String loginId = authentication.getName();
+        String passwd = authentication.getCredentials().toString();
+        return authenticate(loginId, passwd);
+    }
+
+    public Authentication authenticate(String loginId, String passwd) throws AuthenticationException{
+        User user = userService.login(loginId, passwd);
+        if(user == null) return null;
+
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+        String role = "";
+        for(Role r : user.getRoles()) {
+            switch (r.getName()) {
+                case "ADMIN":
+                    role = RoleType.ADMIN.getRoleType();
+                    break;
+                case "USER":
+                    role = RoleType.USER.getRoleType();
+                    break;
+            }
+            grantedAuthorities.add(new SimpleGrantedAuthority(role));
+        }
+        return new TokenAuthentication(loginId, passwd, grantedAuthorities, user);
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication){
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+    public class TokenAuthentication extends UsernamePasswordAuthenticationToken{
+        private static final long serialVersionUID = 1L;
+        UserVO user;
+
+        public TokenAuthentication(String loginId, String passwd, List<GrantedAuthority> grantedAuthorities, UserVO user){
+            super(loginId, passwd, grantedAuthorities);
+            this.user = user;
+        }
+
+        public UserVO getUser(){
+            return user;
+        }
+
+        public void setUserVO(UserVO user){
+            this.user = user;
+        }
+    }
+}
+```
 
 ## Kinds of Spring Security Modules
 
@@ -139,16 +216,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/res/**", "/img/**", "/js/**", "/css/**");
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/user/**").hasRole("USER")
-            .antMatchers("/guest/**").permitAll()
-            .antMatchers("/").permitAll();
-        
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/common/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/guest/**").anonymous()
+                .antMatchers("/").permitAll();
+
         http
             .csrf().disable();
+
+        http
+            .httpBasic()
+            .authenticationEntryPoint(authEntryPoint)
+            .and()
+            .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
+
+
+        http
+            .authenticationProvider(authProvider);
+
+        http
+            .formLogin()
+            .successHandler(authLoginSuccessHandler)
+            .failureHandler(authLoginFailureHandler());
     }
 }
 ```
@@ -157,8 +251,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 **WebSecurity**
 - ignoring()
-    - antMatchers("URL")
-    - antMatchers(HttpMethods, "URL")
+    - antMatchers("URI")
+    - antMatchers(HttpMethods, "URI")
 
 **HttpSecurity**
 - authorizeRequests()

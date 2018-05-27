@@ -72,6 +72,8 @@
 > 2-4. Spring Asynchronous
 >
 > 2-5. Spring Web Flux
+>
+> 2-6. Spring MyBatis
 
 ## 3. Securities Framework
 > 3-1. [Spring Security](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/3_Securities_Framework/01_Spring_Security.md)
