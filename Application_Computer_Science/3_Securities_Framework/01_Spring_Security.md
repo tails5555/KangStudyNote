@@ -23,7 +23,7 @@ Authentication(인증)은 본인 증명이 필요할 때 신원 확인을 위해
 
 대표적으로 Web에서는 Log-in(Sign-in), 민증 까기, 지문 인식, 얼굴 인식 방법 등이 있다.
 
-`Spring Security`에서 쓰이는 Authentication는 다음과 같다.
+`Spring Security`에서 쓰이는 Authentication 개념의 사례는 다음과 같다.
 - 실제 사용자 정보가 담긴 데이터베이스와 접근할 수 있는 `AuthenticationProvider`에서 활용된다.
 - Controller에서 현재 인증 완료한 사용자의 정보를 가져올 때 사용할 수 있다.
 
@@ -177,6 +177,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 }
 ```
 
+> 사용자 정보가 포함된 데이터베이스를 기반으로 로그인 인증을 적용하게 도와주는 역할.
+
+
+
+
 ## Kinds of Spring Security Modules
 
 Module은 Maven에서 제공하는 .jar 파일을 기반으로 정리하였으며, 전부 다루진 않고 알아두면 도움이 되는 Module에 대해 작성하였음을 밝힌다.
@@ -255,12 +260,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     - antMatchers(HttpMethods, "URI")
 
 **HttpSecurity**
-- authorizeRequests()
+
+HTTP Security에서는 인가를 위한 URL의 커스터마이징을 할 수 있도록 도와준다.
+
+그리고 사용자 로그인과 로그아웃 상황에 맞춘 Handler Bean을 생성하여 설정할 수 있고, 로그인 실패에 따른 접근 거부를 제어하는 Handler Bean을 생성하여 설정할 수 있다.
+
+- authorizeRequests() : Spring Security에서 HTTP Request URL 요청에 대한 커스터마이징을 진행할 수 있는 메소드이다. 이 메소드에는 아래와 같은 속성을 첨가하여 설정하면 된다.
     - antMatchers("URL")
     - access("ROLE_주체")
-    - hasRole("주체")
+    - hasRole("주체") : 
+    - hasAnyRole("", "주체2", "주체3", ...)
     - permitAll()
 - csrf().disable()
+
+- `AuthenticationSuccessHandler`
+    - 사용자가 로그인을 하고 난 후에 200 OK Status에 맞춰 추가로 제어하고 싶은 기능을 구현하는 Interface.
+    - 이 부분에서 사용자 정보와 Session ID를 받아오고 난 후에 Token을 임시 저장하는 `Authentication Cache` 를 추가로 구현할 수 있다.
+
+- `AuthenticationFailureHandler`
+    - 로그인을 통한 인증 실패 시에 401 Unauthorized Status에 맞춰 추가로 제어하고 싶은 기능을 구현하는 Interface.
+    - 여기서 로그인을 실패한 경우에 대비한 시나리오를 구현할 수 있다.
+
+- `AuthenticationEntryPoint`
+    - 401 Unauthorized Status에 맞춰 추가로 제어하고 싶은 기능을 추가하는 Interface.
+    - Unauthorized 상태는 **로그인을 진행 조차 하지 않은 사용자**에 해당되는 경우이다. 즉 인증이 제대로 진행되지 않은 요청을 진행할 때 나오는 결과로 볼 수 있다.
+
+- `AccessDeniedHandler` 
+    - 403 Forbidden Status에 맞춰 추가로 제어하고 싶은 기능을 추가하는 Handler Interface.
+    - Forbidden 상태는 로그인을 진행한 사용자 중에 **권한이 적절하지 않은 경우**이다. 예를 들어 관리자만이 접속할 수 있는 기능에 대해 일반 사용자가 접근하는 경우를 방지하기 위한 건널목을 내리는 경우다.
 
 ## Useful Examples
 - https://github.com/tails5555/RestSpringSecurityExample
@@ -274,6 +301,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 - http://springmvc.egloos.com/category/Spring%20Security - Spring Security 개념에 대한 정의를 참고하기 좋은 블로그
 - https://namu.wiki/w/CSRF - CSRF 개념에 대해 읽어보기 좋은 사이트
 - http://hhjeong.tistory.com/105 - URL 커스터마이징에서 필요한 메소드 목록.
+- http://netframework.tistory.com/entry/REST-API-%EA%B5%AC%EC%84%B1%EC%8B%9C-Spring-Security-%EA%B5%AC%ED%98%84 - REST API에서 Spring Security를 구성할 때 필요한 요소들 참조
 
 ## Thanks To
 - [서종현](https://github.com/shouwn) - CSRF 개념에 대해 인용할 수 있도록 도움을 줌.
