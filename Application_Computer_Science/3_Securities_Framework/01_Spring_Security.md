@@ -74,8 +74,6 @@ Database에서도 사용자 별로 역할을 주어 데이터를 관리하는 �
 
 Spring Security에서 Role은 `ROLE_USER`, `ROLE_ADMIN`, `ROLE_STUDENT` 등으로 표현되어야 한다. 이는 GrantedAuthority에서 주어진 권한을 검사하는 RoleVoter 클래스를 가지고 있는데 이 검사자가 `ROLE_` 이란 접두어를 이용해서 검사를 하기 때문이다. 접두어가 `ROLE_`로 시작하지 않으면 컴파일 오류는 걸리지 않는데 예외 처리로 인한 접근 보류(ACCESS_ABSTAIN)로 종결 짓게 된다.
 
-Role이 아닌 Prin
-
 ### Principal & Credential
 
 ![loginscreen](/Application_Computer_Science/3_Securities_Framework/img/loginscreen.jpg)
@@ -309,6 +307,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 - `ignoring()` : WEB Application에서 사용자 권한을 신경쓰지 않아도 되는 것들에 대해서 설정하는 것이다. 예를 들어 resource 파일, css 파일, js 파일 등이 있다.
     - `antMatchers("URI 상대주소")` : 이 뒤에 권한을 굳이 안 해도 되는 파일의 상대 주소를 입력한다. webapp을 기준으로 잡아줘야 한다. URI 상대 주소를 예를 들면 `/css/**`로 작성하면 webapp에 있는 css 폴더를 포함된 파일에 대해 적용한다는 뜻이다.
     - `antMatchers(HttpMethods, "URI 상대주소")` : 이는 HTTP Method를 통한 요청 URI를 불러올 때 이 HTTP Method를 적용하였을 때 권한을 신경 쓰지 않는다.
+    <br/>
 
 **HttpSecurity**
 
@@ -337,23 +336,25 @@ HTTP Security에서는 인가를 위한 URL의 커스터마이징을 할 수 있
     - `authenticated()` : 비회원이 아닌가를 판별할 때 사용한다.
 
     - `fullyAuthenticated()` : 비회원이 아닌가와 자동 로그인을 요청하지 않은 회원인가를 판별할 때 사용한다.
-
+    <br/>
 - `csrf().disable()`
     - CSRF를 이용한 해킹을 예방할 때 작성하는 메소드이다.
-
+    <br/>
 - `httpBasic()` : HTTP 요청에 대하여 접근 거부 및 인증 예외 처리를 위한 Handler를 설정할 때 이용한다. 따로 설정하지 않으면 자동으로 구현이 되어 있다.
     - `authenticationEntryPoint`, `accessDeniedHandler` 등을 설정할 수 있다.
-    - 이에 대한 설명은 하단에 간략하게 작성하였다.
-
+    - 이에 대한 설명은 Kinds Of Handler Component를 참고하자.
+    <br/>
 - `authenticationProvider(authProvider)` : Custom AuthenticationProvider를 설정할 때 적용한다. 이는 Component로 구현이 되어 있다면 Singleton 원리인 @Autowired로 불러오면 된다.
-
+<br/>
 - `formLogin()`, `logout()` : 말 그대로 Basic Authentication을 가져와서 로그인, 로그아웃을 설정할 때 Handler를 설정하는 메소드로 볼 수 있다. Handler를 따로 만들지 않아도 기본으로 쓰이는 Handler를 불러와서 설정을 시켜준다.
+<br/>
 
 **AuthenticationManagerBuilder**
 
 - Spring Security에서 자동으로 Configuration이 되어 있는 설정을 빌미로 사용자 이름과 비밀번호를 입력하는 창이 뜰 것이다. 
 - 만의 하나로 방지하기 위한 대책으로 서버 상에 필요한 사용자 ID와 비밀번호를 설정한다. 
 - 이는 데이터베이스에 저장이 되지 않지만 단점으로 서버 정보 유출에 대한 파급 효과를 당할 수 있으니 이는 공개되는 코드에서는 배제할 필요가 있다.
+<br/>
 
 **Kinds Of Handler Component**
 
@@ -366,10 +367,11 @@ HTTP Security에서는 인가를 위한 URL의 커스터마이징을 할 수 있
 - `AuthenticationFailureHandler`
     - REST API를 기반으로 로그인을 통한 인증 실패 시에 401 Unauthorized Status에 맞춰 추가로 제어하고 싶은 기능을 구현하는 Interface이다.
     - 여기서 로그인을 실패한 경우에 대비한 시나리오를 구현할 수 있다.
-
+    
 - `LogoutSuccessHandler`
     - REST API를 기반으로 사용자가 로그아웃을 진행하면 200 OK Status에 맞춰 추가로 제어하고 싶은 기능을 구현하는 Interface이다.
     - 로그아웃의 작업도 Transaction의 일종으로 취급해야 하기 때문에 현재 로그인 된 사용자 목록에서 배제할 수 있도록 구분하는 DELETE Method로 구현되어야 한다.
+    <br/>
 
 2. 인증 예외 처리 관련
 
@@ -380,6 +382,7 @@ HTTP Security에서는 인가를 위한 URL의 커스터마이징을 할 수 있
 - `AccessDeniedHandler` 
     - REST API를 기반으로 403 Forbidden Status에 맞춰 추가로 제어하고 싶은 기능을 추가하는 Handler Interface.
     - Forbidden 상태는 로그인을 진행한 사용자 중에 **권한 혹은 역할이 적절하지 않은 경우**이다. 예를 들어 관리자만이 접속할 수 있는 기능에 대해 일반 사용자가 접근하는 경우를 방지하기 위한 건널목을 내리는 경우다.
+    <br/>
 
 3. WEB MVC에서 Status와 REST API에서 Status
 
