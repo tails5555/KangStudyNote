@@ -54,7 +54,7 @@
 >
 > 0-5. JVM Garbage Collection Issues
 > 
-> 0-6. Java Collection Issues
+> 0-6. [Java Collection Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/06_Java_Collection_Issues.md)
 >
 
 ## 1. JSP & Tomcat

@@ -346,6 +346,7 @@ HTTP Security에서는 인가를 위한 URL의 커스터마이징을 할 수 있
     <br/>
 - `authenticationProvider(authProvider)` : Custom AuthenticationProvider를 설정할 때 적용한다. 이는 Component로 구현이 되어 있다면 Singleton 원리인 @Autowired로 불러오면 된다.
 <br/>
+
 - `formLogin()`, `logout()` : 말 그대로 Basic Authentication을 가져와서 로그인, 로그아웃을 설정할 때 Handler를 설정하는 메소드로 볼 수 있다. Handler를 따로 만들지 않아도 기본으로 쓰이는 Handler를 불러와서 설정을 시켜준다.
 <br/>
 

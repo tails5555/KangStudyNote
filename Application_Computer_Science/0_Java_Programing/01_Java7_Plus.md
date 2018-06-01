@@ -193,3 +193,7 @@ G1 Garbage Collection 중 G1은 Garbage First(1st)의 뜻으로 Garbage가 가�
 
 ## References
 - http://www.jpstory.net/2014/06/28/java-7-features/ - Java 7 특징 10가지
+
+## Post Script
+- 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
+- 이 강의노트 개념에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.
