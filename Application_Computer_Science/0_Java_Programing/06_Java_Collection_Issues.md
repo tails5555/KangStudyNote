@@ -171,7 +171,7 @@ Stack은 자료구조 시간에 `LIFO(Last In First Out)` 개념을 까먹지 �
 
 추가로 peek() 함수는 Stack 내부에 현재 맨 마지막에 있는 데이터를 읽어 들이기만 한다. 이외의 push(), pop() 함수는 똑같다.
 
-> 참고로 1번 방법과 2번 방법은 유사하지만, 성능 면에서는 어떤 차이가 있는지 아시는 분은 Issues에 제보 해주시면 감사하겠습니다. 적극 반영 하겠습니다. :)
+> 참고로 1번 방법과 2번 방법은 유사하지만, 성능 면에서는 어떤 차이가 있는지 아시는 분은 Issues에 제보 해주시면 감사하겠습니다. 적극 반영 하겠습니다. 😊
 
 ## Set
 
@@ -217,7 +217,7 @@ persons.add("이사람");
 persons.add("저사람");
 persons.add("그사람");
 persons.add("거사람");
-System.out.println(persons); // [그사람, 거사람, 이사람, 저사람]
+System.out.println(persons); // [거사람, 그사람, 이사람, 저사람]
 ```
 
 TreeSet는 Red-Black Tree을 이용해 데이터의 중복을 방지하는 것과 동시에 HashCode 오름차순으로 추출할 수 있는 Sorted Sort의 일부이다. Red-Black Tree에서 데이터 삽입, 삭제의 시간 복잡도는 Red-Black Tree 법칙에 따른 순서 조정으로 인하여 Node 수가 적더라도 O(log n)이 나온다. 그렇지만 HashCode에 따라서 데이터를 정렬하기 때문에 오름차순으로 정리 된 데이터로 집합을 구성할 필요가 있다면 TreeSet가 효율적이다.
@@ -226,13 +226,75 @@ TreeSet는 Red-Black Tree을 이용해 데이터의 중복을 방지하는 것�
 
 ### LinkedHashSet
 
+```
+LinkedHashSet<Integer> list01 = new LinkedHashSet<Integer>();
+list01.add(4);
+list01.add(2);
+list01.add(6);
+
+// list01 : [4, 2, 6]
+
+List<Integer> sorted = new ArrayList<Integer>(list01);
+Collections.sort(sorted);
+```
+> HashSet와 LinkedList의 일부 개념을 서로 합친 자료구조
+
+HashSet에서는 순서와 상관 없이 데이터가 저장되고, TreeSet는 데이터를 넣으면 내부의 Tree를 이용해서 정리를 하면서 오름차순으로 저장이 된다. 
+
+그렇지만 Set도 넣은 데이터 순서를 유지할 때 성능은 보장 못 하더라도 쓸 수 있는 자료구조가 있는데 바로 LinkedHashSet이다. LinkedList의 시간 복잡도는 O(1)로 TreeSet보다 빠른 편이다. 
+
+LinkedList에서는 데이터의 중복을 허가하지만, LinkedHashSet는 Set인 만큼 중복은 씨도 안 먹힌다. LinkedList에서는 데이터를 탐색할 때 시간 복잡도가 O(n)으로 나오는 단점이 있지만, LinkedHashSet는 데이터 포함 여부만 HashCode를 이용해서 계산하면 되니 어떻게 보면 LinkedList보다 효율적인 면을 제공한다.
+
+LinkedHashSet는 다만 **데이터를 넣은 순서**대로 반영이 되기 때문에 정렬 기능을 제공하지 않는다. 정렬을 제공하는 자료구조는 List 밖에 없기 때문에 List를 이용한 초기화 작업을 거치고 난 후에 정렬해야 한다. 이 뿐만 아니라 HashSet, TreeSet(오름 차순 이외에 내림 차순을 하는 경우)도 마찬가지이다.
+
 ## Queue
+
+![queue](/Application_Computer_Science/0_Java_Programing/img/queue.png)
+
+Queue의 개념은 자료 구조 시간에 이미 다 숙달했을 것이다. 은행이나 영화관, 유명 식당 등에서 번호표를 뽑아서 순서대로 입장하는 방식이 Queue의 FIFO 원리를 실생활에서 볼 수 있는 간단한 사례로 볼 수 있다.
+
+Queue를 구현할 수 있는 자료구조로는 LinkedList가 제격이다. Array로 Queue를 구현하는 것은 Circular Array Queue를 이용하면 되지만 처리하는 시간 복잡도만 늘지 별로 얻어지는 이득은 없다.
+
+LinkedList에서는 Doubly LinkedList(이중 연결 리스트)로 구현이 되어 있어서 Deque(덱, 양방향 Queue)도 문제 없이 작동된다.
 
 ### LinkedList With Queue
 
+```
+Queue<Integer> bfs = new LinkedList<Integer>();
+bfs.add(10);
+while(!bfs.isEmpty()){
+    int tmp = bfs.poll();
+    // bfs 작업 구현
+}
+```
+
+Queue 자체를 이용하기 위해서는 LinkedList를 말미암아 사용해야 한다. 이 사실에 대해서는 위에서도 언급했기 때문에 크게 설명하지 않고 넘어가겠다.
+
+그렇지만 Queue의 연산자는 enQueue(T), deQueue()이지만 여기서는 offer(T)와 poll() 함수를 쓴다. 또 한 편으로는 add(T)와 remove() 함수를 이용하는 경우가 있는데 이 둘의 차이는 `NoSuchElementException` 처리 여부로 볼 수 있다. add(T), remove() 함수에서는 Queue 내부에 데이터가 없다면 `NoSuchElementException`을 반환하게 되지만, offer(T)와 poll() 함수는 null을 반환한다. 이 때 받아온 데이터를 참조할 때 `NullPointerException` 판단 여부를 고려할 필요가 있다.
+
 ### ArrayDeque
 
+```
+ArrayDeque<Integer> deque = new ArrayDeque<Integer>();
+deque.offerFirst(10);
+deque.offerFirst(20);
+// deque = [20, 10]
+deque.offerLast(30);
+deque.offerLast(40);
+// deque = [20, 10, 30, 40]
+```
+
+양방향 Queue를 구현한 개념을 Deque(덱)이라고 한다. 이 내부에는 이미 짐작을 했겠지만 자료구조 내부에서 알아서 크기를 조정하는 배열이 들어 있어서 Index를 이용한 조회에서는 빠르게 느낄 수도 있지만, Deque의 연산 그대로 Head에서 enQueue(offerFirst), deQueue(pollFirst), Tail에서 enQueue(offerLast), deQueue(pollLast) 하는 것 이외에는 없다.
+
+ArrayDeque를 한다면 LinkedList처럼 Head와 Tail에서 삽입, 삭제가 일어나기 때문에 데이터 변동에 대한 걱정은 딱히 없다. 다만 null 값을 추가할 수 없다. 짐작할 수 있는 사실은 List와 Set에서 null 값을 넣는 건 딱히 상관 없는 일이지만, 여기서는 Deque가 비어있을 때 null 값을 반환하는 것으로 약속이 되어 있기 때문에 애초에 ArrayDeque를 만들 때 작정한 걸로 짐작이 된다.
+
+Deque Interface가 모두 null 값을 못 넣게 막은 것은 아니다. 여기서만 특별히 null 값을 못 넣게 막은 것이므로 이 정도 Issue에 대해서는 잠깐 읽어볼 필요도 어느 정도 있다.
+
 ### PriorityQueue
+
+```
+
+```
 
 ## Map
 
