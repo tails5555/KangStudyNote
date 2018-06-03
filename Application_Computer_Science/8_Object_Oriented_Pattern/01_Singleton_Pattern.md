@@ -154,3 +154,7 @@ Enumeration 개념에 대해서 모른다면 한 번 읽어보길 권장한다.
 ## References
 - https://ko.wikipedia.org/wiki/%EC%8B%B1%EA%B8%80%ED%84%B4_%ED%8C%A8%ED%84%B4 - Singleton 위키 백과 개념 참조
 - http://friday.fun25.co.kr/blog/?p=312 - Singleton 패턴을 참고한 문서
+
+## Post Script
+- 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
+- 이 강의노트 개념에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.
