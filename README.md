@@ -115,7 +115,7 @@
 ## 8. Object-Oriented Pattern
 > 8-1. [Singleton Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/01_Singleton_Pattern.md)
 >
-> 8-2. Proxy Pattern
+> 8-2. Proxy Pattern(https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/02_Proxy_Pattern.md)
 >
 > 8-3. 
 

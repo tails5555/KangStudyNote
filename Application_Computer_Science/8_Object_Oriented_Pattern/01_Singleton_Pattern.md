@@ -13,9 +13,11 @@ Software Design Pattern에서 단골로 이용하는 Pattern이 바로 Singleton
 
 ![singleton_pattern_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/singleton_pattern_uml.png)
 
+Singleton Pattern은 **생성 패턴(Constructor Pattern)** 을 구성하는 기본적인 방법 중 하나이다.
+
 찜질방 카운터에 있는 본인의 신발 열쇠함은 1개만 존재한다. 본인의 옷장 열쇠 번호를 주고 나갈 때 카운터에서는 본인이 신었던 신발 열쇠 키를 줄 때도(옷장 번호와 신발 번호는 서로 다를 수 있어도) 본인의 신발 열쇠 번호와 일치한다. 
 
-이처럼 Singleton Pattern은 생성자가 여러 차례 호출되어도 실제로 생성되는 객체는 **1개**이다. 즉, 인스턴스를 1개만 만들어서 사용하기 위한 패턴으로 볼 수 있다. 이를 이용한다면 어디든지 그 인스턴스에 접근할 수 있도록 하기 위한 패턴인데 주로 활용하는 사는 다음과 같다.
+이처럼 Singleton Pattern은 생성자가 여러 차례 호출되어도 실제로 생성되는 객체는 **1개**이다. 즉, 인스턴스를 1개만 만들어서 사용하기 위한 패턴으로 볼 수 있다. 이를 이용한다면 어디든지 그 인스턴스에 접근할 수 있도록 하기 위한 패턴인데 주로 활용하는 사례는 다음과 같다.
 
 > Thread Pool, Cache, 사용자 설정, Log 반환, 레지스트리 설정 etc.
 
