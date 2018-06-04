@@ -117,11 +117,13 @@
 >
 > 8-2. [Proxy Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/02_Proxy_Pattern.md)
 >
-> 8-3. Adapter Pattern
+> 8-3. [Adapter Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/03_Adapter_Pattern.md)
 >
-> 8-4. Decorator Pattern
+> 8-4. Factory Pattern
 >
-> 8-5. Observer Pattern
+> 8-5. Bridge Pattern
+>
+> 8-6. Observer Pattern
 
 ## 9. Vue.js[여유 있으면 작성하겠습니다.]
 ## 10. Python + Django[여유 있으면 작성하겠습니다.]
