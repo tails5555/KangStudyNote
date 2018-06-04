@@ -185,6 +185,8 @@ Set의 종류로는 HashSet, TreeSet, LinkedHashSet 등이 있다.
 
 Set의 이용 사례로 그래프 정점 별로 방문 처리 체크를 할 때 이용될 수 있다.
 
+참고로 Set에 대해서는 동기화를 제공하지 않는 단점이 있기 때문에 동기화를 적용하기 위해서는 `Collections.synchronizedSet([SET 객체 인스턴스])`를 이용해야 한다.
+
 ### HashSet
 
 ```
@@ -223,6 +225,8 @@ System.out.println(persons); // [거사람, 그사람, 이사람, 저사람]
 TreeSet는 Red-Black Tree을 이용해 데이터의 중복을 방지하는 것과 동시에 HashCode 오름차순으로 추출할 수 있는 Sorted Sort의 일부이다. Red-Black Tree에서 데이터 삽입, 삭제의 시간 복잡도는 Red-Black Tree 법칙에 따른 순서 조정으로 인하여 Node 수가 적더라도 O(log n)이 나온다. 그렇지만 HashCode에 따라서 데이터를 정렬하기 때문에 오름차순으로 정리 된 데이터로 집합을 구성할 필요가 있다면 TreeSet가 효율적이다.
 
 또한 TreeSet도 마찬가지로 Iterator를 가져올 수 있는데 HashCode를 기준으로 오름차순으로 정렬되어 반환한다.
+
+참고로 TreeSet의 저장 순서를 내림차순으로도 바꿀 수 있는데 이는 Comparable<T> Interface를 이용해서 구현해야 가능한 일이다. 이는 Lambda 식으로도 가능하다.
 
 ### LinkedHashSet
 
@@ -292,9 +296,78 @@ Deque Interface가 모두 null 값을 못 넣게 막은 것은 아니다. 여기
 
 ### PriorityQueue
 
+![heapOrder](/Application_Computer_Science/0_Java_Programing/img/heapOrder.png)
+
+```
+PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+queue.offer(30);
+queue.offer(3);
+queue.offer(3000);
+queue.offer(300);
+
+while(!queue.isEmpty()){
+    System.out.println(queue.poll());
+}
+// 결과는 3, 30, 300, 3000으로 오름차순으로 출력된다.
+```
+
+> - PriorityQueue == Heap ? 절대로 그렇지 않다.<br/>
+> - PriorityQueue != Heap ! 그렇다.<br/>
+> - Heap은 자료구조의 개념이지만, Priority Queue는 ADT(Abstract Data Type, 추상적 데이터 타입)이다.
+
+Priority Queue에서 짚고 넘어가야 하는 개념이 바로 ADT 개념이다. ADT의 주요 목적은 **어떤 일을 할 수 있다** 의 초점을 두고 무엇이 어떻게 들어가는지 관심 조차 없음과 얼마의 시간이 걸리는지에 대해서도 관심이 없다.
+
+이처럼 Priority Queue에서는 임의로 데이터를 꺼내는 것이 아닌 가장 높은 우선순위의 것을 뽑는 점을 빌미로 **시간이나 공간 제약을 두지 않고** 한정된 수의 요구사항을 명확히 잡고 어떤 방법으로 구현하는 것이 효율적인가를 생각하는 점을 고려하고 있다.
+
+Priority Queue에는 가중치의 최댓값 혹은 최솟값을 가져올 때 필요한 Heap 개념이 숨어 있다. Heap 자료구조를 처음에 설정할 때는 최대 힙, 최소 힙에 따른 정책이 이미 정해져서 내부를 설정해야 된다. 그렇지만 Priority Queue에서는 객체의 Comparable<T> 관련 메소드인 `compareTo(T)`를 따로 구현하여 설정하면 된다.
+
+예를 들어 간략하게 도시 인구에 따른 내림차순을 반환하는 사례로 소스 코드를 작성해보도록 하겠다.
+
+```
+class City implements Comparable<City>{
+    String name;
+    int popular;
+
+    public City(String name, int popular){
+        this.name=name;
+        this.popular=popular;
+    }
+
+    @Override
+    public int compareTo(City city){
+        if(this.popular > city.popular) return -1;
+        else if(this.popular < city.popular) return 1;
+        else return 0;
+    }
+}
+public class Main{
+    public static void main(String[] args){
+        PriorityQueue<City> cities = new PriorityQueue<>();
+        cities.offer(new City("Seoul", 10000000));
+        cities.offer(new City("Daejeon", 2500000));
+        cities.offer(new City("Busan", 4500000));
+        cities.offer(new City("Incheon", 3000000));
+        cities.offer(new City("Daegu", 2200000));
+
+        while(!cities.isEmpty()){
+            City city = cities.poll();
+            System.out.println(String.format("{name : %s - popular : %d}", city.name, city.popular));
+        }
+    }
+}
 ```
 
 ```
+{name : Seoul - popular : 10000000}
+{name : Busan - popular : 4500000}
+{name : Incheon - popular : 3000000}
+{name : Daejeon - popular : 2500000}
+{name : Daegu - popular : 2200000}
+```
+
+어떻게 보면 Queue 처럼 쓰는 방법이랑 똑같지만, 데이터를 삽입(offer), 삭제(poll)하는 경우에는 내부에 있는 Heap의 조정이 필요해 Heapify가 이뤄지게 되는데 이 시간 복잡도가 O(log n)이 걸리게 된다. 그렇지만 값(Object)을 이용한 삭제나 포함 여부(contains) 함수를 돌리는 시간 복잡도는 O(n)으로 선형 시간이 걸리게 된다.
+
+이 자료구조는 실제 알고리즘 코딩 테스트에서도 잘만 활용한다면 약이 될 수 있는 자료구조이기 때문에 알아두고 넘어가자.
 
 ## Map
 
