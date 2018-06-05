@@ -109,3 +109,98 @@ Young Generation에는 eden 영역, 2개의 survivor 영역으로 나뉜다. 물
 
 ![young_mechanism_03](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_03.png)
 
+이번에도 새로운 객체를 각각 추가하면서 eden 영역이 가득 차고 난 후에 survivor 0 영역에서도 필요 없는 객체까지 mark 한다면 아래와 같이 이어진다.
+
+![young_mechanism_04](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_04.png)
+
+또한 마찬가지로 eden 영역에 있는 객체는 survivor 1 영역으로 이동을 하면서 살아남은 횟수를 1씩 더한다. 그리고 survivor 0에서 운 좋게 남은 객체도 survivor 1로 옮기면서 살아남은 횟수를 1씩 더하여 2를 남긴다.
+
+![young_mechanism_05](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_05.png)
+
+그러면 Young Generation 내부에 있는 모든 garbage를 sweep하고 난 후에 compact 작업까지 완료하면 살아남은 객체가 survivor 1에 남게 된다.
+
+![young_mechanism_06](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_06.png)
+
+이번에도 eden 영역이 꽉 차게 되면 삭제할 garbage를 mark하고, 살아남은 객체들에 대해 survivor 0으로 옮기면서 살아남은 횟수를 1씩 더하여 각각 3, 3, 2, 1의 가중치를 남긴다.
+
+![young_mechanism_07](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_07.png)
+
+이제 survivor 0 영역에 남은 객체들이 또 남게 된다.
+
+규칙을 보면 eden 영역이 꽉차게 되면, Young Generation 영역 자체를 Minor Garbage Collection 작업을 거치고, survivor 객체에 남은 객체를 우선으로 옮기고, eden에 남은 객체 중에 이용 빈도가 높은 것을 survivor 0, 1 구역에 번갈아가면서 옮기는 것을 확인하였다.
+
+## Young Generation to Old Generation
+
+Old Generation 영역으로 옮기려면 일정 생존 횟수에 해당되는 객체를 survivor 영역에서 tenured 영역으로 옮긴다. 여기서 살아 남은 객체 횟수가 9번 이상이면, Old Generation 영역으로 옮긴다고 가정한다.
+
+아래에서 eden 영역에 생성된 객체들이 꽉 차는 시점에서 Garbage Collection이 일어나고 survivor 1에 있는 객체 중에 살아남은 횟수가 8번인 객체를 tenured 영역으로 옮기고 생존 횟수를 9로 늘린다. 그리고 survivor 1의 나머지 객체 중에 mark를 안 한 객체는 survivor 0으로 보낸다.
+
+![young_mechanism_08](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_08.png)
+
+특정 횟수 만큼 Minor Garbage Collection에서 생존한 객체는 Old Generation으로 옮겨 지면서 Young Generation 객체들보다 생존성을 보장 받은 은행나무가 되었다. 그렇지만 언젠가 Old Generation 영역에도 꽉 차는 경우는 Old Generation 영역과 Young Generation 영역을 합친 대청소 급 Major Garbage Collection 작업을 한다.
+
+![young_mechanism_09](/Application_Computer_Science/0_Java_Programing/img/young_mechanism_09.png)
+
+**Copying Collector**
+
+Young Generation 영역 내의 Garbage Collection 작업을 담당하는 엔진이 Copying Collector이다. 이는 mark 작업과 copy 작업으로 구성되는데 mark 작업은 참조 여부를 따지고 식별하고, copy 작업은 survivor 영역 중에서 빈 공간을 찾아서 옮기는 것이다.
+
+## Kinds of Garbage Collectors
+
+Garbage Collection 작업을 수행하는 Garbage Collector Engine는 이미 JVM에 포함되어 있다. 그렇지만 이 종류를 잘 택해야 하는 것도 JVM의 Garbage Collection 작업에서 Stop-The-World 사태를 줄여 나갈 수 있거나 Heap Segment 용량 조절이 가능하다.
+
+### Serial Garbage Collector
+
+CPU Core 수가 1개일 때 사용된다. Minor Garbage Collection, Major Garbage Collection 작업이 Single Thread로 실행되고, compact 작업까지 실행된다.
+
+하나의 운영체제 프로세스 내부에 Thread가 여러 개 생성이 가능한 점을 고려하여 서버 1대에 여러 개 JVM Process가 실행되면 각각 Serial Garbage Collector를 사용한다.
+
+또한 다른 프로세스들도 같이 실행되는 서버에서 CPU 코어의 독점을 막을 수 있다.
+
+그렇지만 Stop-The-World 발생 시간이 1~2초 걸리는 단점이 있어도 Heap 영역의 크기가 100MB 이하로 작은 편이다.
+
+### Parallel Garbage Collector
+
+Minor Garbage Collection만 Multi Thread로 실행한다. CPU 코어들을 전부 사용하여 JVM 프로세스의 성능을 최대로 높이면서 CPU 코어의 독점을 허용할 수 있다.
+
+또한 Old Generation까지 포함한 Garbage Collection을 Multi-Thread로 처리할 수 있는 Parallel Old Garbage Collection이 있다.
+
+Parallel Garbage Collection 진행 중에는 Stop-The-World 발생 시간이 Serial Garbage Collection보단 짧은 편이다. 그러나 메모리 용량이 많이 드는 편이다.
+
+**Parallel Garbage Collector**
+
+Young Generation 영역만 Multi-Thread에서 처리 가능하다.
+
+Old Generation 영역의 Garbage Collection에서 sweep과 compact 작업은 Multi-Thread로 실행될 수 없다. 그러나 mark는 Multi-Thread로 실행될 순 있다.
+
+**Parallel Old Garbage Collector**
+
+Old Generation 영역도 Multi-Thread에서 처리 가능하다.
+
+그렇지만 sweep 단계보다 더욱 복잡한 summary 단계를 거친다.
+
+### Concurrent Mark Sweep Collector
+
+Garbage Collection 작업 중 Stop-The-World 시간을 최대로 줄이기 위해 선택하는데 이 작업 동안 Application Thread도 같이 실행될 수 있다.
+
+![cms_collector](/Application_Computer_Science/0_Java_Programing/img/cms_collector.png)
+
+Concurrent Mark Sweep GC는 Initial Mark에서 짧은 Stop-The-World 발생을 시키고 Application Thread와 동시에 실행할 수 있게 Remark를 한다. 이러한 점에서 Garbage Collection이 비효율적인 편이다.
+
+compact 작업도 포함되지 않아서 단편화 발생은 덤이다. 게다가 Major Garbage Collection이 발생하면 Application Thread들이 모두 멈춘 상태로 compact 작업이 이 쯤에 실행되고, 정지 기간도 길어진다. 그리고 Heap 크기가 4GB 이하인 메모리만 가능하다.
+
+### G1 Garbage Collector
+
+Java 7에서 제공되는 Garbage Collector이다. CMS Garbage Collector를 대체하기 위해 만들었고, Heap 크기가 늘어나는 점을 노린 Garbage Collection 작업을 위해 개발하였다.
+
+CMS Garbage 작업과 달리 compact 작업을 포함한다. 그리고 새로운 영역을 통해 메모리에 집중적으로 접근하는 어플리케이션(Memory-Oriented Application)에 더 큰 Throughput을 제공한다.
+
+## Thanks To
+- 성공회대학교 소프트웨어공학과 **이승진 교수님**
+
+## References
+- https://d2.naver.com/helloworld/1329 - Garbage Collection 개념을 잘 설명한 Naver D2 포스트 참조
+
+## Post Script
+- 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
+- 이 강의노트 개념에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.

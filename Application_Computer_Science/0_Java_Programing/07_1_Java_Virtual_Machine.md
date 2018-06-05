@@ -68,6 +68,12 @@ Run Time Data Area에는 Thread들이 마천루처럼 쌓여 있는데 Thread가
 
 최근에도 C++에도 이러한 위험성을 인지하여 이를 최소화하고 있다.
 
+## Thanks To
+- 성공회대학교 소프트웨어공학과 **이승진 교수님**
+
+## References
+- https://medium.com/@lazysoul/jvm-%EC%9D%B4%EB%9E%80-c142b01571f2 - JVM 개념과 구조 참조하기 좋은 블로그 글.
+
 ## Post Script
 - 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
 - 이 강의노트 개념에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.
