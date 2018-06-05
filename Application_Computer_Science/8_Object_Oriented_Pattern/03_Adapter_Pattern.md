@@ -10,8 +10,6 @@
 
 ## What Is Adapter Pattern?
 
-![adapter_pattern_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/adapter_pattern_uml.png)
-
 Adapter Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다.
 
 한 클래스의 Interface를 클라이언트 측에서 사용하기 위하여 다른 Interface로 변환 작업을 거쳐야 한다. 이를 이용하기 위해 Adapter를 사용한다면 Interface 호환성 문제 때문에 같이 쓸 수 없던 클래스도 연결해서 적용할 수 있다.
@@ -29,6 +27,8 @@ Adapter Pattern의 구조는 Object Adapter(단방향 접속자), Class Adapter(
 이번에는 Adapter Pattern을 실생활의 사례로 접목시킨 소스 코드를 살펴보면서 어떻게 돌아가는지 감을 잡아보도록 하자. 아래와 같은 전제 조건을 따라서 이 패턴을 적용시켜서 완성 해봄으로서 이해하는 기회를 가져보자. 그리고 아래 소스 코드는 같은 Package에 있다고 가정하자.
 
 ### Object Adapter Example
+
+![adapter_pattern_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/adapter_pattern_uml.png)
 
 TeaBusCard, BeeBusCard - 각 지역 별로 사용할 수 있는 버스 카드 Interface
 

@@ -36,6 +36,7 @@
 > 5-4. [오류제어, 검사, 회선 교환, 축적 교환](https://github.com/tails5555/my_eip_study/blob/master/Computer_Science_Documents/5_Data_Communication/04_Data_Communication_04.md)
 >
 > 5-5. [LAN, CDMS/CD, VAN, B-ISDN, 인터넷과 TCP/IP](https://github.com/tails5555/my_eip_study/blob/master/Computer_Science_Documents/5_Data_Communication/05_Data_Communication_05.md)
+
 ## 6. 네트워크 프로그래밍
 
 ## 7. 알고리즘[심화]
@@ -56,6 +57,9 @@
 > 
 > 0-6. [Java Collection Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/06_Java_Collection_Issues.md)
 >
+> 0-7-1. [Java Virtual Machine Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/07_1_Java_Virtual_Machine.md)
+>
+> 0-7-2. [Garbage Collection Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/07_2_Garbage_Collection_Issues.md)
 
 ## 1. JSP & Tomcat
 > 1-1. HTTP Request, Response
