@@ -15,6 +15,10 @@ JPA의 영역은 3가지로 구성이 된다.
     - `Java Persistence Query Language`로 관계형 데이터베이스에 저장된 엔티티에 대한 쿼리들을 작성을 한다. SQL 쿼리와 유사한 면이 있지만, 데이터베이스 테이블에 직접적으로 처리하지 않고 **Entity Object**에 대해 처리한다.
 - 객체와 관계의 Meta Data
 
+## The Nawabaries Of JPA
+- `javax.persistence.*`
+- `JPQL`(Java Persistence Query Language)
+- 객체(Object)와 관계(Mapping)의 `Meta Data`
 ## References
 - https://docs.spring.io/spring-data/jpa/docs/2.0.7.RELEASE/reference/html/ - Spring Data JPA 공식 Tutorial
 - http://blog.woniper.net/255 - JPA에 대한 정의를 설명한 블로그

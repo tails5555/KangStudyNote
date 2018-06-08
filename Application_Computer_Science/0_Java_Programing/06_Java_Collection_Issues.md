@@ -371,19 +371,88 @@ public class Main{
 
 ## Map
 
+Map Interface는 Collection Interface와 **별개의 개념이다.** Map에서는 List 처럼 데이터의 순서가 정해진 것도 아니고, 오로지 Key와 Value를 이용해서 얻을 뿐이다. 어떻게 보면 경계 근무에서 쓰이는 암구호와 같은 원리로 볼 수 있다. 문어가 Key라면, 답어가 Value이다.
+
+여기서도 마찬가지로 사용 방법보다는 성능에 대한 Issue를 더 두고 작성하겠다. 
+
 ### HashMap
 
-### HashLinkedMap
+```
+HashMap<String, String> map = new HashMap<String, String>(); // 초기화
+map.put("A", "alpha");
+map.put("B", "beta");
+map.put("O", "omega");
+map.put("D", "delta");
 
-### HashTable
+// 저장 순서는 추측할 수 없다.
+```
+
+HashMap은 자체 내부에 Hash Table(해시 테이블) 원리를 접목시켰기 때문에 데이터의 저장 순서에 대해 크게 신경을 쓰지 않고, 오로지 유일한 Key 값을 이용해서 Value를 저장하는 방법이다. 물론 Key 값을 null로 지정해도 문제는 없다.
+
+HashMap에 저장된 Key 값들과 Value 값들의 목록을 Set로 정리 가능하다. 그리고 Key, Value의 짬뽕을 Entry로 묶어서 가져오는 방법 또한 가능하다.
+
+HashMap의 시간 복잡도는 데이터 삽입, 삭제, 검색 모든 시간 복잡도는 O(1). 상수 시간 복잡도로 걸린다.
+
+HashSet와 마찬가지로 주석에 초기화로 되어 있는 것처럼 초기화 한다면 용량은 16, 적중률을 75%로 체크하여 HashMap의 사이즈가 커지면서 적중률을 넘는 경우에 HashCode를 다시 계산한다.
+
+### LinkedHashMap
+
+```
+LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(); // 초기화
+map.put("A", "alpha");
+map.put("B", "beta");
+map.put("O", "omega");
+map.put("D", "delta");
+// 실행 결과는 {A=alpha, B=beta, O=omega, D=delta}.
+```
+
+> LinkedHashSet 와 도찐개찐.<br/> 
+> HashMap에 Linked 개념까지 포함시켜 HashMap에서 데이터를 넣은 순서를 반영한다.
+
+사진에는 HashLinkedMap으로 작성되어 있는데 **LinkedHashMap** 이 맞다.
+
+LinkedHashMap은 HashMap에 넣은 순서를 더욱 보장하기 위해 쓰는 자료구조로 볼 수 있다. LinkedHashMap은 HashMap과의 시간 복잡도를 비교한다면 데이터 삽입, 삭제에서는 큰 문제가 없지만, 데이터 탐색에서는 O(n)를 가진다.
+
+또한 LinkedHashMap에서 제공하는 또 하나의 메소드로 removeEldestEntry(Entry<K,V>)가 있는데 이는 들어온 순서를 기억하고 제한 크기에 맞춰서 자를 때 사용하는 메소드이다. 예를 들어 Map의 크기를 5개로 자른다면, Key 값이 A, B, C, D, E, F 6개로 들어올 때 결국 A가 없어지고 B부터 F까지 남는다. 이러한 방안은 Cache 교체 전략 알고리즘(LRU, LFU, FIFO)을 구현할 때 참고하면 좋다.
 
 ### TreeMap
 
+```
+TreeMap<String, String> map = new TreeMap<String, String>(); // 초기화
+map.put("A", "alpha");
+map.put("O", "omega");
+map.put("D", "delta");
+map.put("B", "beta");
+// 실행 결과는 {A=alpha, B=beta, O=omega, D=delta}.
+```
+
+> TreeSet 와 도찐개찐.<br/> 
+> Map에 Red-Black Tree를 박아 둔 개념.
+
+TreeMap도 솔직히 이야기한다면 Red-Black Tree를 박아둔 거와 똑같다. 그래서 데이터를 추가, 삭제할 때 걸리는 시간 복잡도는 O(log n)으로 웬만한 Map들 보다 성능이 형편 없다. 그렇지만 Key 값 별로 오름 / 내림 차순으로 정리하기 때문에 Key 값에 대해 Index로 정렬할 필요가 있다면 이 자료구조를 적용하는 것이 좋다.
+
+### Hashtable
+
+```
+Hashtable<String, String> map = new Hashtable<String, String>(); // 초기화
+map.put("A", "alpha");
+map.put("B", "beta");
+map.put("O", "omega");
+map.put("D", "delta");
+
+// 저장 순서는 Multi-Thread 별로 달라지기 때문에 추측이 불가능하다.
+```
+
+Hashtable은 어떻게 보면 HashMap과 별 반 다를 게 없어 보인다. 그렇지만 HashMap은 애초에 동기화를 보장하지 않은 환경에서 써야 한다. 반대로 Hashtable은 동기화를 보장할 수 있게 도와준다.
+
+HashMap은 동시에 접근하는 환경에서 적합하지 않고 차라리 ConcurrentHashMap를 이용하는 것을 추천하고 있다. 물론 Map Interface에도 동기화를 보장하는 함수가 존재한다.
+
+ConcurrentHashMap과 Hashtable의 공통점은 Key 값에 null 값을 절대로 못 넣는다. HashMap에는 null 값을 넣어 매꾸는 일이 가능하지만, 동기화를 보장하는 과정에서 null 값을 넣는다면 Multi Thread에서 공통적으로 들어오는 null 값에 대해 겹칠 수 있기 때문이다.
+
+Hashtable의 시간 복잡도는 HashMap과 같지만, 각 메소드에 synchronized 키워드가 포함된 점에서 단일 Thread의 작업에선 비효율적이다.
+
 ## Iterator
 
-## Collection Default Methods
-
-## Map Default Methods
 
 ## References
 - http://egloos.zum.com/dojeun/v/317868 - Collection 개념에 대해 간략하게 정리된 사이트
