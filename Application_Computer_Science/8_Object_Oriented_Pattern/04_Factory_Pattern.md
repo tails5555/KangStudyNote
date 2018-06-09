@@ -4,9 +4,7 @@
 
 초등학생 때 준비물 사러 문방구를 갈 때, 종이 인형 옷 입히기를 본 적이 있을 것이다. 그 안에는 옷을 입을 캐릭터와 모자, 상의, 하의, 기타 장식품 등이 포함되어 있다. 이 놀이를 즐기기 위해 가위로 오리거나 커터 칼로 자르거나 아니면 절취선에 따라 잘라낸 후에, 종이 인형을 세우고 옷 종류 별로 올리면서 다양한 방식으로 나만의 캐릭터를 만들 수 있다.
 
-갑자기 왜 이 이야기가 나왔을까? Factory Pattern에서 클래스의 인스턴스 만드는 것을 서브 클래스에서 결정하는 사례와 유사하기 때문이다. 
-
-Singleton Pattern에서는 하나의 인스턴스로 오로지 하나의 객체를 만들지만, 
+갑자기 왜 이 이야기가 나왔을까? Factory Pattern에서 클래스의 인스턴스 만드는 것을 서브 클래스에서 결정하는 사례와 유사하기 때문이다. 종이 인형 옷 입히기에는 옷 종류 별로 다양한 옷들이 존재한다. 그래서 옷 입히기를 할 때 옷 종류 별로 정리를 하면 자신이 원하는 옷을 찾을 수 있다. 마찬가지로 구상 클래스에서 필요한 자식 객체를 추상적으로 정리한 객체를 신경 써서 정리한다면, 나중에 구상 클래스의 이용 비중을 더욱 높일 수 있다.
 
 ## What Is Factory Pattern?
 
@@ -32,24 +30,19 @@ Factory Pattern의 종류는 크게 Factory Method Pattern과 Abstract Factory P
 
 ![factory_method_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/factory_method_uml.png)
 
-### Abstract Factory Pattern
+팩토리 메소드 패턴(Factory Method Pattern)은 부모 클래스에 알려지지 않은 구상 클래스를 생성하는 패턴이다. ConcreteCreator 클래스가 어떤 객체를 생성하는 결정적인 역할을 한다. 즉 어느 객체를 생성할까의 여부는 자식 클래스가 가지고, 부모 클래스는 구상 클래스의 이름을 감추기 위해 사용하는 방법이다.
 
-![abstract_factory_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/abstract_factory_uml.png)
+#### Factory Method Example
 
-
-## Example
-
-### Factory Method Example
-
-Factory Method를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같다. 방금 전에 언급했던 종이 옷 입히기를 Factory Method Pattern을 이용해서 간략하게 구현하면 다음과 같다.
+Factory Method를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같다. 방금 전에 언급했던 종이 옷 입히기를 Factory Method Pattern을 적용해 짧게 구현하면 다음과 같다.
 
 ![AbstractCostume](/Application_Computer_Science/8_Object_Oriented_Pattern/img/AbstractCostume.png)
 
-패키지는 net.kang.factory.factory_method.costume이다.
+패키지는 net.kang.factory.factory_method.costume 이다.
 
 ![CostumeFactory](/Application_Computer_Science/8_Object_Oriented_Pattern/img/CostumeFactory.png)
 
-패키지는 net.kang.factory.factory_method.factory이다.
+패키지는 net.kang.factory.factory_method.factory 이다.
 
 ```
 package net.kang.factory.factory_method.costume;
@@ -62,6 +55,7 @@ public abstract class AbstractCostume {
 ```
 AbstractCostume.java
 
+AbstractCostume 추상 클래스는 의상 객체를 만들 때 의상이 하는 모든 행위를 기재하였다. 여기서 putOn() 메소드는 의상을 입거나 신거나 씌우는 행위, getName(), getColor() 메소드는 의상 객체의 구체적인 이름, 색상을 반환한다.
 
 ```
 package net.kang.factory.factory_method.costume;
@@ -72,6 +66,7 @@ public enum CostumeType {
 ```
 CostumeType.java
 
+CostumeType Enumeration 클래스는 의상의 종류이다. DRESS는 모든 드레스 종류, SHIRT는 위에 있는 상의 종류, PANTS는 아래를 감싸는 하의 종류, SHOES는 발에 들어가면 다 신기는 종류, HAT는 머리 위에 씌우면 되는 모자 종류로 정하자.
 
 ```
 package net.kang.factory.factory_method.costume;
@@ -103,7 +98,7 @@ public class ShirtObject extends AbstractCostume{
 ```
 ShirtObject.java
 
-
+각 의상 Object는 구체적인 의상 이름(name)과 색상(color)를 맴버 변수로 정의한다. 의상의 행위는 AbstractCostume 클래스를 상속시켜 모든 행위를 구현한다. DRESS(DressObject), SHIRT(ShirtObject), HAT(HatObject), SHOES(ShoesObject), PANTS(PantsObject) 별로 작성하고, 마지막으로 의상의 종류를 알 수 없다면 CostumeObject로 구현한다.
 
 ```
 package net.kang.factory.factory_method.client;
@@ -141,6 +136,8 @@ public class MainClient {
 ```
 MainClient.java
 
+MainClient 클래스에서는 캐릭터 A에게 상의, 바지, 신발을 입히고, 캐릭터 B에게 모자, 드레스, 신발을 입힌다. 실행 결과는 아래와 같다.
+
 ```
 캐릭터 A에게 다음과 같은 옷을 입혀보겠습니다.
 [상의] [A사 티셔츠] - [파란색] 색상을 입히겠습니다.
@@ -151,8 +148,22 @@ MainClient.java
 [드레스] [B사 드레스] - [연녹색] 색상을 입히겠습니다.
 [신발] [B사 구두] - [하얀색] 색상을 신기겠습니다.
 ```
-MainClient.java를 실행한 결과이다.
 
+여기서 가장 중요한 핵심을 결정하면, 인스턴스 생성을 자식 클래스에게 위임을 하는 것이다. MainClient에서는 new 키워드를 1도 안 썼다. 그래서 MainClient는 어떤 종류의 객체가 생성되었는지 알 수 없다. Costume 관련 함수 변경이 일어난다면, AbstractCostume 클래스에서 처리하면 되기 때문에 구상 클래스에서는 자식 클래스의 결합도(Coupling)를 줄일 수 있다.
+
+그러나 Factory Method가 중첩되면 굉장히 복잡해지고, 상속을 사용하지만 부모 클래스를 전혀 확장하지 않았기 때문에 extends를 너무 많이 사용하면 프로그램의 엔트로피가 늘어난다.
+
+엔트로피는 열역학에서 유용하지 않은 에너지의 흐름을 뜻하는 과학 용어이지만, 쉽게 생각하면 프로그램에서 추상 클래스를 너무 많이 적용시켜서 구상 클래스의 역할이 줄어드는 의미로 생각하면 된다.
+
+### Abstract Factory Pattern
+
+![abstract_factory_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/abstract_factory_uml.png)
+
+추상 팩토리 패턴(Abstract Factory Pattern)은 서로 연관되거나 의존하는 객체를 구상 클래스를 지정하지 않고도 생성할 수 있는 개념이다.
+
+짧게 설명하면, 방금 전에는 Abstract Class를 이용했지만, 이번에는 이를 Interface로 대체하여 사용한다는 뜻이다.
+
+방금 전에 작성한 Abstract Class(추상 클래스)를 이번에는 Interface로 바꿔서 적용시켜보자.
 ### Abstract Factory Example
 
 ```
@@ -169,6 +180,9 @@ MainClient.java를 실행한 결과이다.
 
 - http://whereami80.tistory.com/211 - Factory Pattern 종류 별 차이점 자세히 설명함
 - http://friday.fun25.co.kr/blog/?p=280 - Factory Pattern Example 참조
+- https://ko.wikipedia.org/wiki/%ED%8C%A9%ED%86%A0%EB%A6%AC_%EB%A9%94%EC%84%9C%EB%93%9C_%ED%8C%A8%ED%84%B4 - Factory Method Pattern 위키 백과 참조
+- https://ko.wikipedia.org/wiki/%EC%B6%94%EC%83%81_%ED%8C%A9%ED%86%A0%EB%A6%AC_%ED%8C%A8%ED%84%B4 - Abstract Factory Pattern 위키 백과 참조
+
 
 ## Post Script
 - 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
