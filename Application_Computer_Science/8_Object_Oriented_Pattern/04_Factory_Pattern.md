@@ -34,18 +34,14 @@ Factory Pattern의 종류는 크게 Factory Method Pattern과 Abstract Factory P
 
 #### Factory Method Example
 
-Factory Method를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같다. 방금 전에 언급했던 종이 옷 입히기를 Factory Method Pattern을 적용해 짧게 구현하면 다음과 같다.
+Factory Method를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같이 구성된다.
 
-![AbstractCostume](/Application_Computer_Science/8_Object_Oriented_Pattern/img/AbstractCostume.png)
+![Factory_Method_Structure](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Factory_Method_Structure.png)
 
-패키지는 net.kang.factory.factory_method.costume 이다.
-
-![CostumeFactory](/Application_Computer_Science/8_Object_Oriented_Pattern/img/CostumeFactory.png)
-
-패키지는 net.kang.factory.factory_method.factory 이다.
+방금 전에 언급했던 종이 옷 입히기를 Factory Method Pattern을 적용해 짧게 구현하면 다음과 같다.
 
 ```
-package net.kang.factory.factory_method.costume;
+package net.kang.factory.factory_method.abstract_object;
 
 public abstract class AbstractCostume {
     public abstract void putOn();
@@ -58,7 +54,7 @@ AbstractCostume.java
 AbstractCostume 추상 클래스는 의상 객체를 만들 때 의상이 하는 모든 행위를 기재하였다. 여기서 putOn() 메소드는 의상을 입거나 신거나 씌우는 행위, getName(), getColor() 메소드는 의상 객체의 구체적인 이름, 색상을 반환한다.
 
 ```
-package net.kang.factory.factory_method.costume;
+package net.kang.factory.factory_method.costume_object;
 
 public enum CostumeType {
     DRESS, SHIRT, PANTS, SHOES, HAT
@@ -69,9 +65,11 @@ CostumeType.java
 CostumeType Enumeration 클래스는 의상의 종류이다. DRESS는 모든 드레스 종류, SHIRT는 위에 있는 상의 종류, PANTS는 아래를 감싸는 하의 종류, SHOES는 발에 들어가면 다 신기는 종류, HAT는 머리 위에 씌우면 되는 모자 종류로 정하자.
 
 ```
-package net.kang.factory.factory_method.costume;
+package net.kang.factory.factory_method.costume_object;
 
-public class ShirtObject extends AbstractCostume{
+import net.kang.factory.factory_method.abstract_object.AbstractCostume;
+
+public class ShirtObject extends AbstractCostume {
     private String name;
     private String color;
 
@@ -103,10 +101,10 @@ ShirtObject.java
 ```
 package net.kang.factory.factory_method.client;
 
-import net.kang.factory.factory_method.costume.AbstractCostume;
-import net.kang.factory.factory_method.factory.TypeCostumeFactory;
+import net.kang.factory.factory_method.abstract_object.AbstractCostume;
+import net.kang.factory.factory_method.factory_object.TypeCostumeFactory;
 
-import static net.kang.factory.factory_method.costume.CostumeType.*;
+import static net.kang.factory.factory_method.costume_object.CostumeType.*;
 
 public class MainClient {
     public static void main(String[] args){
@@ -161,19 +159,140 @@ MainClient 클래스에서는 캐릭터 A에게 상의, 바지, 신발을 입히
 
 추상 팩토리 패턴(Abstract Factory Pattern)은 서로 연관되거나 의존하는 객체를 구상 클래스를 지정하지 않고도 생성할 수 있는 개념이다.
 
-짧게 설명하면, 방금 전에는 Abstract Class를 이용했지만, 이번에는 이를 Interface로 대체하여 사용한다는 뜻이다.
+짧게 설명하면, 방금 전에는 Abstract Class를 이용했지만, 이번에는 이를 Interface와 객체 별 Factory 클래스로 대체한다는 뜻이다.
 
-방금 전에 작성한 Abstract Class(추상 클래스)를 이번에는 Interface로 바꿔서 적용시켜보자.
+방금 전에 작성한 Abstract Class(추상 클래스)를 이번에는 Interface와 객체 별 Factory 클래스로 바꿔서 적용시켜보자.
+
 ### Abstract Factory Example
 
-```
-```
+Abstract Factory 를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같이 구성된다.
+
+![Abstract_Factory_Structure](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Abstract_Factory_Structure.png)
+
+방금 전의 사례로 Abstract Factory Pattern을 적용해 짧게 구현하면 다음과 같다.
 
 ```
-```
+package net.kang.factory.abstract_factory.abstract_object;
+
+public abstract class AbstractCostume {
+    public abstract void putOn();
+    public abstract String getName();
+    public abstract String getColor();
+}
 
 ```
+AbstractCostume.java
+
 ```
+package net.kang.factory.abstract_factory.costume_object;
+
+import net.kang.factory.abstract_factory.abstract_object.AbstractCostume;
+
+public class ShirtObject extends AbstractCostume{
+    private String name;
+    private String color;
+
+    public ShirtObject(String name, String color){
+        this.name = name;
+        this.color = color;
+    }
+
+    @Override
+    public String getName(){
+        return this.name;
+    }
+
+    @Override
+    public String getColor(){
+        return this.color;
+    }
+
+    @Override
+    public void putOn(){
+        System.out.println(String.format("[상의] [%s] - [%s] 색상을 입히겠습니다.", this.name, this.color));
+    }
+}
+```
+ShirtObject.java
+
+AbstractCostume, ShirtObject 클래스는 방금 전에 있는 그대로 사용할 것이다.
+
+```
+package net.kang.factory.abstract_factory.costume;
+
+import net.kang.factory.abstract_factory.abstract_object.AbstractCostume;
+
+public interface AbstractCostumeFactory {
+    public AbstractCostume createCostume(String name, String color);
+}
+```
+AbstractCostumeFactory.java
+
+AbstractCostumeFactory는 Interface로 적용시켜서, 모든 의상 객체 별로 Factory를 만들 때 이를 상속 시켜서 구현하게 만들었다.
+
+```
+package net.kang.factory.abstract_factory.costume;
+
+import net.kang.factory.abstract_factory.abstract_object.AbstractCostume;
+import net.kang.factory.abstract_factory.costume_object.ShirtObject;
+
+public class ShirtFactory implements AbstractCostumeFactory {
+    @Override
+    public AbstractCostume createCostume(String name, String color){
+        return new ShirtObject(name, color);
+    }
+}
+```
+ShirtFactory.java
+
+ShirtObject 객체의 Factory는 ShirtFactory로 구성하였다. createCostume 메소드를 이용하여 상의 객체를 반환 시킨다.
+
+```
+package net.kang.factory.abstract_factory.factory_object;
+
+import net.kang.factory.abstract_factory.abstract_object.AbstractCostume;
+import net.kang.factory.abstract_factory.costume.AbstractCostumeFactory;
+
+public class CostumeFactory {
+    static public AbstractCostume getCostume(AbstractCostumeFactory abstractCostumeFactory, String name, String color){
+        return abstractCostumeFactory.createCostume(name, color);
+    }
+}
+```
+CostumeFactory.java
+
+
+```
+package net.kang.factory.abstract_factory.client;
+
+import net.kang.factory.abstract_factory.abstract_object.AbstractCostume;
+import net.kang.factory.abstract_factory.costume.DressFactory;
+import net.kang.factory.abstract_factory.costume.HatFactory;
+import net.kang.factory.abstract_factory.costume.PantsFactory;
+import net.kang.factory.abstract_factory.costume.ShirtFactory;
+import net.kang.factory.abstract_factory.costume.ShoesFactory;
+import net.kang.factory.abstract_factory.factory_object.CostumeFactory;
+
+public class MainClient {
+    public static void main(String[] args){
+        AbstractCostume dress = CostumeFactory.getCostume(new DressFactory(), "웨딩드레스", "하얀색");
+        AbstractCostume shirt = CostumeFactory.getCostume(new ShirtFactory(), "맨투맨", "줄무늬");
+        AbstractCostume pants = CostumeFactory.getCostume(new PantsFactory(), "반바지", "파란색");
+        AbstractCostume shoes = CostumeFactory.getCostume(new ShoesFactory(), "슬리퍼", "검은색");
+        AbstractCostume hat = CostumeFactory.getCostume(new HatFactory(), "일리네어 스냅백", "하얀색");
+
+        dress.putOn();
+        shirt.putOn();
+        pants.putOn();
+        shoes.putOn();
+        hat.putOn();
+    }
+}
+```
+MainClient.java
+
+
+
 ## Comparison of Another Patterns
 
 ## References
