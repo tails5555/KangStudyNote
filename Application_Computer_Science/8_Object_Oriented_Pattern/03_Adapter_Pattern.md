@@ -182,7 +182,7 @@ Class Adapter는 Adapter를 만들 때 Target Class, Adaptee Class를 모두 만
 
 ## Comparison of Another Patterns
 
-- Bridge Pattern - Adapter Pattern과 유사하지만, 실상 사용 목적이 다르다. Adapter Pattern은 존재한느 객체의 인터페이스를 변경하는 것이고, Bridge Pattern은 구현과 추상 개념을 분리해 서로에게 영향을 주지 않고 확장이 가능하게 하는 목적을 가진다.
+- Bridge Pattern - Adapter Pattern과 유사하지만, 실상 사용 목적이 다르다. Adapter Pattern은 존재하는 객체의 인터페이스를 변경하는 것이고, Bridge Pattern은 구현과 추상 개념을 분리해 서로에게 영향을 주지 않고 확장이 가능하게 하는 목적을 가진다.
 
 - Decorator Pattern - 다른 Interface의 변경이 없더라도 객체에 새로운 행위를 추가할 수 있도록 한다. 순수한 Adapter Pattern에서는 재귀적 합성이 불가능하지만, Decorator Pattern에서 이를 가능하게 한다.
 

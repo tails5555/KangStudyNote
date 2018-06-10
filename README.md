@@ -123,9 +123,9 @@
 >
 > 8-3. [Adapter Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/03_Adapter_Pattern.md)
 >
-> 8-4. Factory Pattern
+> 8-4. [Factory Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/04_Factory_Pattern.md)
 >
-> 8-5. Bridge Pattern
+> 8-5. [Bridge Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/05_Bridge_Pattern.md) - 작성 중.
 >
 > 8-6. Observer Pattern
 
