@@ -14,8 +14,6 @@ Factory Pattern은 소프트웨어 디자인 패턴 중에서 **생성 패턴(Co
 
 이를 더욱 상세하게 설명한다면, 추상 클래스(Abstract Class)와 Interface에 맞춰 코딩할 수 있게 도와준다. Application 내부에서 실제로 쓰는 클래스와의 의존성을 줄여줌으로서 **느슨한 결합(Loose Coupling)** 이 이뤄짐으로서 객체 지향 프로그래밍에 충족시킨다.
 
-Spring Framework에서 IoC(제어의 역전) 특성의 대표적인 의존성 주입(Dependency Injection. DI)에 해당되는데 이는 구상 클래스에 대한 의존성을 줄어주는 역할로 볼 수 있다.
-
 **구상 클래스(Concreate Class)**
 
 이 용어가 생각보다 낫설 것이다. 추상 클래스(Abstract Class)는 abstract method가 하나라도 있고, 인스턴스를 생성하지 않는 클래스이다. 반대로, 구상 클래스는 **실제로 쓰일 오퍼레이션(Operation, Java에서는 Method)을 모두 작성하고, 인스턴스를 생성할 목적으로 만드는** 클래스이다. 
@@ -62,7 +60,7 @@ public enum CostumeType {
 ```
 CostumeType.java
 
-CostumeType Enumeration 클래스는 의상의 종류이다. DRESS는 모든 드레스 종류, SHIRT는 위에 있는 상의 종류, PANTS는 아래를 감싸는 하의 종류, SHOES는 발에 들어가면 다 신기는 종류, HAT는 머리 위에 씌우면 되는 모자 종류로 정하자.
+CostumeType Enumeration 클래스는 의상의 종류이다. DRESS는 모든 드레스 종류, SHIRT는 위에 있는 상의 종류, PANTS는 아래를 감싸는 하의 종류, SHOES는 발에 들어가면 다 신기는 종류, HAT는 머리 위에 씌우면 되는 모자 종류로 가정하자.
 
 ```
 package net.kang.factory.factory_method.costume_object;
@@ -228,7 +226,7 @@ public interface AbstractCostumeFactory {
 ```
 AbstractCostumeFactory.java
 
-AbstractCostumeFactory는 Interface로 적용시켜서, 모든 의상 객체 별로 Factory를 만들 때 이를 상속 시켜서 구현하게 만들었다.
+AbstractCostumeFactory는 Interface로 작성하였고, 모든 의상 객체 별로 Factory를 만들 때 이를 상속 시켜서 구현하게 만들었다.
 
 ```
 package net.kang.factory.abstract_factory.costume;
@@ -245,7 +243,7 @@ public class ShirtFactory implements AbstractCostumeFactory {
 ```
 ShirtFactory.java
 
-ShirtObject 객체의 Factory는 ShirtFactory로 구성하였다. createCostume 메소드를 이용하여 상의 객체를 반환 시킨다.
+ShirtObject 객체의 Factory는 ShirtFactory로 구성하였다. createCostume 메소드를 이용하여 상의 객체를 반환 시키는데 여기서 AbstractCostume에서 해야 하는 모든 행위를 작성하였기 때문에 추상 클래스를 이용한 반환에는 큰 문제가 없다.
 
 ```
 package net.kang.factory.abstract_factory.factory_object;
@@ -254,13 +252,16 @@ import net.kang.factory.abstract_factory.abstract_object.AbstractCostume;
 import net.kang.factory.abstract_factory.costume.AbstractCostumeFactory;
 
 public class CostumeFactory {
-    static public AbstractCostume getCostume(AbstractCostumeFactory abstractCostumeFactory, String name, String color){
+    public static AbstractCostume getCostume(AbstractCostumeFactory abstractCostumeFactory, String name, String color){
         return abstractCostumeFactory.createCostume(name, color);
     }
 }
 ```
 CostumeFactory.java
 
+CostumeFactory는 AbstractCostumeFactory Interface를 모두 상속하는 의상 팩토리 클래스를 이용해 의상 객체를 만들어주는 클래스이다. 여기서 다른 점은 static 메소드를 이용한 것인데, 굳이 다른 클래스의 자식 객체를 생성할 때, CostumeFactory 인스턴스를 생성하고 쓰는 것이 효율적일까?
+
+답은 그렇지 않다. CostumeFactory 클래스는 오직 다른 클래스의 자식 객체를 생성을 도와주는 Utility 클래스 역할 밖에 안 되기 때문에 굳이 멤버 메소드로 작성을 하고 인스턴스로 생성할 필요까진 없다.
 
 ```
 package net.kang.factory.abstract_factory.client;
@@ -291,9 +292,35 @@ public class MainClient {
 ```
 MainClient.java
 
+이제 Main Client에서는 의상 객체를 생성할 때, AbstractCostume에 있는 모든 행위를 구현한 자식 객체를 생성할 때 CostumeFactory를 Utility 클래스로 이용해 Factory 종류 별로 구현하는데 큰 문제 없이 적용된다. 실행 결과는 아래와 같다.
 
+```
+[드레스] [웨딩드레스] - [하얀색] 색상을 입히겠습니다.
+[상의] [맨투맨] - [줄무늬] 색상을 입히겠습니다.
+[바지] [반바지] - [파란색] 색상을 입히겠습니다.
+[신발] [슬리퍼] - [검은색] 색상을 신기겠습니다.
+[모자] [일리네어 스냅백] - [하얀색] 색상을 씌우겠습니다.
+```
+
+물론 Factory Method와 유사할 수 있지만, 각 객체 별 Factory 클래스 교체를 이용해서 자식 객체의 행위를 확장, 축소하는데 더욱 쉽게 적용할 수 있다.
+
+그렇지만 이는 객체 1개를 굳이 생성할 목적으로 만든다면 비효율적이다. 여기서는 의상에 대해서 AbstractCostumeFactory Interface를 이용했지만, 추가로 액세서리에 대하여 Factory를 정의할 때 Interface와 Abstract 클래스를 첨가하면 객체의 종류를 파악할 때 그룹으로 묶는데 더욱 도움을 준다. 
+
+이러한 점에서 Factory Method Pattern과의 차이가 있다면 자식 객체의 종류를 묶어주는 Interface가 있음으로 제품군을 파악할 수 있게 도와주는 역할이 크다.
 
 ## Comparison of Another Patterns
+
+- Singleton Pattern - 이 패턴은 구상 클래스의 자원 객체를 선언할 때 한 가지의 객체만 생성이 된다. 그렇지만 Factory Pattern에서 한 가지의 객체를 생성하는 것은 무용지물이다. 여러 종류의 객체 중에 1개의 객체만 생성하면 되는데, 굳이 한 종류의 객체를 생성한다면 Singleton Pattern을 이용하는 것이 좋겠다.
+
+- DI(Dependency Injection) - Spring Framework에서 IoC(제어의 역전) 특성의 대표적인 의존성 주입(Dependency Injection. DI)을 생각할 수 있는데, 이는 불필요한 의존 관계를 줄여주는 역할을 하는 것 뿐이지, 최소화하는 방법은 new 키워드 이용, Factory Pattern 이용, Assembly Pattern 이용이 있다. 그러니깐 의존성을 최소화하는 방법의 일부일 뿐이지, 그 이상 그 이하도 아니다.
+
+## Applicative of Factory Pattern
+
+Spring Data MongoDB나 Redis를 이용할 때, Configuration 클래스를 만들 때 MongoDB Factory(Redis Connection Factory)를 많이 봤을 것이다. 
+ 
+여기서 MongoDB와 Redis의 각 Connection 설정을 기재하여 MongoDB와 Redis의 설정을 각각 공동 행위 지침으로 잡아서 실제 NoSQL 데이터베이스와 연동할 때 적용된다. 물론 JDBC도 마찬가지이다. 
+ 
+이에 해당되는 패턴이 Abstract Factory Pattern이다.
 
 ## References
 
