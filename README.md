@@ -125,9 +125,11 @@
 >
 > 8-4. [Factory Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/04_Factory_Pattern.md)
 >
-> 8-5. [Bridge Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/05_Bridge_Pattern.md) - 작성 중.
+> 8-5. [Bridge Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/05_Bridge_Pattern.md)
 >
-> 8-6. Observer Pattern
+> 8-6. [Decorator Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/06_Decorator_Pattern.md)
+>
+> 8-7. Observer Pattern
 
 ## 9. Vue.js[여유 있으면 작성하겠습니다.]
 ## 10. Python + Django[여유 있으면 작성하겠습니다.]
