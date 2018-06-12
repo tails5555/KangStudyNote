@@ -4,17 +4,55 @@
 
 갑자기 배고프다. 배고플 때에는 한 번 부대찌개 만들어 먹는 도구 하나에 콜라 한 잔 곁들여 먹으면 한 끼 식사로 딱이다. 그렇지만 부대찌개의 중요 재료는 무엇보다도 스팜과 외국산 소시지(흔히 부대 고기라고 한다.), 콩 통조림, 슬라이스 치즈를 딱 올려 먹고 거기 안에 라면 사리를 끓여 먹으면 좋다. 그렇지만 부대찌개에 떡을 넣는다면 국물이 퍼져서 맛 없어서 잘 안 넣어 먹는다.
 
-이처럼 Decorator Pattern은 부대찌개에 본인의 입 맛에 맞게 중간에 다른 재료를 추가해서 끓여 먹듯이, 객체에서도 동적으로 필요한 
+이처럼 Decorator Pattern은 부대찌개에 본인의 입 맛에 맞게 중간에 다른 재료를 추가해서 끓여 먹듯이, 구현 객체에서 자기가 필요한 행위를 동적으로 추가해서 이용하는 방법이다.
+
+이번 노트에서는 Decorator Pattern을 다뤄보도록 하겠다.
 
 ## What Is Decorator Pattern?
 
+![Decorator_Pattern_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Decorator_Pattern_UML.png)
 
+Decorator Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다.
+
+우리가 객체를 중간에 이용할 때 추가적인 기능에 대해 동적으로 첨가할 필요가 있다.
+
+이게 무슨 뜻일까? 방금 전에 원래 정해진 부대찌개 레시피에 추가적인 재료를 더 넣듯이, 객체에서 추가 요구사항을 통해 필요한 행위를 자식 클래스에 확장하는 것으로 기능을 유연하게 확장할 수 있다.
+
+만일 Decorator Pattern을 이용하지 않더라면 위의 Class Diagram에 있는 Component 추상 클래스의 메소드들을 ConcreteComponent 클래스에서 확장 구현을 우선 하는 것만으로 행위 등록이 끝이 난다. 
+
+그렇다면 Component 추상 클래스에다가 필요한 행위를 계속 넣으면 끝인데 왜 Decorator를 추가하는 것이 좋을까? 바로 **다른 객체에 영향을 주지 않고 요건을 추가하기 위한** 이유, **동일한 기능을 반복하기 위한** 이유이다.
+
+Decorator Pattern은 상속 관계를 유연하게 확장하기 위해 적용하는 Pattern이지만, 이것도 너무 많으면 둘러 쌓인 Decorator가 많아져서 디버깅이 어려워지는 단점이 있으니 적당히 쓰는 것이 좋겠다.
 
 ## Example of Decorator Pattern
 
 이번에는 Decorator Pattern을 부대찌개 주문을 사례로 적용시켜보자. 부대찌개 육수의 종류는 사골 육수, 멸치 육수, 조미료 육수 등이 있고, 기본적으로 제공되는 재료들이 모두 포함되어 있다. 그러나 부대찌개에 무언가 부족하다고 느끼면 치즈, 라면 사리 등을 추가로 넣는다. 이번 예제의 Class Diagram은 아래와 같다.
 
-![Decorator_Pattern_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Decorator_Pattern_UML.png)
+![Decorator_Pattern_Structure](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Decorator_Pattern_Structure.png)
+
+```
+package net.kang.decorator.enumeration;
+
+public enum MenuPrice {
+    VEGETABLE_BROTH(6000), FISH_BROTH(7000), BONE_BROTH(8000),
+    CHEESE(500), RAMEN(800), RED_BEAN(1000), SPAM_SAUSAGE(2000);
+
+    private final int value;
+    private MenuPrice(int value){
+        this.value = value;
+    }
+    public int getValue(){
+        return this.value;
+    }
+}
+```
+MenuPrice.java
+
+MenuPrice는 각 메뉴 별로 책정 가격을 Enumeration 클래스로 구현한 것이다.
+
+각 요소 안에 있는 값은 해당 주문이 들어올 때 책정되는 가격이다.
+
+VEGETABLE_BROTH는 야채 육수, FISH_BROTH는 멸치 육수, BONE_BROTH는 사골 육수, CHEESE는 치즈, RAMEN은 라면, RED_BEAN은 통조림 콩, SPAM_SAUSAGE는 부대고기이다.
 
 ```
 package net.kang.decorator.main_cooking;
@@ -36,6 +74,7 @@ public abstract class BoodaeChigae {
 
 BoodaeChigae.java
 
+부대찌개를 만들기 위한 상속 기능을 제공하는 Component 클래스인 BoodaeChigae(부대찌개. 원래 부대찌개는 영어로 번역하면 길어지기 때문에 이해하기 쉽게 한글 영어화로 썼음.) 클래스이다. 부대찌개 주문 요소를 반영하는 description 변수와 주문 요소 별 총 가격을 반환하는 cost() 추상 메소드를 작성하였다.
 
 ```
 package net.kang.decorator.main_cooking;
@@ -60,6 +99,7 @@ public class BoneBrothBoodaeChigae extends BoodaeChigae {
 
 BoneBrothBoodaeChigae.java
 
+처음에 손님이 사골 육수 부대찌개를 주문할 때 생성되는 객체인데, 여기서 person은 n 인분을 반영하기 위해 작성한 이 객체의 멤버 변수이다. 가격은 사골 육수 부대찌개 정가인 8000원에 인원에 맞춰 곱한 값으로 반환한다.
 
 ```
 package net.kang.decorator.sub_ingredient;
@@ -73,7 +113,7 @@ public abstract class ChigaeDecorator extends BoodaeChigae {
 
 ChigaeDecorator.java
 
-
+부대찌개에 추가로 넣기 위한 재료를 반영하기 위한 Decorator 클래스인 ChigaeDecorator 클래스이다. 여기서 getDescription() 메소드는 현재 손님이 주문한 사항들을 그 때마다 반영하여 불러오기 위해 쓰인다.
 
 ```
 package net.kang.decorator.sub_ingredient;
@@ -103,8 +143,9 @@ public class SpamSausagePlusBoodaeChigae extends ChigaeDecorator {
 }
 ```
 
-SpamSausagePlusBoodaeChigae
+SpamSausagePlusBoodaeChigae.java
 
+원래 주문하는 부대 찌개에 육수 종류를 바꾸지 않는 이상, 찌개 그대로 부대 고기를 추가하기 위해 쓰는 ConcreteDecorator 클래스이다. 원래 부대찌개에 재료를 추가하는 이 객체의 getDescription() 메소드를 불러오면 현재 작성된 영수증에 추가로 반영되는 원리로 감이 잡힐 것이다.
 
 ```
 package net.kang.decorator.client;
@@ -172,9 +213,48 @@ public class MainClient {
 
 MainClient.java
 
+위를 전부 구현하고, 이제는 MainClient에서 부대 찌개 객체를 생성하고, 추가하고 싶은 재료 객체를 이용하여 추가 사항을 반영하고, 주문 속성과 후불 가격을 반환하는 과정이다. 실행 결과는 다음과 같다.
+
+```
+[멸치 육수 부대찌개 주문]
+[주문] 멸치 육수 부대찌개 3인분 주문했습니다.
+- 주문 속성 : 멸치 육수 부대찌개 3인분
+- 후불 가격 : 21000원
+
+[주문 완료 후 멸치 육수 치즈 추가]
+- 주문 속성 : 멸치 육수 부대찌개 3인분, 치즈 2장 추가
+- 후불 가격 : 22000원
+
+[주문 완료 후 멸치 육수 라면 사리 추가]
+- 주문 속성 : 멸치 육수 부대찌개 3인분, 치즈 2장 추가, 라면 사리 1장 추가
+- 후불 가격 : 22800원
+
+[사골 육수 부대찌개 주문]
+[주문] 사골 육수 부대찌개 5인분 주문했습니다.
+- 주문 속성 : 사골 육수 부대찌개 5인분
+- 후불 가격 : 40000원
+
+[주문 완료 후 사골 육수 스팸 / 소시지 추가]
+- 주문 속성 : 사골 육수 부대찌개 5인분, 부대고기 3인분 추가
+- 후불 가격 : 46000원
+
+[야채 육수 부대찌개 주문]
+[주문] 야채 육수 부대찌개 7인분 주문했습니다.
+- 주문 속성 : 야채 육수 부대찌개 7인분
+- 후불 가격 : 42000원
+
+[주문 완료 후 통조림 콩 추가]
+- 주문 속성 : 야채 육수 부대찌개 7인분, 통조림 콩 2인분 추가
+- 후불 가격 : 44000원
+
+[주문 완료 후 라면 사리 추가]
+- 주문 속성 : 야채 육수 부대찌개 7인분, 통조림 콩 2인분 추가, 라면 사리 2장 추가
+- 후불 가격 : 45600원
+```
+
 ## Applicative of Decorator Pattern
 
-Java의 입출력 스트림을 담당하는 클래스가 InputStream, OutputStream 클래스이다. 
+Java의 입출력 스트림을 담당하는 클래스가 InputStream, OutputStream 클래스이다. 이 구조는 Decorator Pattern을 접목시켰다. Java에서는 왜 이러한 방안으로 입출력 스트림을 반영했을까? 
 
 ![Java_InputStream_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Java_InputStream_UML.png)
 
