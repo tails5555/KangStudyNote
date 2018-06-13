@@ -30,11 +30,15 @@ Adapter Pattern의 구조는 Object Adapter(단방향 접속자), Class Adapter(
 
 ![adapter_pattern_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/adapter_pattern_uml.png)
 
-TeaBusCard, BeeBusCard - 각 지역 별로 사용할 수 있는 버스 카드 Interface
+![Adapter_Pattern_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Adapter_Pattern_Example.png)
+
+TeaBusCard, BeeBusCard - 각 지역 별로 사용할 수 있는 버스 카드 Interface 이다. 
 
 MetropolitanBusDevice, SecondaryBusDevice - 수도권, 타 지방 버스 카드 단말기 클래스로 수도권 버스 카드 단말기는 TeaBusCard를 이용해서 찍을 수 있고, 타 지방 버스 카드 단말기는 BeeBusCard를 이용해서 찍을 수 있다.
 
 BeeBusCardAdapter - TeaBusCard를 이용하는 고객을 위하여 BeeBusCard를 이용하는 단말기에 일종의 Adapter를 추가시켜 TeaBusCard로 체킹하고, BeeBusCard 체계로 인식 시킨다.<br/>
+
+**Target, Another Interface 작성**
 
 ```
 public interface TeaBusCard {
@@ -53,6 +57,8 @@ public interface BeeBusCard {
 BeeBusCard.java
 
 TeeBusCard, BeeBusCard Interface의 공통적인 역할은 버스 카드 체킹과 잔액 조회 기능만 제공한다고 가정하자. 다만 버스 카드 체킹을 하는 메소드가 각각 checkTea(), checkBee()로 다르게 인식을 한다는 점을 감안해야 한다.<br/><br/>
+
+**Target Expand Class, Adaptee Class 작성**
 
 ```
 public class MetropolitanBusDevice implements TeaBusCard {
@@ -84,6 +90,8 @@ SecondaryBusDevice.java
 
 수도권 지역 버스 카드 단말기, 타 지방 버스 카드 단말기는 각각 TeaBusCard, BeeBusCard Interface를 상속 받아서 각 단말기 내부에서 버스 카드 Interface에서 요구하는 기능을 구현하였다.<br/><br/>
 
+**Adapter Class 작성**
+
 ```
 public class BeeBusCardAdapter implements TeaBusCard{
     BeeBusCard beeBusCard;
@@ -108,6 +116,8 @@ public class BeeBusCardAdapter implements TeaBusCard{
 BeeBusCardAdapter.java
 
 BeeBusCardAdapter 클래스는 수도권에서 타 지방으로 이동할 때 그 곳에서 TeaBusCard 밖에 없는 상황이 다가옴을 대비해 Adapter를 이용해서 TeaBusCard 체계를 BeeBusCard 체계로 변동시킨 후 버스 카드 인식에 대한 불편함을 해소한다.<br/><br/>
+
+**Client Class 작성**
 
 ```
 public class MainClient {
@@ -158,7 +168,7 @@ Bee 카드 - 1300원이 차감되었습니다.
 - Adapter(어댑터, A Interface에서 B Interface를 사용하는 Object로 연결하는 도구) - `BeeBusCardAdapter` 객체
 - Adaptee Object(B Interface를 사용하는 Object) - `SecondaryBusDevice` 객체
 
-이원적인 순서(A to B, B to C... Then A to C)를 생각하면 구상 방법에 대해 크게 어렵지 않을 것이다. 그러면 어떤 방법으로 돌아가는지에 대해 이 소스 코드 Case 03의 순서를 살펴보도록 한다.
+이원적인 종속성(A to B, B to C... Then A to C)을 생각하면 구상 방법에 대해 크게 어렵지 않을 것이다. 그러면 어떤 방법으로 돌아가는지에 대해 이 소스 코드 Case 03의 순서를 살펴보도록 한다.
 
 > 1. Client 측에서 Target Interface를 이용하여 Adapter를 생성하되 생성자 매개 변수에 Adaptee Object인 `SecondaryBusDevice` 객체 인스턴스를 넣어준다.
 > 2. 이제 Adapter(`BeeBusCardAdapter`)를 이용해서 실행할 수 있는 메소드는 checkTea(), balance(int) 를 실행할 수 있다.

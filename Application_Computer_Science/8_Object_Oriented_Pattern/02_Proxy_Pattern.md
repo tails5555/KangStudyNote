@@ -24,9 +24,13 @@ Proxy Pattern을 사용하는 사례는 다음과 같다.
 
 Spring Framework를 공부했다면 Proxy Pattern에 친숙할 것이다. AOP를 기반으로 Transaction, Security, Cache 처리 등에 대하여 어노테이션으로 작성하여 구조를 더욱 보기 좋게 정리할 수 있다.
 
-## Main Proxy Example
+그리고 Android 어플리케이션 개발에서 인터페이스 정의 언어인 AIDL(Android Interface Definition Language)도 Proxy Pattern에 해당된다.
 
-Spring Web MVC에서 Controller와 Service의 사이를 사례로 들어보자. 
+## Proxy Pattern Example
+
+![Proxy_Pattern_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Proxy_Pattern_Example.png)
+
+단일 문서 저장소를 사례로 작성하였다.
 
 처음으로 Service Bean을 이용해야 하는데 Service에서 꼭 필요한 함수를 정리하는 Interface를 `Subject Interface`로 추상화를 시켜 의존하게 만든다.
 
@@ -37,88 +41,228 @@ Spring Web MVC에서 Controller와 Service의 사이를 사례로 들어보자.
 **Subject Interface 작성**
 
 ```
-public interface MusicService{
-    public List<Music> findAll();
-    public Music findOne(long id);
-    public void create(MusicVO musicVO);
+package net.kang.proxy.subject;
+
+import net.kang.proxy.dto.Document;
+import net.kang.proxy.enumeration.Suffix;
+
+public interface StoredDocument {
+    public void setDocument(String title, Suffix suffix, int bytes);
+    public Document getDocument();
+    public void readStoredDocument();
 }
+
 ```
 
-Subject Interface의 역할은 Proxy 역할과 Real Subject 역할을 동일하게 하기 위한 인터페이스를 결정하기 위해 쓴다. Client 측에서는 Real Subject 클래스 내부에서는 어떻게 돌아가는지에 대해서는 이해할 수 없다. 어차피 Subject Interface를 이용하면 끝이기 때문이다.
+Subject Interface의 역할은 **Proxy 역할과 Real Subject 역할을 동일하게 행위들을** 결정한다. Client 측에서는 Real Subject 클래스 내부에서는 어떻게 돌아가는지에 대해서는 이해할 수 없다. 어차피 Subject Interface를 이용하면 끝이기 때문이다.
+
+StoredDocument Interface의 행위는 문서 수정, 문서 정보 얻기, 문서 읽어 들이기를 한다. 이 행위는 Proxy Object와 Real Subject Object까지 영향이 끼친다.
 
 **Real Subject Class 작성**
 
 ```
-@Service
-public class MusicServiceImpl implements MusicService{
-    @Autowired MusicRepository musicRepository;
+package net.kang.proxy.subject;
 
-    @Override
-    public List<Music> findAll(){
-        return musicRepository.findAll();
+import net.kang.proxy.dto.Document;
+import net.kang.proxy.enumeration.Suffix;
+
+public class RealStoredDocument implements StoredDocument {
+    private String id;
+    private Document document = null;
+
+    public RealStoredDocument(String id, String title, Suffix suffix, int bytes){
+        this.id = id;
+        System.out.printf("[%s - 단일 파일 저장소를 생성하였습니다.]\n", id);
+        this.document = new Document(title, suffix, bytes);
+        this.uploading();
+    }
+
+    private void uploading(){
+        String tmpFileName = String.format("%s.%s", this.document.getTitle(), this.document.getSuffix().toString().toLowerCase());
+        System.out.printf("[%s - 파일 업로드 정보] 단일 파일 저장소에 %s 업로딩이 시작됩니다.\n", this.id, tmpFileName);
+        try {
+            Thread.sleep(this.document.getBytes()); // 1MB를 1000Byte로 가정하고, 1MB 당 1초씩 업로딩 된다고 치자.
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.printf("[%s - 파일 업로드 정보] 단일 파일 저장소에 %s 업로딩이 완료되었습니다.\n", this.id, tmpFileName);
+    }
+
+    private void removing(){
+        String tmpFileName = String.format("%s.%s", this.document.getTitle(), this.document.getSuffix().toString().toLowerCase());
+        System.out.printf("[%s - 파일 삭제 정보] 단일 파일 저장소에 %s 삭제가 시작됩니다.\n", this.id, tmpFileName);
+        try {
+            Thread.sleep(this.document.getBytes() / 5); // 1MB를 1000Byte로 가정하고, 5MB 당 1초씩 삭제 된다고 치자.
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.printf("[%s - 파일 삭제 정보] 단일 파일 저장소에 %s 삭제가 완료되었습니다.\n", this.id, tmpFileName);
+        this.document = null;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getId(){
+        return this.id;
     }
 
     @Override
-    public Music findOne(long id){
-        Optional<Music> music = musicRepository.findById(id);
-        return (music.isPresent()) ? music.get() : null;
+    public void setDocument(String title, Suffix suffix, int bytes){
+        this.removing();
+        this.document = new Document(title, suffix, bytes);
+        this.uploading();
     }
 
     @Override
-    public void create(MusicVO musicVO){
-        Music createMusic = musicVO.builtToMusic();
-        musicRepository.save(createMusic);
+    public Document getDocument(){
+        return this.getDocument();
+    }
+
+    @Override
+    public void readStoredDocument(){
+        String tmpFileName = String.format("%s.%s", this.document.getTitle(), this.document.getSuffix().toString().toLowerCase());
+        System.out.printf("[%s - 파일 열람] 단일 파일 저장소의 %s 정보는 다음과 같습니다.\n", this.id, tmpFileName);
+        System.out.println(this.document);
+    }
+
+}
+```
+
+Real Subject 클래스는 실제 동작에 대해 구체적으로 적는 클래스이다. 
+
+StoredDocument Interface에서 작성한 추상 메소드들을 여기에 확장하여 어떤 행위를 할 지를 적으면 된다.
+
+Spring Framework에서는 내부에 Component Bean을 불러와서 적용이 가능하다. Service 객체에 대하여 ServiceImpl 클래스에 실제 동작들을 작성하여 사용하는 사례를 들 수 있다.
+
+**Proxy Class 작성**
+
+```
+package net.kang.proxy.proxy;
+
+import net.kang.proxy.dto.Document;
+import net.kang.proxy.enumeration.Suffix;
+import net.kang.proxy.subject.RealStoredDocument;
+import net.kang.proxy.subject.StoredDocument;
+
+public class ProxyStoredDocument implements StoredDocument {
+    private RealStoredDocument realStoredDocument = null;
+    private String id = null;
+    private Document document = null;
+
+    public ProxyStoredDocument(String id, String title, Suffix suffix, int bytes){
+        this.id = id;
+        this.document = new Document(title, suffix, bytes);
+        System.out.printf("[임시 서버 저장소 %s를 생성하였습니다.]\n", this.id);
+    }
+
+    @Override
+    public void setDocument(String title, Suffix suffix, int bytes){
+        if(realStoredDocument == null){
+            realStoredDocument = new RealStoredDocument(this.id, this.document.getTitle(), this.document.getSuffix(), this.document.getBytes());
+        }
+        realStoredDocument.setDocument(title, suffix, bytes);
+    }
+
+    @Override
+    public Document getDocument(){
+        if(realStoredDocument == null){
+            realStoredDocument = new RealStoredDocument(this.id, this.document.getTitle(), this.document.getSuffix(), this.document.getBytes());
+        }
+        return realStoredDocument.getDocument();
+    }
+
+    @Override
+    public void readStoredDocument(){
+        if(realStoredDocument == null){
+            realStoredDocument = new RealStoredDocument(this.id, this.document.getTitle(), this.document.getSuffix(), this.document.getBytes());
+        }
+        realStoredDocument.readStoredDocument();
     }
 }
 ```
 
-Real Subject 클래스는 실제 동작에 대해 구체적으로 적는 클래스이다. Spring Web MVC에서는 내부에 Component Bean을 불러와서 적용이 가능하다.
+Proxy Object로 구현된 ProxyStoredDocument 객체는 RealStoredDocument 객체가 하는 행위를 대신 처리하는 역할을 한다. 이 객체를 이용할 수 있는 사례는 단일 문서 관리자가 호환이 되지 않는 환경(예를 들어 맥 환경에서 작성한 문서를 윈도우 환경에서 못 할 때 등.) 속에서 이로 대체하여 RealStoredDocument를 사용할 때이다.
 
-**Proxy Object 작성**
-
-```
-@RestController
-@CrossOrigin
-@RequestMapping("music")
-public class MusicController{
-    MusicService musicService;
-
-    @Autowired
-    public MusicController(MusicService musicService){
-        this.musicService = musicService;
-    }
-
-    @GetMapping("all_musics")
-    public List<Music> findAll(){
-        return musicService.findAll();
-    }
-
-    @GetMapping("one_music/{id}")
-    public Music findOne(@PathVariable long id){
-        return musicService.findOne(id);
-    }
-
-    @PostMapping("create_music")
-    public String create(@RequestBody MusicVO musicVO){
-        musicService.create(musicVO);
-        return "Music Create Is Success!!!";
-    }
-}
-```
-
-Real Subject 객체를 참조하고 있으며, 클라이언트로 들어오는 메소드 호출에 대해 적절한 행동을 취한다. 여기서는 요청 URI 별로 취하는 Method를 불러오는 사례로 볼 수 있다. 그렇지만 이 내부에서는 비용이 많은 객체 생성, 보안 관리, 리모트 콜 등의 작업이 추가로 늘어나게 된다.
+Spring 프로젝트에서 Controller 클래스와 유사한데, Real Subject 클래스에서 구현한 메소드를 클라이언트로 들어오는 URI를 통하여 적절한 행동을 취하게 만든다. 여기서는 요청 URI 별로 취하는 Method를 불러오는 사례로 볼 수 있다. 그렇지만 이 내부에서는 비용이 많은 객체 생성, 보안 관리, 리모트 콜 등의 작업이 추가로 늘어나게 된다.
 
 **Client Class 정의**
 
-Spring Web MVC 설정을 마친 Application Main 클래스에는 Domain, Repository, Service, Controller 등의 Component Bean은 이미 작성이 되어 있다. 우리가 Web Application을 가동할 때 RestController에 작성한 요청 URI를 분석하고 난 후에 이에 맞춘 데이터 결과가 나온다.
+```
+package net.kang.proxy.client;
+
+import net.kang.proxy.enumeration.Suffix;
+import net.kang.proxy.proxy.ProxyStoredDocument;
+
+public class MainClient {
+    public static void main(String[] args){
+        ProxyStoredDocument storedDocument1 = new ProxyStoredDocument("X01", "보고서", Suffix.DOCX, 3000);
+        storedDocument1.setDocument("멘토링_보고서", Suffix.DOCX, 3000);
+        storedDocument1.readStoredDocument();
+        System.out.println();
+
+        ProxyStoredDocument storedDocument2 = new ProxyStoredDocument("X02", "업무_프로세스", Suffix.XLSX, 2000);
+        storedDocument2.readStoredDocument();
+        System.out.println();
+
+        ProxyStoredDocument storedDocument3 = new ProxyStoredDocument("X03", "대중서사_n조_발표자료", Suffix.PPTX, 4000);
+        storedDocument3.setDocument("대중서사_3조_발표자료", Suffix.PPTX, 4000);
+        storedDocument3.readStoredDocument();
+    }
+}
+```
+
+클라이언트 측에서 ProxyStoredDocument 객체로 단일 문서 저장소 역할을 위임하여 사용하는 예제이다. 
 
 여기서는 Real Subject가 취해야 할 행동에 대해서 불러온다면 눈으로만 보여주는 역할이 끝이지, 실제로 내부에서 어떻게 동작하는지에 대해서는 소스 코드를 까보지 않는 이상 모른다.
+
+실행 결과는 다음과 같다.
+
+```
+[임시 서버 저장소 X01를 생성하였습니다.]
+[X01 - 단일 파일 저장소를 생성하였습니다.]
+[X01 - 파일 업로드 정보] 단일 파일 저장소에 보고서.docx 업로딩이 시작됩니다.
+[X01 - 파일 업로드 정보] 단일 파일 저장소에 보고서.docx 업로딩이 완료되었습니다.
+[X01 - 파일 삭제 정보] 단일 파일 저장소에 보고서.docx 삭제가 시작됩니다.
+[X01 - 파일 삭제 정보] 단일 파일 저장소에 보고서.docx 삭제가 완료되었습니다.
+[X01 - 파일 업로드 정보] 단일 파일 저장소에 멘토링_보고서.docx 업로딩이 시작됩니다.
+[X01 - 파일 업로드 정보] 단일 파일 저장소에 멘토링_보고서.docx 업로딩이 완료되었습니다.
+[X01 - 파일 열람] 단일 파일 저장소의 멘토링_보고서.docx 정보는 다음과 같습니다.
+- 파일 정보를 읽어 들입니다. -
+- 파일 이름 : 멘토링_보고서.docx
+- 파일 용량 : 3000 Bytes
+
+[임시 서버 저장소 X02를 생성하였습니다.]
+[X02 - 단일 파일 저장소를 생성하였습니다.]
+[X02 - 파일 업로드 정보] 단일 파일 저장소에 업무_프로세스.xlsx 업로딩이 시작됩니다.
+[X02 - 파일 업로드 정보] 단일 파일 저장소에 업무_프로세스.xlsx 업로딩이 완료되었습니다.
+[X02 - 파일 열람] 단일 파일 저장소의 업무_프로세스.xlsx 정보는 다음과 같습니다.
+- 파일 정보를 읽어 들입니다. -
+- 파일 이름 : 업무_프로세스.xlsx
+- 파일 용량 : 2000 Bytes
+
+[임시 서버 저장소 X03를 생성하였습니다.]
+[X03 - 단일 파일 저장소를 생성하였습니다.]
+[X03 - 파일 업로드 정보] 단일 파일 저장소에 대중서사_n조_발표자료.pptx 업로딩이 시작됩니다.
+[X03 - 파일 업로드 정보] 단일 파일 저장소에 대중서사_n조_발표자료.pptx 업로딩이 완료되었습니다.
+[X03 - 파일 삭제 정보] 단일 파일 저장소에 대중서사_n조_발표자료.pptx 삭제가 시작됩니다.
+[X03 - 파일 삭제 정보] 단일 파일 저장소에 대중서사_n조_발표자료.pptx 삭제가 완료되었습니다.
+[X03 - 파일 업로드 정보] 단일 파일 저장소에 대중서사_3조_발표자료.pptx 업로딩이 시작됩니다.
+[X03 - 파일 업로드 정보] 단일 파일 저장소에 대중서사_3조_발표자료.pptx 업로딩이 완료되었습니다.
+[X03 - 파일 열람] 단일 파일 저장소의 대중서사_3조_발표자료.pptx 정보는 다음과 같습니다.
+- 파일 정보를 읽어 들입니다. -
+- 파일 이름 : 대중서사_3조_발표자료.pptx
+- 파일 용량 : 4000 Bytes
+```
+
+Spring 프로젝트에서 Application Main 클래스에는 Domain, Repository, Service, Controller 등의 Component Bean은 이미 작성이 되어 있다. 우리가 Web Application을 가동할 때 RestController에 작성한 요청 URI를 분석하고 난 후에 이에 맞춘 데이터 결과가 나온다.
 
 ## Expansion of Proxy Pattern
 
 **Virtual Proxy**
 
-객체 생성에 많은 비용이 발생한다면 실제 사용할 때 객체가 생성되도록 대리자를 두어 접근하도록 제어하는 방식이다.
+객체 생성에 많은 비용이 발생한다면 실제 사용할 때 객체가 생성되도록 대리자를 두어 접근하도록 제어하는 방식이다. 예제에서 다룬 Proxy Pattern는 이것을 접목시켰다.
 
 **Remove Proxy**
 
@@ -139,6 +283,7 @@ Spring Web MVC 설정을 마친 Application Main 클래스에는 Domain, Reposit
 - Adapter Pattern(어댑터 패턴)
     - Proxy Pattern에서는 실제 오브젝트와 동일한 인터페이스를 제공하였지만, Adpater Pattern은 실제 오브젝트와 전혀 다른 인터페이스를 제공한다.
     - 어떻게 본다면 수도권 교통 운임 체계와 비슷한 개념이다. 시내버스 가격은 지역 별로 다른데, 환승 체계는 그대로이다. 이에 대해서는 Adapter Pattern에서 계속 언급하도록 하자.
+
 - Decorator Pattern(데코레이터 패턴)
     - Proxy 패턴은 동작을 제어하지 않고 동작을 변경하지 않는다.
     - 데코레이터 패턴은 런타임에 맞춰서 실제 객체에 동작을 추가한다.

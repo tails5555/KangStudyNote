@@ -12,6 +12,8 @@
 
 ![Bridge_Pattern_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Bridge_Pattern_UML.png)
 
+Bridge Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다.
+
 Bridge Pattern은 구현부에서 추상부(기능부)을 분리해 각자 독립적으로 변형할 수 있게 하는 패턴으로 볼 수 있다. 이게 뭔 소리인지 처음에는 이해가 안 간다.
 
 Bridge는 말 그대로 영등포와 마포를 이어주는 양화대교와 같은 그 의미, 맞다. 구현부에서 필요한 자식 객체(서브 객체)는 Interface를 상속 시켜 구현을 한다. 그리고 자식 객체의 기능 이외에 추가하고 싶은 개념이 있을 것이다. 이러한 기능을 부가하기 위해 쓰이는 클래스가 바로 추상부 클래스이다.
@@ -26,7 +28,9 @@ Bridge Pattern은 또한 객체 간의 강한 결합도(Coupling)를 줄이기 �
 
 ![Bridge_Pattern_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Bridge_Pattern_Example.png)
 
-이번에는 평범한 가수를 Bridge Pattern을 이용해서 박효신이랑 거미로 거듭나게 만드는 예제로 설명하겠다.
+이번에는 평범한 가수를 Bridge Pattern을 이용해서 일반 가수를 전부 박효신이랑 거미로 거듭나게 만드는 예제로 설명하겠다.
+
+**Concrete Interface(구현부 Interface) 작성**
 
 ```
 package net.kang.bridge.abstract_interface;
@@ -40,6 +44,8 @@ public interface SingLive {
 SingLive.java
 
 이 Interface는 구현부에서 필요하다. 여기서 일반 가수 별로 singing(일반 라이브), sayHello(라이브 인사) 메소드를 따로 구현해줘야 한다. 일반 가수에 대한 메소드를 따로 구현하는 것은 구현부에서 처리하는 부분으로 간주한다. 
+
+**Concrete Implementor(구현부) Class 작성**
 
 ```
 package net.kang.bridge.singer_object;
@@ -66,6 +72,8 @@ GeneralMaleSinger.java
 
 일반 가수는 남자 가수(GeneralMaleSinger), 여자 가수(GeneralFemaleSinger)로 나뉜다. 여기서는 구현부에서 라이브 인사와 일반 라이브를 하는 행위를 처리한다.
 
+**Abstraction(추상 / 기능부) Class 작성**
+
 ```
 package net.kang.bridge.abstract_class;
 
@@ -85,6 +93,8 @@ public abstract class AccentSingLive {
 AccentSingLive.java
 
 AccentSingLive 클래스는 추상부(기능부)의 클래스이다. Abstract Class에서도 마찬가지로 맴버 변수와 이에 맞춘 생성자를 만들 수 있는데 이는 AccentMaleSinger, AccentFemaleSinger 인스턴스를 생성하는 시점에서 동시에 생성된다. 다만 Abstract Class의 생성자와 맴버 변수는 protected으로 설정하여 상속 받는 클래스만 적용할 수 있게 구상하였다.
+
+**Refined Abstraction(추상 / 기능부) Class 작성**
 
 ```
 package net.kang.bridge.singer_object;
@@ -119,6 +129,8 @@ public class AccentFemaleSinger extends AccentSingLive {
 AccentFemaleSinger.java
 
 구현부에서 필요한 Interface를 포함한 추상부(기능부)를 상속 받아서 추상부에 필요한 기능을 구현한 억양을 가진 남자 가수, 여자 가수 클래스이다. 억양만 가진 가수는 장르를 갑자기 변경하여 부를 수 있고(changeGenre), 갑자기 무반주로 노래를 부를 수도 있다.(noBgmSining)
+
+**Client Class 작성**
 
 ```
 package net.kang.bridge.client;

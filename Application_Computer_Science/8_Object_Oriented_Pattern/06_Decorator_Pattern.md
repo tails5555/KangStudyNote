@@ -28,7 +28,9 @@ Decorator Pattern은 상속 관계를 유연하게 확장하기 위해 적용하
 
 이번에는 Decorator Pattern을 부대찌개 주문을 사례로 적용시켜보자. 부대찌개 육수의 종류는 사골 육수, 멸치 육수, 조미료 육수 등이 있고, 기본적으로 제공되는 재료들이 모두 포함되어 있다. 그러나 부대찌개에 무언가 부족하다고 느끼면 치즈, 라면 사리 등을 추가로 넣는다. 이번 예제의 Class Diagram은 아래와 같다.
 
-![Decorator_Pattern_Structure](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Decorator_Pattern_Structure.png)
+![Decorator_Pattern_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Decorator_Pattern_Example.png)
+
+**MenuPrice Enumeration 클래스 작성**
 
 ```
 package net.kang.decorator.enumeration;
@@ -54,6 +56,8 @@ MenuPrice는 각 메뉴 별로 책정 가격을 Enumeration 클래스로 구현�
 
 VEGETABLE_BROTH는 야채 육수, FISH_BROTH는 멸치 육수, BONE_BROTH는 사골 육수, CHEESE는 치즈, RAMEN은 라면, RED_BEAN은 통조림 콩, SPAM_SAUSAGE는 부대고기이다.
 
+**Component Abstract Class 작성**
+
 ```
 package net.kang.decorator.main_cooking;
 
@@ -75,6 +79,8 @@ public abstract class BoodaeChigae {
 BoodaeChigae.java
 
 부대찌개를 만들기 위한 상속 기능을 제공하는 Component 클래스인 BoodaeChigae(부대찌개. 원래 부대찌개는 영어로 번역하면 길어지기 때문에 이해하기 쉽게 한글 영어화로 썼음.) 클래스이다. 부대찌개 주문 요소를 반영하는 description 변수와 주문 요소 별 총 가격을 반환하는 cost() 추상 메소드를 작성하였다.
+
+**Concrete Component Class 작성**
 
 ```
 package net.kang.decorator.main_cooking;
@@ -101,6 +107,8 @@ BoneBrothBoodaeChigae.java
 
 처음에 손님이 사골 육수 부대찌개를 주문할 때 생성되는 객체인데, 여기서 person은 n 인분을 반영하기 위해 작성한 이 객체의 멤버 변수이다. 가격은 사골 육수 부대찌개 정가인 8000원에 인원에 맞춰 곱한 값으로 반환한다.
 
+**Decorator Abstract Class 작성**
+
 ```
 package net.kang.decorator.sub_ingredient;
 
@@ -114,6 +122,8 @@ public abstract class ChigaeDecorator extends BoodaeChigae {
 ChigaeDecorator.java
 
 부대찌개에 추가로 넣기 위한 재료를 반영하기 위한 Decorator 클래스인 ChigaeDecorator 클래스이다. 여기서 getDescription() 메소드는 현재 손님이 주문한 사항들을 그 때마다 반영하여 불러오기 위해 쓰인다.
+
+**Concrete Decorator Class 작성**
 
 ```
 package net.kang.decorator.sub_ingredient;
@@ -146,6 +156,8 @@ public class SpamSausagePlusBoodaeChigae extends ChigaeDecorator {
 SpamSausagePlusBoodaeChigae.java
 
 원래 주문하는 부대 찌개에 육수 종류를 바꾸지 않는 이상, 찌개 그대로 부대 고기를 추가하기 위해 쓰는 ConcreteDecorator 클래스이다. 원래 부대찌개에 재료를 추가하는 이 객체의 getDescription() 메소드를 불러오면 현재 작성된 영수증에 추가로 반영되는 원리로 감이 잡힐 것이다.
+
+**Client Class 작성**
 
 ```
 package net.kang.decorator.client;
@@ -258,9 +270,19 @@ Java의 입출력 스트림을 담당하는 클래스가 InputStream, OutputStre
 
 ![Java_InputStream_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Java_InputStream_UML.png)
 
+InputStream / OutputStream은 객체를 만들 수 있는 클래스가 아닌 추상 클래스로 되어 있다. 여기서 입/출력을 할 수 있는 수단이 File, String, ByteArray 등이 있지만, Filter 방식에서 또 나뉘게 된다. 
+
+File, String, ByteArray 등은 외부 자원과 연결하는 Node 계열 Stream이고, 기존 Stream에 추가되어 I/O 기능 추가 목적인 경우는 Filter 계열 Stream을 이용한다. 
+
+과거에 진행했던 프로젝트 중에서 데이터베이스에 있는 값을 엑셀로 전달하던 도중 이미지 파일이 있을 것이다. 실제로 엑셀 파일에는 데이터베이스에 있는 데이터를 통한 실제 보고서 작성을 위해 사용하고, 이미지는 엑셀에 추가할 경우에는 이미지를 잠깐 엑셀에 넣어주기 위하여 사용한다. 그래서 실제 프로젝트에서는 이미지를 불러올 때 현재 Stream을 이용하지 않더라도 Filter 계열 Stream을 이용해 잠깐 불러와서 엑셀에 붙어주는 방안으로 작성하였다.
+
+이처럼 데이터베이스에 있는 값들을 불러와서 주 파일에 작성하고, 데이터베이스에 있는 이미지 파일을 부 파일로 적용하여 사진 있는 보고서 방식으로 저장할 수 있게 도와주는 패턴이 바로 Decorator Pattern이다.
+
 ## Comparison of Another Pattern
 
-
+- Proxy Pattern - Object를 접근하기 위해 쓰인다. 클라이언트 측의 직접 접근을 막는 것이 아닌 대리자를 이용한다. 그러나 Decorator 처럼 새로운 기능을 추가하진 않는다.
+- Adapter Pattern - Interface를 감싸는 Adapter 클래스를 이용한 접근을 도와준다. 여기서는 새로운 기능을 이용하지 않고, Interfacce 별로 본연의 일을 구현한다.
+- Facade Pattern - 1개 이상의 Interface를 감싸고, 중앙 집중된 Interface 접근을 제공한다. 그러나 Interface는 간단하게 구성되어 있고, 무언갈 추가하는 개념이라고 보기 힘들다.
 
 ## References
 
@@ -268,3 +290,9 @@ Java의 입출력 스트림을 담당하는 클래스가 InputStream, OutputStre
 - http://jusungpark.tistory.com/9 - Decorator Pattern 간략한 설명 참조.
 - http://friday.fun25.co.kr/blog/?p=189 - Decorator Pattern 예제를 아이언맨을 비유하여 적용하였음.
 - https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0_%ED%8C%A8%ED%84%B4 - Decorator Pattern 위키 백과 참조
+- http://unabated.tistory.com/entry/%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0-%ED%8C%A8%ED%84%B4Decorator-Pattern - Java IO가 이를 사용한 이유가 나와 있음.
+
+## Post Script
+- 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
+- 이 강의노트 개념에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.
+- 그리고 객체 지향 패턴은 Design_Pattern Repository에 추가로 저장하고 있습니다. 나중에 완성되면, public으로 바꿔 소스 코드와 연동하겠습니다. 

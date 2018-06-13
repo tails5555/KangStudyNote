@@ -34,9 +34,11 @@ Factory Pattern의 종류는 크게 Factory Method Pattern과 Abstract Factory P
 
 Factory Method를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같이 구성된다.
 
-![Factory_Method_Structure](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Factory_Method_Structure.png)
+![Factory_Method_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Factory_Method_Example.png)
 
 방금 전에 언급했던 종이 옷 입히기를 Factory Method Pattern을 적용해 짧게 구현하면 다음과 같다.
+
+**Creator Abstract 클래스 작성**
 
 ```
 package net.kang.factory.factory_method.abstract_object;
@@ -51,6 +53,8 @@ AbstractCostume.java
 
 AbstractCostume 추상 클래스는 의상 객체를 만들 때 의상이 하는 모든 행위를 기재하였다. 여기서 putOn() 메소드는 의상을 입거나 신거나 씌우는 행위, getName(), getColor() 메소드는 의상 객체의 구체적인 이름, 색상을 반환한다.
 
+**Costume Enumeration Class 작성**
+
 ```
 package net.kang.factory.factory_method.costume_object;
 
@@ -61,6 +65,8 @@ public enum CostumeType {
 CostumeType.java
 
 CostumeType Enumeration 클래스는 의상의 종류이다. DRESS는 모든 드레스 종류, SHIRT는 위에 있는 상의 종류, PANTS는 아래를 감싸는 하의 종류, SHOES는 발에 들어가면 다 신기는 종류, HAT는 머리 위에 씌우면 되는 모자 종류로 가정하자.
+
+**Product 클래스 작성**
 
 ```
 package net.kang.factory.factory_method.costume_object;
@@ -95,6 +101,72 @@ public class ShirtObject extends AbstractCostume {
 ShirtObject.java
 
 각 의상 Object는 구체적인 의상 이름(name)과 색상(color)를 맴버 변수로 정의한다. 의상의 행위는 AbstractCostume 클래스를 상속시켜 모든 행위를 구현한다. DRESS(DressObject), SHIRT(ShirtObject), HAT(HatObject), SHOES(ShoesObject), PANTS(PantsObject) 별로 작성하고, 마지막으로 의상의 종류를 알 수 없다면 CostumeObject로 구현한다.
+
+**ConcreteCreator Abstract 클래스 작성**
+
+```
+package net.kang.factory.factory_method.factory_object;
+
+import net.kang.factory.factory_method.abstract_object.AbstractCostume;
+import net.kang.factory.factory_method.costume_object.CostumeType;
+
+public abstract class CostumeFactory {
+    public abstract AbstractCostume createCostume(CostumeType type, String name, String color);
+}
+```
+
+Product 객체를 생성하기 이전에 createCostume 메소드를 이용해서 의상 별로 생성하게 만들어야 한다. 그렇지만 ConcreteProduct 클래스를 구현하기 앞서 Abstract 클래스로 정리를 먼저 하는 것이 좋다.
+
+**ConcreteProduct 클래스 작성**
+
+```
+package net.kang.factory.factory_method.factory_object;
+
+import net.kang.factory.factory_method.abstract_object.AbstractCostume;
+
+import net.kang.factory.factory_method.costume_object.CostumeObject;
+import net.kang.factory.factory_method.costume_object.CostumeType;
+import net.kang.factory.factory_method.costume_object.DressObject;
+import net.kang.factory.factory_method.costume_object.HatObject;
+import net.kang.factory.factory_method.costume_object.PantsObject;
+import net.kang.factory.factory_method.costume_object.ShirtObject;
+import net.kang.factory.factory_method.costume_object.ShoesObject;
+
+public class TypeCostumeFactory extends CostumeFactory{
+
+    @Override
+    public AbstractCostume createCostume(CostumeType type, String name, String color){
+        AbstractCostume abstractCostume = null;
+
+        switch(type){
+            case DRESS :
+                abstractCostume = new DressObject(name, color);
+                break;
+            case SHIRT :
+                abstractCostume = new ShirtObject(name, color);
+                break;
+            case PANTS :
+                abstractCostume = new PantsObject(name, color);
+                break;
+            case SHOES :
+                abstractCostume = new ShoesObject(name, color);
+                break;
+            case HAT :
+                abstractCostume = new HatObject(name, color);
+                break;
+            default :
+                abstractCostume = new CostumeObject(name, color);
+                break;
+        }
+
+        return abstractCostume;
+    }
+}
+```
+
+switch 문을 이용해서 의상 종류 별로 각 의상 객체를 생성해주는 역할을 하는 개념이 ConcreteProduct 클래스인 TypeCostumeFactory 클래스이다. Factory Method Pattern의 단점은 객체 종류 별로 if, switch 문을 주구장창 써야 해서 의상 종류가 확정나지 않은 객체를 생성할 때 문제가 발생한다.
+
+**Client Class 작성**
 
 ```
 package net.kang.factory.factory_method.client;
@@ -165,9 +237,11 @@ MainClient 클래스에서는 캐릭터 A에게 상의, 바지, 신발을 입히
 
 Abstract Factory 를 간략하게 실습하기 위한 클래스 다이어그램은 다음과 같이 구성된다.
 
-![Abstract_Factory_Structure](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Abstract_Factory_Structure.png)
+![Abstract_Factory_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Abstract_Factory_Example.png)
 
 방금 전의 사례로 Abstract Factory Pattern을 적용해 짧게 구현하면 다음과 같다.
+
+**Product Abstract, Object Class 작성**
 
 ```
 package net.kang.factory.abstract_factory.abstract_object;
@@ -215,6 +289,8 @@ ShirtObject.java
 
 AbstractCostume, ShirtObject 클래스는 방금 전에 있는 그대로 사용할 것이다.
 
+**AbstractFactory Class 작성**
+
 ```
 package net.kang.factory.abstract_factory.costume;
 
@@ -245,6 +321,8 @@ ShirtFactory.java
 
 ShirtObject 객체의 Factory는 ShirtFactory로 구성하였다. createCostume 메소드를 이용하여 상의 객체를 반환 시키는데 여기서 AbstractCostume에서 해야 하는 모든 행위를 작성하였기 때문에 추상 클래스를 이용한 반환에는 큰 문제가 없다.
 
+**Concrete Factory Class 작성**
+
 ```
 package net.kang.factory.abstract_factory.factory_object;
 
@@ -262,6 +340,8 @@ CostumeFactory.java
 CostumeFactory는 AbstractCostumeFactory Interface를 모두 상속하는 의상 팩토리 클래스를 이용해 의상 객체를 만들어주는 클래스이다. 여기서 다른 점은 static 메소드를 이용한 것인데, 굳이 다른 클래스의 자식 객체를 생성할 때, CostumeFactory 인스턴스를 생성하고 쓰는 것이 효율적일까?
 
 답은 그렇지 않다. CostumeFactory 클래스는 오직 다른 클래스의 자식 객체를 생성을 도와주는 Utility 클래스 역할 밖에 안 되기 때문에 굳이 멤버 메소드로 작성을 하고 인스턴스로 생성할 필요까진 없다.
+
+**Client Class 작성**
 
 ```
 package net.kang.factory.abstract_factory.client;
