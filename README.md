@@ -131,9 +131,12 @@
 >
 > 8-6. [Decorator Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/06_Decorator_Pattern.md)
 >
-> 8-7. Observer Pattern
+> 8-7. [Façade Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/07_Facade_Pattern.md)
 >
-> 8-8. Template Pattern
+> 8-8. Observer Pattern
+>
+> 8-9. Iterator Pattern
+>
 
 ## 9. Vue.js[여유 있으면 작성하겠습니다.]
 ## 10. Python + Django[여유 있으면 작성하겠습니다.]
