@@ -131,7 +131,7 @@
 >
 > 8-6. [Decorator Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/06_Decorator_Pattern.md)
 >
-> 8-7. [Façade Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/07_Facade_Pattern.md)
+> 8-7. [Façade Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/07_Facade_Pattern.md) - 작성 중.
 >
 > 8-8. Observer Pattern
 >
