@@ -60,6 +60,9 @@
 > 0-7-1. [Java Virtual Machine Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/07_1_Java_Virtual_Machine.md)
 >
 > 0-7-2. [Garbage Collection Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/07_2_Garbage_Collection_Issues.md)
+>
+> 0-8. [Java Enumeration Issues](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/0_Java_Programing/08_Java_Enumeration_Issues.md)
+>
 
 ## 1. JSP & Tomcat
 > 1-1. HTTP Request, Response
