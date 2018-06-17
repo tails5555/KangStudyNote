@@ -18,7 +18,7 @@
 
 ![Facade_Pattern_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Facade_Pattern_UML.png)
 
-Facade Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다.
+Facade Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structural Pattern)** 을 구성하는 방법 중 하나이다.
 
 Facade는 프랑스어로 건물의 정면, 외관이라는 뜻이다. 사실 상 프랑스어로 되어 있어서 무언가 간지가 철철 넘치는 패턴으로 생각할 수 있지만, 전혀 그렇지도 않다. 하지만 객체 지향 프로그래밍에서 이를 밥 먹듯이 이용하고 있다.
 

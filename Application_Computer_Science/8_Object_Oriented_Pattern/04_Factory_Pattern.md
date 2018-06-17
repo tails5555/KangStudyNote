@@ -8,7 +8,7 @@
 
 ## What Is Factory Pattern?
 
-Factory Pattern은 소프트웨어 디자인 패턴 중에서 **생성 패턴(Constructor Pattern)** 을 구성하는 방법 중 하나이다. 모든 Factory Pattern에서는 객체 생성을 캡슐화하는 특징이 있다.
+Factory Pattern은 소프트웨어 디자인 패턴 중에서 **생성 패턴(Creational Pattern)** 을 구성하는 방법 중 하나이다. 모든 Factory Pattern에서는 객체 생성을 캡슐화하는 특징이 있다.
 
 객체 지향 디자인 원칙 중에서 **추상화된 것에 의존하도록 만들어야지, 구상 클래스에 의존하면 안 되는** 것을 충족시키는 패턴으로 볼 수 있다.
 
@@ -289,7 +289,7 @@ ShirtObject.java
 
 AbstractCostume, ShirtObject 클래스는 방금 전에 있는 그대로 사용할 것이다.
 
-**AbstractFactory Class 작성**
+**Abstract Factory Class 작성**
 
 ```
 package net.kang.factory.abstract_factory.costume;

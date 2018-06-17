@@ -122,6 +122,8 @@
 >
 
 ## 8. Object-Oriented Pattern
+> 8-0. [Gang Of Four Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/00_Gang_Of_Four_Pattern.md) - 작성 예정
+>
 > 8-1. [Singleton Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/01_Singleton_Pattern.md)
 >
 > 8-2. [Proxy Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/02_Proxy_Pattern.md)
@@ -136,7 +138,7 @@
 >
 > 8-7. [Façade Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/07_Facade_Pattern.md)
 >
-> 8-8. Observer Pattern
+> 8-8. [Observer Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/08_Observer_Pattern.md) - 작성 중.
 >
 > 8-9. Iterator Pattern
 >

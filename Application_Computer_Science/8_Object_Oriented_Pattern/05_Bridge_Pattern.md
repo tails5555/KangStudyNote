@@ -12,7 +12,7 @@
 
 ![Bridge_Pattern_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Bridge_Pattern_UML.png)
 
-Bridge Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다.
+Bridge Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structural Pattern)** 을 구성하는 방법 중 하나이다.
 
 Bridge Pattern은 구현부에서 추상부(기능부)을 분리해 각자 독립적으로 변형할 수 있게 하는 패턴으로 볼 수 있다. 이게 뭔 소리인지 처음에는 이해가 안 간다.
 

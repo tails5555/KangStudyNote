@@ -10,7 +10,7 @@
 
 ## What Is Adapter Pattern?
 
-Adapter Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다.
+Adapter Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structural Pattern)** 을 구성하는 방법 중 하나이다.
 
 한 클래스의 Interface를 클라이언트 측에서 사용하기 위하여 다른 Interface로 변환 작업을 거쳐야 한다. 이를 이용하기 위해 Adapter를 사용한다면 Interface 호환성 문제 때문에 같이 쓸 수 없던 클래스도 연결해서 적용할 수 있다.
 

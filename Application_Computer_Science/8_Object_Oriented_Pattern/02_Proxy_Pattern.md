@@ -14,7 +14,7 @@
 
 ![proxy_pattern_uml](/Application_Computer_Science/8_Object_Oriented_Pattern/img/proxy_pattern_uml.png)
 
-Proxy Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structure Pattern)** 을 구성하는 방법 중 하나이다. Proxy의 영문 뜻은 대리의 의미를 가져서 네트워크 기술에서 프로토콜에 있어서 대리 응답 등에서 친숙한 개념이다.
+Proxy Pattern은 소프트웨어 디자인 패턴 중에서 **구조 패턴(Structural Pattern)** 을 구성하는 방법 중 하나이다. Proxy의 영문 뜻은 대리의 의미를 가져서 네트워크 기술에서 프로토콜에 있어서 대리 응답 등에서 친숙한 개념이다.
 
 방금 짱구가 봉미선 씨와 신형만 씨가 싸우고 있을 때 서로의 단점을 언급하면서 싸움을 부추기는 방향으로 진행하듯이 Proxy는 어느 프로세스 내부에서 다른 무언가와 이어지는 Interface의 역할을 하는 **인터페이스 격 클래스**로 볼 수 있다.(어지간히 Interface와는 다른 개념이다.) 
 
