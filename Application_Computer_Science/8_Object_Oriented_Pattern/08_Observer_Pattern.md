@@ -10,13 +10,25 @@
 
 ![Observer_Pattern_UML](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Observer_Pattern_UML.png)
 
-Observer Pattern은 소프트웨어 디자인 패턴 중에서 **동작 패턴(Behavioral Patterns)** 을 구성하는 방법 중 하나이다. 여기서 Observer는 영어로 관측자라는 뜻이다. 
+Observer Pattern은 소프트웨어 디자인 패턴 중에서 **동작 패턴(Behavioral Patterns)** 을 구성하는 방법 중 하나이다. 여기서 Observer는 영어로 관측자라는 뜻이다. 한 객체의 상태가 바뀌면 이 객체의 의존한 다른 객체들한테 자동으로 갱신해야 하는 1:1 혹은 1:N 의존성을 정의할 때 이용한다.
+
+Observer Pattern을 이용할 때는 가능한 객체 사이의 결합(Coupling)도가 느슨해야 한다. 느슨한 결합을 이용하여 관계를 관리하는 것은 다음과 같은 장점을 가진다.
+
+- Subject는 Observer의 구상 클래스가 무엇인지 굳이 알 필요까진 없다.
+- Observer의 추가, 제거가 자유롭다.
+- 새로운 Observer를 추가해도 주체를 변경할 필요가 없다.
+- Subject와 Observer를 독립적으로 재사용 가능하다.
+- 변경이 생겨도 서로에게 영향을 주지 않는다.
+
+Observer Pattern은 JDK에서 가장 많이 사용되는 패턴이다.
 
 ## Example Of Observer Pattern
 
 ![Observer_Pattern_Example](/Application_Computer_Science/8_Object_Oriented_Pattern/img/Observer_Pattern_Example.png)
 
-실생활에서는 이럴 일이 없겠지만, 같은 시간 대에 모든 지하철 역에 손님들이 승차, 하차, 환승하는 수치를 모두 변경 시키는 사례로 작성하였다. 자세한 내용은 내일 저녁부터 추가로 작성하겠다.
+실생활에서는 이럴 일이 없겠지만, 같은 시간 대에 모든 지하철 역에 손님들이 승차, 하차, 환승하는 수치를 모두 변경 시키는 사례로 작성하였다. 여기서 수치는 이용 객수이다. 위에서 Observer Pattern이 어떻게 적용할 수 있는지 아래 문장들로 살펴보자.
+
+**SubwayStatus Enumeration 작성**
 
 ```
 package net.kang.observer.enumeration;
@@ -27,6 +39,10 @@ public enum SubwayStatus {
 ```
 SubwayStatus.java
 
+SubwayStatus는 현재 지하철 승차, 하차, 환승 수를 설정한 값들을 Enumeration으로 정해둔다. 승차면 RIDE, 하차는 QUIT, 환승은 TRANSFER이다.
+
+
+**Subject Interface 작성**
 
 ```
 package net.kang.observer.subject_inferface;
@@ -41,7 +57,12 @@ public interface LineSubject {
     public void setStatusChange(SubwayStatus status, int person);
 }
 ```
+
 LineSubject.java
+
+Line 객체는 각 지하철 별 호선 이름을 설정할 때 적용할 객체이다.
+
+**Subject Object 작성**
 
 ```
 package net.kang.observer.subject_object;
@@ -104,6 +125,8 @@ public class LineSubjectObject implements LineSubject {
 LineSubjectObject.java
 
 
+
+
 ```
 package net.kang.observer.observer_inferface;
 
@@ -122,6 +145,7 @@ public interface SubwayInterface {
 ```
 SubwayInterface.java
 
+**Observer Interface 작성**
 
 ```
 package net.kang.observer.observer_inferface;
@@ -263,6 +287,8 @@ public class GeneralSubwayObject implements SubwayObserver, SubwayInterface {
 GeneralSubwayObject.java
 
 
+**Main Client 작성**
+
 ```
 package net.kang.observer.client;
 
@@ -321,6 +347,8 @@ public class MainClient {
 ```
 MainClient.java
 
+Client 측에서 Subject 객체 별 
+
 ## RxJava Observable / Observer
 
 
@@ -328,3 +356,4 @@ MainClient.java
 ## References
 - https://ko.wikipedia.org/wiki/%EC%98%B5%EC%84%9C%EB%B2%84_%ED%8C%A8%ED%84%B4 - Observer Pattern 위키 백과 참조
 - http://flowarc.tistory.com/entry/%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4-%EC%98%B5%EC%A0%80%EB%B2%84-%ED%8C%A8%ED%84%B4Observer-Pattern - Observer Pattern 내용을 자세히 설명한 블로그 글 참조
+- http://friday.fun25.co.kr/blog/?p=157 - Observer Pattern 예제를 참조한 글.

@@ -140,7 +140,7 @@
 >
 > 8-8. [Observer Pattern](https://github.com/tails5555/KangBakSa_Note/blob/master/Application_Computer_Science/8_Object_Oriented_Pattern/08_Observer_Pattern.md) - 작성 중.
 >
-> 8-9. Iterator Pattern
+> 8-9. Strategy Pattern
 >
 
 ## 9. Vue.js[여유 있으면 작성하겠습니다.]
