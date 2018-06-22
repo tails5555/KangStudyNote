@@ -20,7 +20,7 @@ Observer Pattern을 이용할 때는 가능한 객체 사이의 결합(Coupling)
 - Subject와 Observer를 독립적으로 재사용 가능하다.
 - 변경이 생겨도 서로에게 영향을 주지 않는다.
 
-Observer Pattern은 JDK에서 가장 많이 사용되는 패턴이다.
+Observer Pattern은 JDK에서 가장 많이 사용되는 패턴이다. 쉽게 생각하면 Observer는 학교에서 학생들에게 학교 사항을 알리는 가정 통신문과 같은 역할을 한다.
 
 ## Example Of Observer Pattern
 
@@ -60,7 +60,14 @@ public interface LineSubject {
 
 LineSubject.java
 
-Line 객체는 각 지하철 별 호선 이름을 설정할 때 적용할 객체이다.
+Line 객체는 각 지하철 별 노선 이름(1호선, 2호선, 서해선, 분당선 etc)을 설정할 때 적용할 객체이다.
+
+이 인터페이스의 역할은 노선을 관리하는 최고 직원이 하는 역할과 유사하다.
+
+- add(SubwayObserver so) 는 지하철 노선에 있는 역의 관찰자 객체를 추가한다.
+- remove(SubwayObserver so) 는 지하철 노선에 있는 역의 관찰자 객체를 삭제한다.
+- getStatusInfo(SubwayStatus status) 는 노선에 포함된 역들의 파견 관찰자가 승차, 하차, 환승 인원들을 총 정리한 정보를 서면으로 통보한다.
+- setStatusChange(SubwayStatus status) 는 노선에 포함된 역들에 승차, 하차, 환승 역 별로 인원들을 한 노선의 평균 값으로 받아서 설정한다.
 
 **Subject Object 작성**
 
@@ -77,23 +84,23 @@ import java.util.List;
 public class LineSubjectObject implements LineSubject {
     private String lineName;
     private SubwayStatus status;
-    private List<SubwayObserver> subjectList;
+    private List<SubwayObserver> subwayList;
 
     public LineSubjectObject(String lineName){
         this.lineName = lineName;
         this.status = null;
-        subjectList = new ArrayList<SubwayObserver>();
+        subwayList = new ArrayList<SubwayObserver>();
     }
 
     @Override
     public void add(SubwayObserver so) {
-        this.subjectList.add(so);
+        this.subwayList.add(so);
     }
 
     @Override
     public void remove(SubwayObserver so) {
-        if(this.subjectList.contains(so)){
-            this.subjectList.remove(so);
+        if(this.subwayList.contains(so)){
+            this.subwayList.remove(so);
         }
     }
 
@@ -110,13 +117,13 @@ public class LineSubjectObject implements LineSubject {
     }
 
     public void statusInfoPrint(){
-        for(SubwayObserver so : this.subjectList){
+        for(SubwayObserver so : this.subwayList){
             System.out.println(so.statusCount(this.status));
         }
     }
 
     public void statusChangePrint(int person){
-        for(SubwayObserver so : this.subjectList){
+        for(SubwayObserver so : this.subwayList){
             System.out.println(so.statusChange(this.status, person));
         }
     }
@@ -124,8 +131,13 @@ public class LineSubjectObject implements LineSubject {
 ```
 LineSubjectObject.java
 
+위의 interface를 토대로 작성한 Subject Object는 다음과 같이 작성된다.
 
+여기서 lineName은 노선 이름, status는 노선의 현재 상태(승차, 하차, 환승), subwayList는 노선 별 포함 된 역 목록이다.
 
+노선을 담당하는 최고 직원이 각 역들을 담당하는 일부 직원들과 노선 관리자 중 파견 나간 관측자에게 변경 사항을 전달하는 역할을 한다.
+
+**Observer Sub Interface 작성**
 
 ```
 package net.kang.observer.observer_inferface;
@@ -145,7 +157,11 @@ public interface SubwayInterface {
 ```
 SubwayInterface.java
 
-**Observer Interface 작성**
+일반적으로 지하철 역을 이용할 때 같은 역이라고 생각할 수 있지만, 실제로 역도 한 노선의 일부를 담당하는 관리역, 평범한 보통역, 직원들이 아예 배치되지 않거나 배치 되어 있어도 말단 직원들이 담당하는 간이역이 존재한다. 관리역, 보통역, 간이역의 공통점은 역 이름, 환승 여부, 승차 인원, 환승 인원, 하차 인원을 조율하는 역할을 한다.
+
+여기에 있는 업무는 각 역에 있는 직원들이 치루지만 이러한 일들은 역들에 있는 파견 관측자에게 전달 받고 치러져야 한다.
+
+**Observer Main Interface 작성**
 
 ```
 package net.kang.observer.observer_inferface;
@@ -160,6 +176,10 @@ public interface SubwayObserver {
 ```
 SubwayObserver.java
 
+이는 각 역에 존재하는 파견 관찰자가 하는 역할들을 적었는데, getSubwayInfo는 이 역의 정보를 담당 역 직원에게 전달 받고 파견 관찰자에게 알리고 정보를 출력할 때 사용되고, statusChange는 역의 상태 변경이 들어오면 파견 관찰자가 역 직원들에게 변경을 알리고, statusCount는 파견 관찰자가 노선 관리자에게 승, 하차, 환승 인원들의 정보를 보고할 때 이용한다.
+
+
+**Observer Object 작성**
 
 ```
 package net.kang.observer.observer_object;
@@ -286,6 +306,11 @@ public class GeneralSubwayObject implements SubwayObserver, SubwayInterface {
 ```
 GeneralSubwayObject.java
 
+여기서는 일반 지하철역 객체를 작성하였지만, 배치 지하철역, 관리 지하철역(노선의 일부를 나뉘어서 담당하는 대규모 역) 객체도 위에서 작성한 인터페이스를 토대로 반영하였다.
+
+getSubwayInfo, statusChange, statusCount 메소드는 각 역에 있는 파견 관찰자가 진행하는 함수이지만, 위에서 언급했듯이 역을 담당하는 직원들에게 각 역의 통계를 측정하거나 얻고 난 후에 임무를 치러야 한다. 여기서 SubwayObserver Interface를 이용하여 Subject 객체와 Observer 객체의 결합도를 약하게 두는 것을 확인할 수 있다.
+
+MainClient 측에서 노선 하나를 설치하고 각 역들을 노선에 포함 시키고 상태 변화를 주어 확인해보자.
 
 **Main Client 작성**
 
@@ -347,13 +372,100 @@ public class MainClient {
 ```
 MainClient.java
 
-Client 측에서 Subject 객체 별 
+Client 측에서 Subject를 생성하여 승차, 하차, 환승 상태로 각각 변경 시키고 이에 해당되는 인원들을 집계하여 정리한 결과는 다음과 같다. 실행 결과는 아래와 같이 출력된다.
 
-## RxJava Observable / Observer
+```
+[2호선 1000명 승차]
+[관리역] 시청역[환승] - 1000명 승차합니다.
+[보통역] 왕십리역[환승] - 1000명 승차합니다.
+[보통역] 성수역 - 1000명 승차합니다.
+[간이역] 강변역 - 1000명 승차합니다.
+[보통역] 잠실역[환승] - 1000명 승차합니다.
+[간이역] 종합운동장역[환승] - 1000명 승차합니다.
+[간이역] 선릉역[환승] - 1000명 승차합니다.
+[보통역] 강남역[환승] - 1000명 승차합니다.
 
+[2호선 3000명 하차]
+[관리역] 시청역[환승] - 3000명 하차합니다.
+[보통역] 왕십리역[환승] - 3000명 하차합니다.
+[보통역] 성수역 - 3000명 하차합니다.
+[간이역] 강변역 - 3000명 하차합니다.
+[보통역] 잠실역[환승] - 3000명 하차합니다.
+[간이역] 종합운동장역[환승] - 3000명 하차합니다.
+[간이역] 선릉역[환승] - 3000명 하차합니다.
+[보통역] 강남역[환승] - 3000명 하차합니다.
 
+[2호선 3000명 승차]
+[관리역] 시청역[환승] - 3000명 승차합니다.
+[보통역] 왕십리역[환승] - 3000명 승차합니다.
+[보통역] 성수역 - 3000명 승차합니다.
+[간이역] 강변역 - 3000명 승차합니다.
+[보통역] 잠실역[환승] - 3000명 승차합니다.
+[간이역] 종합운동장역[환승] - 3000명 승차합니다.
+[간이역] 선릉역[환승] - 3000명 승차합니다.
+[보통역] 강남역[환승] - 3000명 승차합니다.
+
+[2호선 2000명 환승]
+[관리역] 시청역[환승] - 2000명 환승합니다.
+[보통역] 왕십리역[환승] - 2000명 환승합니다.
+[보통역] 성수역 - 환승역이 아닙니다.
+[간이역] 강변역 - 환승역이 아닙니다.
+[보통역] 잠실역[환승] - 2000명 환승합니다.
+[간이역] 종합운동장역[환승] - 2000명 환승합니다.
+[간이역] 선릉역[환승] - 2000명 환승합니다.
+[보통역] 강남역[환승] - 2000명 환승합니다.
+
+[2호선 승차 인원 통계]
+[관리역] 시청역[환승] - 현재까지 4000명 승차했습니다.
+[보통역] 왕십리역[환승] - 현재까지 4000명 승차했습니다.
+[보통역] 성수역 - 현재까지 4000명 승차했습니다.
+[간이역] 강변역 - 현재까지 4000명 승차했습니다.
+[보통역] 잠실역[환승] - 현재까지 4000명 승차했습니다.
+[간이역] 종합운동장역[환승] - 현재까지 4000명 승차했습니다.
+[간이역] 선릉역[환승] - 현재까지 4000명 승차했습니다.
+[보통역] 강남역[환승] - 현재까지 4000명 승차했습니다.
+
+[2호선 하차 인원 통계]
+[관리역] 시청역[환승] - 현재까지 3000명 하차했습니다.
+[보통역] 왕십리역[환승] - 현재까지 3000명 하차했습니다.
+[보통역] 성수역 - 현재까지 3000명 하차했습니다.
+[간이역] 강변역 - 현재까지 3000명 하차했습니다.
+[보통역] 잠실역[환승] - 현재까지 3000명 하차했습니다.
+[간이역] 종합운동장역[환승] - 현재까지 3000명 하차했습니다.
+[간이역] 선릉역[환승] - 현재까지 3000명 하차했습니다.
+[보통역] 강남역[환승] - 현재까지 3000명 하차했습니다.
+
+[2호선 환승 인원 통계]
+[관리역] 시청역[환승] - 현재까지 2000명 환승했습니다.
+[보통역] 왕십리역[환승] - 현재까지 2000명 환승했습니다.
+[보통역] 성수역 - 환승역이 아닙니다.
+[간이역] 강변역 - 환승역이 아닙니다.
+[보통역] 잠실역[환승] - 현재까지 2000명 환승했습니다.
+[간이역] 종합운동장역[환승] - 현재까지 2000명 환승했습니다.
+[간이역] 선릉역[환승] - 현재까지 2000명 환승했습니다.
+[보통역] 강남역[환승] - 현재까지 2000명 환승했습니다.
+```
+
+## Java 8 Observable / Observer
+
+Java 8에서는 Observer Pattern을 간략히 이용할 수 있게 Observable 클래스, Observer 인터페이스가 추가되었다.
+
+Observable 클래스는 Subject 객체를 위한 수퍼 클래스, Observer 클래스는 Observer 객체를 구현하기 위한 인터페이스이다.
+
+Observer Pattern의 기능 중에서 카운팅, 일괄 삭제, setChange() 메소드 등이 포함되어 있어 Observer 객체 내부에서는 update 메소드를 추가로 구현하여 이용하는 방법이다.
+
+그렇지만 Subject 클래스를 구현할 때 상속 받아 구현해야 하는 문제가 있다. 이러한 문제점 때문에 아직까지는 Observer Pattern을 직접 구현하여 사용하는 방법을 이용하는 수 밖이다.
+
+여기서 소스 코드를 작성하면 본론이 길어지기 때문에 Java 8 Observable, Observer를 이용한 예제는 아래를 참고하길 바란다.
+
+https://github.com/tails5555/Design_Pattern/tree/master/src/net/kang/java8_observer
 
 ## References
 - https://ko.wikipedia.org/wiki/%EC%98%B5%EC%84%9C%EB%B2%84_%ED%8C%A8%ED%84%B4 - Observer Pattern 위키 백과 참조
 - http://flowarc.tistory.com/entry/%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4-%EC%98%B5%EC%A0%80%EB%B2%84-%ED%8C%A8%ED%84%B4Observer-Pattern - Observer Pattern 내용을 자세히 설명한 블로그 글 참조
 - http://friday.fun25.co.kr/blog/?p=157 - Observer Pattern 예제를 참조한 글.
+
+## Post Script
+- 여기에 작성된 내용 이외에도 필요한 개념들을 발견하게 된다면 언제든지 갱신될 수 있습니다.
+- 이 강의노트 개념에서 더욱 다뤄주면 좋은 개념들이나 오탈자가 있으시면 KangBakSa Issues에 올려주세요.
+- 그리고 객체 지향 패턴은 Design_Pattern Repository에 추가로 저장하고 있습니다. 나중에 완성되면, public으로 바꿔 소스 코드와 연동하겠습니다. 
